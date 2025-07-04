@@ -1,0 +1,47 @@
+// sass/theme/_mixins.scss
+
+@mixin lift-on-hover($y: -8px, $shadow-color: rgba($black, 0.15)) {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    transform: translateY($y);
+    box-shadow: 0 20px 40px $shadow-color;
+  }
+}
+
+@mixin animated-arrow-link {
+  font-weight: $weight-semibold;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+  .icon {
+    transition: transform 0.2s ease;
+    margin-left: 0.5em;
+  }
+  &:hover .icon {
+    transform: translateX(4px);
+  }
+}
+
+@mixin background-glow($color: $pink, $size: 80%, $blur: 80px) {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: -20%;
+    left: -30%;
+    width: $size;
+    height: 150%;
+    background: radial-gradient(circle, rgba($color, 0.15) 0%, rgba($color, 0) 60%);
+    filter: blur($blur);
+    pointer-events: none;
+  }
+
+  // Ensure content stays above the pseudo-element
+  > .container {
+    position: relative;
+    z-index: 1;
+  }
+}

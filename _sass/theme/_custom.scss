@@ -1,0 +1,69 @@
+// sass/_custom.scss
+
+// For sections with the dark background
+.section.is-dark-themed {
+    background-color: $black;
+    .title, .subtitle, p, a, strong {
+        color: $white;
+    }
+    .eyebrow-text {
+        // Keep the color vibrant on dark backgrounds
+        color: $green;
+    }
+    a.text-link:hover {
+        color: $grey-light;
+    }
+}
+
+// Custom class for the "eyebrow" text
+.eyebrow-text {
+    font-size: $size-7;
+    font-weight: $weight-semibold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: $green; // Default to green
+    margin-bottom: 1rem;
+
+    &.is-purple {
+        color: $purple;
+    }
+}
+
+// Custom class for the arrow links
+a.text-link {
+    font-weight: $weight-semibold;
+    display: inline-flex;
+    align-items: center;
+    .icon {
+        margin-left: 0.5em;
+        transition: transform 0.2s ease-in-out;
+    }
+    &:hover .icon {
+        transform: translateX(4px);
+    }
+}
+
+// The pink glow effect for the "Transform Clicks" section
+.section.has-glow-effect {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        // Adjust these values to position the glow
+        top: -10%; 
+        left: -20%;
+        width: 60%;
+        height: 120%;
+        background: radial-gradient(circle, rgba($pink, 0.15) 0%, rgba($pink, 0) 60%);
+        filter: blur(80px);
+        z-index: 0;
+    }
+    
+    // Ensure content stays above the glow
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+}

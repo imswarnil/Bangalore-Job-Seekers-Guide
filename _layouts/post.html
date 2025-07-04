@@ -1,0 +1,82 @@
+---
+layout: default
+---
+
+<section class="section">
+  <div class="container">
+    
+    <!-- This entire block is our new, creative header -->
+    {% if page.image %}
+      <!-- IF an image exists, create the framed header -->
+      <header class="post-header-creative">
+        <img src="{{ page.image }}" alt="{{ page.title | escape }}" class="post-feature-image">
+        <h1 class="title is-1 mt-5">{{ page.title }}</h1>
+        <p class="post-meta">
+          By {{ page.author }} · {{ page.date | date: "%B %d, %Y" }}
+        </p>
+      </header>
+    {% else %}
+      <!-- ELSE, fallback to the simple header (no change here) -->
+      <header class="post-header-simple">
+        <h1 class="title is-1">{{ page.title }}</h1>
+        <p class="post-meta">By {{ page.author }} · {{ page.date | date: "%B %d, %Y" }}</p>
+      </header>
+    {% endif %}
+
+    <hr>
+    
+    <!-- Main Three-Column Layout (no change here) -->
+    <div class="columns">
+      <!-- LEFT TOC SIDEBAR -->
+      {% if page.sidebar %}
+      <div class="column is-2-desktop">
+        <div class="post-sidebar-sticky-wrapper">
+          <div class="widget-box">
+            <h2 class="widget-title">On this page</h2>
+            {% include toc.html html=content %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- MAIN ARTICLE BODY -->
+      <div class="column is-7-desktop">
+        <article class="post-article">
+          <div class="content post-content">
+            {{ content }}
+          </div>
+          {% if page.comments %}
+            <hr>
+            <div id="comments">
+              <h2 class="title is-4">Comments</h2>
+              <p>Comments are enabled for this post.</p>
+            </div>
+          {% endif %}
+        </article>
+      </div>
+
+      <!-- RIGHT WIDGETS SIDEBAR -->
+      <div class="column is-3-desktop">
+        <div class="post-sidebar-sticky-wrapper">
+          <div class="widget-box">
+            <h2 class="widget-title">Advertisement</h2>
+            <div class="adsense-placeholder"><p>300 x 250 Ad</p></div>
+          </div>
+          <div class="widget-box has-text-centered">
+            <h2 class="widget-title">Start Your Own Publication</h2>
+            <p class="is-size-7 mb-4">Launch a professional site just like this one with the most powerful platform for creators.</p>
+            <a href="#" class="button is-success is-fullwidth"><strong>Try Ghost for Free</strong></a>
+          </div>
+          <div class="widget-box">
+            <h2 class="widget-title">Recent Posts</h2>
+            <ul>
+              <li><a href="#">The Art of Digital Storytelling</a></li>
+              <li><a href="#">Monetization Strategies for 2025</a></li>
+              <li><a href="#">Why Open Source Matters</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
