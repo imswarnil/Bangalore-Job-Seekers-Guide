@@ -21,11 +21,11 @@
 encoding: utf-8 # Make sure the encoding is right
 lang: en # Set the site language
 locale : en-IN
-title: "Imswarnil" # Site name or title
-description: "Personal website and portfolio of Swarnil Singhai, a Software Engineer at Twilio specializing in CRM Analytics, Salesforce, and web technologies. Based in Bangalore, India." # Site description
+title: "Bangalore Job Seekers Guide" # Site name or title
+description: "Struggling to get a job after college? Bangalore Job Seekers Guide shares real steps, practical advice, and lessons learned by Swarnil Singhai—who went from no campus placement to landing his first job. A survival guide for freshers, graduates & job seekers in Bangalore." # Site description
 keywords: ["Swarnil Singhai", "Salesforce", "CRM Analytics", "Tableau CRM", "Einstein Analytics", "Apex", "LWC", "Software Engineer", "Twilio", "Bangalore", "Resume", "Portfolio"]
 timezone: Asia/Kolkata # Timezone for blog posts and alike
-short_name: "Swarnil" # The web application short name
+short_name: "BJSG" # The web application short name
 logo: "/assets/logos/logo.svg" # Site logo
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   16: '/assets/logos/logo@16px.png'

@@ -1,50 +1,112 @@
-# Im-Jekyll-Theme
+# Job Seekers Survival Guide – Bangalore Edition 🚀
 
-Welcome to your new Jekyll theme! In this directory, you'll find the files you need to be able to package up your theme into a gem. Put your layouts in `_layouts`, your includes in `_includes`, your sass files in `_sass` and any other assets in `assets`.
+Once upon a time, I was just like you.
 
-To experiment with this code, add some sample content and run `bundle exec jekyll serve` – this directory is setup just like a Jekyll site!
+Graduated in 2017 from LNCT, no campus placement, no job, no direction. I was lost, frustrated, and overwhelmed. Everyone said "get a job" but no one told me **how**. I had to figure it all out the hard way — and now that path I carved for myself? It can be a roadmap for you too.
 
-TODO: Delete this and the text above, and describe your gem
+---
 
-## Installation
+## 📘 About This Project
 
-Add this line to your Jekyll site's `Gemfile`:
+**Job Seekers Survival Guide** is my personal yet practical guide for freshers, grads, and anyone struggling to get a job in Bangalore or beyond.  
+It’s not theory. It’s what I did. It’s what worked. It’s what I wish someone gave me back then.
 
-```ruby
-gem "Im-Jekyll-Theme"
+I’ve packaged my entire journey — mistakes, tips, practical insights, and systems I used to get my first job — into this open-source Jekyll-based project.
+
+You can use this to:
+
+- Build your own version of a job-seeking guide
+- Create a blog or microsite to help others
+- Share your story, tools, and templates
+- Empower job seekers who feel lost like we once did
+
+---
+
+## 💡 Why I Made This
+
+Because no one tells you what to do when:
+
+- You don’t get a campus placement 😞
+- You're the first in your family to pursue tech 👨‍💻
+- You're overwhelmed by random LinkedIn advice 🙄
+- You're smart, but still stuck
+
+I lived it. I broke out of it. Now I’m sharing the entire map so you don’t have to walk blind.
+
+---
+
+## 🔧 Tech Stack
+
+- **Jekyll** (static site generator)
+- **Bulma** CSS framework
+- Custom SASS & HTML components
+- Fully mobile responsive
+- Easy to fork, edit, and deploy
+
+---
+
+## 🚀 Get Started
+
+To run locally:
+
+```bash
+git clone https://github.com/[YOUR_USERNAME]/jobseekers-guide.git
+cd jobseekers-guide
+bundle install
+bundle exec jekyll serve
 ```
 
-And add this line to your Jekyll site's `_config.yml`:
+Open your browser and go to:
 
-```yaml
-theme: Im-Jekyll-Theme
+```
+http://localhost:4000
 ```
 
-And then execute:
+---
 
-    $ bundle
+## 📂 Project Structure
 
-Or install it yourself as:
+```bash
+.
+├── _layouts       # Page layouts
+├── _includes      # Reusable components (nav, footer)
+├── _sass          # Bulma + custom styles
+├── assets         # Fonts, images, icons
+├── index.md       # Homepage
+├── _posts         # Blog posts or guide sections
+└── _config.yml    # Jekyll config
+```
 
-    $ gem install Im-Jekyll-Theme
+---
 
-## Usage
+## ✍️ How to Use It
 
-TODO: Write usage instructions here. Describe your available layouts, includes, sass and/or assets.
+1. Clone this project
+2. Add your story, content, and structure
+3. Customize styling if you want
+4. Push to GitHub
+5. Deploy using GitHub Pages (or Netlify, Vercel, etc.)
+6. Share it with the world 🌍
 
-## Contributing
+---
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/Im-Jekyll-Theme. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct.
+## 🤝 Contribute
 
-## Development
+Fork it. Use it. Remix it. Share it.  
+Let’s build something that **actually helps job seekers**, not just sells them another course.
 
-To set up your environment to develop this theme, run `bundle install`.
+Pull requests and stories welcome.
 
-Your theme is setup just like a normal Jekyll site! To test your theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using your theme. Add pages, documents, data, etc. like normal to test your theme's contents. As you make modifications to your theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.
+---
 
-When your theme is released, only the files in `_layouts`, `_includes`, `_sass` and `assets` tracked with Git will be bundled.
-To add a custom directory to your theme-gem, please edit the regexp in `Im-Jekyll-Theme.gemspec` accordingly.
+## 📄 License
 
-## License
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).  
+Use it freely, forever.
 
-The theme is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+---
+
+**Built with honesty, pain, and hope.  
+For the job seekers who refuse to give up.** 💪
+
+— *Swarnil*, Creator of Namaste Salesforce
