@@ -1,124 +1,255 @@
 ---
-layout : default
+layout: default
 ---
 
-        <!-- 
-          ================================
-          HERO SECTION
-          ================================
-        -->
-        <section class="hero-section">
-            <div class="container container--narrow">
+<style>
+    /* Custom styles for this specific homepage layout */
+    .section {
+        padding-block: clamp(4rem, 8vw, 6rem);
+    }
+    .section-title {
+        text-align: center;
+        max-width: 55ch;
+        margin-inline: auto;
+        margin-block-end: 3rem;
+    }
+
+    /* Hero Section Styles */
+    .hero-grid {
+        display: grid;
+        align-items: center;
+        gap: 3rem;
+        grid-template-columns: 1fr; /* Mobile first */
+    }
+    @media (min-width: 64em) {
+        .hero-grid {
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); /* Give text slightly more space */
+            text-align: left;
+        }
+        .hero-grid .post-heading__actions {
+            justify-content: flex-start;
+        }
+    }
+    .hero-image-wrapper {
+        display: none; /* Hidden on mobile */
+    }
+    @media (min-width: 64em) {
+        .hero-image-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-image-wrapper img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    /* Category Cards Section */
+    .category-grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .category-card {
+        background-color: var(--spruce-card-color-background);
+        border: 1px solid var(--spruce-base-color-border);
+        border-radius: var(--spruce-border-radius-lg);
+        padding: 2rem;
+        text-decoration: none;
+        display: block;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--spruce-box-shadow);
+    }
+    .category-card__name {
+        font-family: var(--spruce-font-family-heading);
+        font-weight: 700;
+        color: var(--spruce-base-color-primary);
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    .category-card__count {
+        font-size: var(--spruce-font-size-sm);
+        color: var(--spruce-base-color-text);
+    }
+    
+    /* Timeline Section */
+    .timeline {
+        position: relative;
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 3px;
+        background-color: var(--spruce-base-color-border);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1.5px;
+    }
+    .timeline-container {
+        padding: 10px 40px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+    }
+    .timeline-container.left {
+        left: 0;
+    }
+    .timeline-container.right {
+        left: 50%;
+    }
+    .timeline-container::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        right: -12.5px;
+        background-color: var(--spruce-base-color-background);
+        border: 4px solid var(--spruce-base-color-primary);
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+    .timeline-container.right::after {
+        left: -12.5px;
+    }
+    .timeline-content {
+        padding: 20px 30px;
+        background-color: var(--spruce-footer-color-background);
+        position: relative;
+        border-radius: var(--spruce-border-radius);
+        border: 1px solid var(--spruce-base-color-border);
+    }
+    @media screen and (max-width: 600px) {
+      .timeline::after {
+        left: 31px;
+      }
+      .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      .timeline-container.right {
+        left: 0%;
+      }
+      .timeline-container.left::after, 
+      .timeline-container.right::after {
+        left: 18px;
+      }
+    }
+
+</style>
+
+<main id="content">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
                 <div class="post-heading">
-                    <span class="post-heading__headline">For every job seeker who feels lost</span>
-                    <h1 class="post-heading__title">You Have a Degree, But You Don't Have a Direction.</h1>
+                    <span class="post-heading__headline">For Every Job Seeker Who Feels Lost</span>
+                    <h1 class="post-heading__title">Your Degree is in Hand. Your Future Isn't.</h1>
                     <p class="post-heading__description">
                         This is not just another job portal. It’s a real, honest guide built on the experience of failure, for every student and graduate in India who feels stuck, confused, and alone on their career journey.
                     </p>
                     <div class="post-heading__actions">
-                        <a href="/the-beginning-category-url/post-1-url" class="btn btn--primary btn--lg btn--primary-shadow">Start with My Story</a>
-                        <a href="/guides-category-url" class="btn btn--outline-primary btn--lg">Explore the Guides</a>
+                        <a href="{{ '/categories/the-beginning/' | relative_url }}" class="btn btn--primary btn--lg btn--primary-shadow">Start My Story</a>
+                        <a href="{{ '/categories/' | relative_url }}" class="btn btn--outline-primary btn--lg">Explore All Guides</a>
                     </div>
+                </div>
+                <div class="hero-image-wrapper">
+                    <img src="{{ '/assets/hero.svg' | relative_url }}" alt="Illustration of a person looking at a road map for their career.">
                 </div>
             </div>
         </section>
 
-        <!-- 
-          ================================
-          HOW IT WORKS / FEATURES SECTION
-          ================================
-        -->
-        <section class="section">
-            <div class="container container--narrow">
-                <div class="section-title">
-                    <h2 class="h2">This Project is Built on Three Core Ideas</h2>
+    <!-- MY JOURNEY TIMELINE SECTION -->
+    <section class="section" style="background-color: var(--spruce-footer-color-background);">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="h2">My Journey in a Nutshell</h2>
+                <p>Every part of my story, from the highs to the lows, has shaped the mission of this project.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3 class="h4">Phase 1: The Kota Grind</h3>
+                        <p>The journey started with a promise—study hard in Kota, and life will be set. I embraced the challenge with hope and dedication.</p>
+                    </div>
                 </div>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-card__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                        </div>
-                        <h3 class="h4">Honest, Real-Time Journal</h3>
-                        <p>No theory, no fake promises. I document my own journey—the rejections, the small wins, the lessons—as it happens. This is a real case study, not a lecture.</p>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3 class="h4">Phase 2: The College Detour</h3>
+                        <p>Freedom in college led to distraction. A new passion for YouTube emerged, shifting my focus completely away from my engineering degree.</p>
                     </div>
-
-                    <div class="feature-card">
-                        <div class="feature-card__icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.928A9.095 9.095 0 013 18.72v-3.072a9.095 9.095 0 01.338-2.584l3.123-3.123m0 0a9.094 9.094 0 012.584-.338h3.072a9.095 9.095 0 012.584.338l3.123 3.123m-7.5-2.928A9.095 9.095 0 013 18.72m10.5-11.458a9.094 9.094 0 01.479 3.741 3 3 0 01-2.72 4.682m-2.928-7.5a9.095 9.095 0 012.584-.338h.003a9.095 9.095 0 012.584.338m-7.5-2.928l3.123-3.123a9.094 9.094 0 012.584-.338h3.072a9.094 9.094 0 012.584.338l3.123 3.123" />
-                           </svg>
-                        </div>
-                        <h3 class="h4">A Supportive Community</h3>
-                        <p>You are not alone. This is a place to ask questions, share your story, and connect with others who understand exactly what you're going through. No question will go unanswered.</p>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3 class="h4">Phase 3: The Failure</h3>
+                        <p>Placement season arrived. Unprepared and unfocused, I faced a series of rejections, graduating with a degree but no job.</p>
                     </div>
-
-                    <div class="feature-card">
-                        <div class="feature-card__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                            </svg>
-                        </div>
-                        <h3 class="h4">Practical, Actionable Guides</h3>
-                        <p>We focus on real problems: handling rejection, building a resume from scratch, staying mentally strong, and finding a path that truly fits you—not just what society expects.</p>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3 class="h4">Phase 4: The New Mission</h3>
+                        <p>From the darkest days of feeling lost, a new purpose was born: to build this guide and create a supportive community for everyone on a similar path.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 
-          ================================
-          ABOUT / MY STORY SECTION
-          ================================
-        -->
-        <section class="section about-section">
-            <div class="container container--narrow">
-                <div class="l-post">
-                    <div class="post-content">
-                        <div class="section-title" style="text-align: left; margin-inline: 0;">
-                            <span class="post-heading__headline">The Story Behind The Guide</span>
-                            <h2 class="h2">I Graduated as an Engineer. Then I Became Jobless.</h2>
-                        </div>
-                        <p class="lead">My story starts where most success stories end: with failure. I followed the path everyone told me to—Kota, engineering, the whole package. But on graduation day, I had a degree but no job, no plan, and no hope.</p>
-                        <p>That difficult and painful experience taught me a powerful lesson: millions of students in India feel just as lost. I built this guide to be the resource I wish I had during my darkest days. It's built on empathy, for us.</p>
-                        <a href="/the-beginning-category-url/post-1-url" class="btn btn--primary btn--primary-shadow">Read My Full Story (The Beginning)</a>
-                    </div>
-                    <div class="l-post__toc">
-                        <!-- You can place an image here -->
-                        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649414?q=80&w=1920&auto=format&fit=crop" alt="A person looking out from a train window, symbolizing a journey." style="border-radius: var(--spruce-border-radius-sm);">
-                    </div>
-                </div>
+    <!-- DYNAMIC CATEGORIES SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="h2">Explore the Guide</h2>
+                <p>Dive into different topics, from my personal story to practical career advice. Find what you need for your journey.</p>
             </div>
-        </section>
+            <div class="category-grid">
+                {% comment %}
+                  This Liquid code will automatically loop through all your categories
+                  and create a card for each one.
+                {% endcomment %}
+                {% for category in site.categories %}
+                    {% assign category_name = category | first %}
+                    {% assign posts_in_category = category | last %}
+                    <a href="{{ '/categories/' | append: category_name | slugify | relative_url }}" class="category-card">
+                        <h3 class="category-card__name">{{ category_name | replace: "-", " " | capitalize }}</h3>
+                        <span class="category-card__count">
+                            {{ posts_in_category | size }} 
+                            {% if posts_in_category.size == 1 %} Post {% else %} Posts {% endif %}
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
-        <!-- 
-          ================================
-          FEATURED POSTS SECTION
-          ================================
-        -->
-        <section class="section">
-            <div class="container">
-                <div class="section-title">
-                    <h2 class="h2">Latest from the Guide</h2>
-                    <p>Start here with some of our most recent and helpful posts.</p>
-                </div>
-                <div class="l-card">
-                    <!-- Featured Post 1 -->
-                    <article class="post-card">
-                        <a href="/your-post-url-1" class="card__link" aria-label="Read more about The Promise"></a>
-                        <span class="post-card__serial-number"></span>
-                        <h3 class="post-card__title">The Beginning: The Promise</h3>
-                        <p>The story starts with the promise we are all given. A look into the societal pressure and the Kota journey that started it all.</p>
-                    </article>
-                    <!-- Featured Post 2 -->
-                    <article class="post-card">
-                        <a href="/your-post-url-2" class="card__link" aria-label="Read more about The Detour"></a>
-                        <span class="post-card__serial-number"></span>
-                        <h3 class="post-card__title">The Detour: Freedom and Distraction</h3>
-                        <p>After the pressure of Kota, college was a new world. Here’s how unstructured freedom led to a different, distracting dream.</p>
-                    </article>
-                    <!-- Add more posts as needed -->
-                </div>
+    <!-- FEATURED POSTS SECTION (Optional but recommended) -->
+    <section class="section" style="background-color: var(--spruce-footer-color-background);">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="h2">Start Here: Featured Posts</h2>
             </div>
-        </section>
+            <div class="l-card">
+                {% for post in site.posts limit:2 %}
+                <article class="post-card">
+                    <a href="{{ post.url | relative_url }}" class="card__link" aria-label="Read more about {{ post.title }}"></a>
+                    <span class="post-card__serial-number"></span>
+                    <h3 class="post-card__title">{{ post.title }}</h3>
+                    <p>{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</main>
