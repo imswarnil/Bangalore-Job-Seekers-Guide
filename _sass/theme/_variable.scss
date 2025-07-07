@@ -1,47 +1,57 @@
-// --- 1. COLOR SYSTEM ---
-$primary: #005F73;       // A deep, professional teal
-$secondary: #0A9396;     // A brighter teal for accents
-$accent: #EE9B00;        // A warm amber for callouts
-$danger: #AE2012;
-$success: #0A9396;
+//==============================================================
+// AI BUILDER THEME : VARIABLES
+//==============================================================
+// This is the single source of truth for all design tokens.
+// Changing a value here will propagate throughout the entire site.
 
-$background: #F8F9FA;
-$surface: #FFFFFF;
-$border: #DEE2E6;
-$text: #212529;
-$text-light: #495057;
-$text-muted: #6C757D;
-$text-heading: #001219;
+// --- 1. COLOR SYSTEM ---
+// A professional, high-contrast palette.
+$primary: #005F73;       // A deep, professional teal for actions
+$secondary: #0A9396;     // A brighter teal for secondary accents
+$accent: #EE9B00;        // A warm amber for callouts, warnings
+$danger: #AE2012;
+$success: $secondary;
+
+$background: #F8F9FA;    // A very light, almost white gray
+$surface: #FFFFFF;       // For cards, boxes, navbars
+$border: #DEE2E6;        // A neutral, subtle border
+$text: #212529;          // Main body text for high readability
+$text-light: #495057;    // For less important text
+$text-muted: #6C757D;     // For meta text, placeholders
+$text-heading: #001219;  // A near-black for all titles
 
 // --- 2. TYPOGRAPHY SYSTEM ---
+// Using two distinct fonts for a professional, technical feel.
 $family-sans-serif: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $family-monospace: "IBM Plex Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-$body-size: 16px;
+$body-size: 17px;
 $body-line-height: 1.7;
+$body-weight: 400;
 
 // --- 3. UI TOKENS ---
+// Reusable values for consistency.
 $radius-small: 4px;
 $radius-medium: 8px;
 $radius-large: 12px;
 $border-width: 1px;
 $border-accent-width: 3px;
-$shadow: 0 4px 6px rgba($text-heading, 0.04);
+$shadow-light: 0 4px 6px rgba($text-heading, 0.04);
 
 // --- 4. BULMA VARIABLE OVERRIDES ---
-// This is where our design system is applied to Bulma's core.
-// It ensures every Bulma component inherits our theme.
+// Mapping our design system to Bulma's core variables.
 
 // General
 $body-background-color: $background;
 $body-size: $body-size;
 $body-line-height: $body-line-height;
+$body-weight: $body-weight;
 $text: $text;
 $text-strong: $text-heading;
 
-// Links & Primary Actions
-$primary: $primary;
+// Links
 $link: $primary;
 $link-hover: darken($primary, 5%);
+$link-focus-border: $primary;
 
 // Typography
 $family-primary: $family-sans-serif;
@@ -59,6 +69,8 @@ $button-radius: $radius-small;
 $button-border-width: $border-width;
 $button-text-transform: uppercase;
 $button-letter-spacing: 0.05em;
+$button-padding-vertical: calc(0.75em - #{$border-width});
+$button-padding-horizontal: 1.5em;
 
 // Forms
 $input-family: $family-sans-serif;
@@ -66,20 +78,21 @@ $input-background-color: $surface;
 $input-border-color: $border;
 $input-shadow: none;
 $input-radius: $radius-small;
+$input-color: $text;
+$input-placeholder-color: $text-muted;
 $label-color: $text-heading;
 $label-weight: 600;
 
-// Cards
+// Cards & Boxes (NO SHADOWS)
 $card-background-color: $surface;
 $card-radius: $radius-medium;
-$card-shadow: none; // Explicitly remove default shadow
+$card-shadow: none;
 $card-header-color: $text-heading;
 $card-header-weight: 600;
-
-// Box
 $box-background-color: $surface;
 $box-radius: $radius-medium;
-$box-shadow: none; // Explicitly remove default shadow
+$box-shadow: none;
+$box-padding: 2rem;
 
 // Menu
 $menu-label-color: $text-muted;
@@ -90,19 +103,21 @@ $menu-list-link-radius: $radius-small;
 $menu-list-link-active-background-color: lighten($primary, 40%);
 $menu-list-link-active-color: $primary;
 
-// Tags
-$tag-radius: $radius-small;
-$tag-family: $family-monospace;
+// Navbar
+$navbar-background-color: rgba($surface, 0.85);
+$navbar-item-color: $text-light;
+$navbar-item-hover-color: $primary;
+$navbar-item-hover-background-color: transparent;
+$navbar-dropdown-background-color: $surface;
+$navbar-dropdown-border-top: 2px solid $primary;
+$navbar-dropdown-shadow: 0 10px 20px rgba($text-heading, 0.1);
+$navbar-divider-background-color: $border;
 
-// Footer
+// Other Components
+$tabs-link-active-border-bottom-color: $primary;
+$tabs-link-active-color: $primary;
+$panel-heading-background-color: $background;
+$panel-heading-color: $text-heading;
+$pagination-current-background-color: $primary;
+$message-background-color: $background;
 $footer-background-color: darken($background, 3%);
-
-// --- 5. CATEGORY TAGS MAP ---
-$category-colors: (
-  milestone: (bg: lighten($success, 35%), text: $success),
-  story: (bg: lighten($primary, 40%), text: $primary),
-  "lesson-learned": (bg: lighten($accent, 35%), text: $accent),
-  video: (bg: lighten($danger, 40%), text: $danger),
-  qna: (bg: #E9ECEF, text: #495057),
-  resource: (bg: lighten($secondary, 40%), text: $secondary)
-);

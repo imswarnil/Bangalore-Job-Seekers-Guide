@@ -1,47 +1,117 @@
-// --- GLOBAL COMPONENT OVERRIDES ---
+//==============================================================
+// AI BUILDER THEME : GLOBAL OVERRIDES
+//==============================================================
+// This file applies our design system to Bulma's classes.
+// No new classes are created here, only modifications to existing ones.
 
-// Apply our custom border style to Cards and Boxes
+// --- 1. GLOBAL ELEMENT STYLING ---
+strong {
+  color: $text-heading;
+}
+
+// --- 2. LAYOUT & STRUCTURE ---
+.hero.is-primary {
+  .hero-body {
+    .title { color: $surface; }
+    .subtitle { color: rgba($surface, 0.85); }
+  }
+}
+
+.section {
+  // Add more vertical space between sections for a cleaner look
+  padding: 5rem 1.5rem;
+}
+
+.footer {
+  border-top: $border-width solid $border;
+}
+
+// --- 3. COMPONENT-WIDE STYLES ---
+
+// Apply our signature border to all Cards and Boxes
 .card, .box {
   @include accented-border;
-}
-
-// Enhance all buttons with our hover mixin
-.button {
-  @include subtle-hover;
-}
-
-// Enhance form focus states with our mixin
-.input:focus, .textarea:focus, .select select:focus,
-.input:active, .textarea:active, .select select:active {
-  @include form-focus-state;
-}
-
-// Deeper customization for other components
-.message {
-  @include accented-border;
-  box-shadow: none;
-  .message-header {
-    font-family: $family-monospace;
-    font-weight: 600;
+  &:hover {
+    border-bottom-color: $primary;
   }
 }
 
-.notification {
-  border-radius: $radius-medium;
+// Apply our hover lift to all Cards, Boxes, and Buttons
+.card, .box, .button {
+  @include subtle-hover-lift;
 }
 
-.tabs {
-  font-family: $family-monospace;
-  font-weight: 600;
-  a {
-    border-bottom-width: 3px;
+// Apply our glass effect to the fixed-top navbar
+.navbar.is-fixed-top {
+  @include glass-navbar;
+}
+.navbar-brand .navbar-item strong {
+  color: $primary;
+}
+
+// Apply focus styles to all form elements
+.input, .textarea, .select select {
+  @include form-element-focus;
+}
+
+// --- 4. DEEPER COMPONENT CUSTOMIZATION ---
+
+.button {
+  // Style for the primary, outlined button
+  &.is-primary.is-outlined {
+    background-color: transparent;
+    border-color: $primary;
+    color: $primary;
     &:hover {
-      border-bottom-color: $border;
+      background-color: $primary;
+      color: $surface;
     }
   }
-  li.is-active a {
-    border-bottom-color: $primary;
-    color: $primary;
+  // Style for the light button
+  &.is-light {
+    background-color: darken($background, 3%);
+    border-color: darken($background, 3%);
+    color: $text-light;
+    &:hover {
+      background-color: darken($background, 6%);
+      border-color: darken($background, 6%);
+    }
+  }
+}
+
+.content {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $title-family;
+    font-weight: 600;
+  }
+  blockquote {
+    background-color: lighten($accent, 40%);
+    border-left: 5px solid $accent;
+    border-radius: $radius-small;
+    padding: 1.5em;
+  }
+  pre {
+    background-color: $text-heading;
+    border-radius: $radius-medium;
+    padding: 1.5em;
+  }
+}
+
+.menu {
+  // Use monospace for a technical feel
+  .menu-label, .menu-list a {
+    font-family: $family-monospace;
+  }
+}
+
+.message {
+  @include accented-border;
+  box-shadow: $shadow-light; // A subtle shadow for floating elements
+  border-radius: $radius-small;
+  .message-header {
+    border-radius: $radius-small $radius-small 0 0;
+    font-family: $family-monospace;
+    font-weight: 600;
   }
 }
 
@@ -56,24 +126,34 @@
   }
 }
 
+.tabs {
+  font-family: $family-monospace;
+  font-weight: 600;
+  ul {
+    border-bottom-color: $border;
+  }
+  a {
+    border-bottom-width: 3px;
+    padding: 0.75em 1em;
+  }
+}
+
 .table {
   th {
     font-family: $family-monospace;
     color: $text-heading;
-  }
-  tbody tr:hover {
-    background-color: lighten($primary, 45%);
+    border-bottom-width: 2px;
   }
 }
 
-// General content cleanup
-.content {
-  color: $text;
+.pagination {
+  .pagination-link {
+    font-family: $family-monospace;
+    border-radius: $radius-small;
+  }
 }
 
-// Final responsive adjustments
-@media screen and (max-width: 768px) {
-  .title.is-1 {
-    font-size: 2.5rem;
-  }
+// Generate all our custom tag styles
+.tag {
+  @include category-tag-styles;
 }

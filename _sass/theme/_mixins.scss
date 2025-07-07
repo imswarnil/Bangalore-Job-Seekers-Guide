@@ -1,24 +1,46 @@
-// A mixin for our custom border effect, replacing drop shadows.
-@mixin accented-border {
-  border: $border-width solid $border;
-  border-bottom: $border-accent-width solid $border;
-  transition: border-color 0.3s ease;
+//==============================================================
+// AI BUILDER THEME : MIXINS
+//==============================================================
 
+// Mixin for our signature border effect to replace shadows
+// It applies a standard border and a thicker, colored bottom border.
+@mixin accented-border($color: $border, $accent-color: $border) {
+  border: $border-width solid $color;
+  border-bottom: $border-accent-width solid $accent-color;
+  transition: border-color 0.3s ease-in-out;
+}
+
+// Mixin for a subtle upward hover transform on interactive elements
+@mixin subtle-hover-lift {
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   &:hover {
-    border-bottom-color: $primary;
+    transform: translateY(-4px);
   }
 }
 
-// A mixin for creating a subtle hover transition on interactive elements.
-@mixin subtle-hover {
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  &:hover {
-    transform: translateY(-2px);
+// Mixin for the focus state on form elements, providing accessibility
+@mixin form-element-focus {
+  &:focus, &:focus-within {
+    border-color: $primary;
+    box-shadow: 0 0 0 0.125em rgba($primary, 0.25);
   }
 }
 
-// A mixin for focused form states.
-@mixin form-focus-state {
-  border-color: $primary;
-  box-shadow: 0 0 0 0.125em rgba($primary, 0.25);
+// Mixin to create a glassmorphism effect for the navbar
+@mixin glass-navbar {
+  background-color: rgba($surface, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: $border-width solid lighten($border, 2%);
+}
+
+// Mixin for generating category tag styles from our SASS map
+// To use: @include category-tag-styles;
+@mixin category-tag-styles {
+  @each $name, $colors in $category-colors {
+    &.is-#{$name} {
+      background-color: map-get($colors, bg);
+      color: map-get($colors, text);
+    }
+  }
 }
