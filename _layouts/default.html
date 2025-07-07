@@ -34,19 +34,13 @@
 
   </div>
 
-  <div class="modal-backdrop">
+<div class="modal-backdrop">
     <div class="modal" role="dialog" aria-modal="true">
       <div id="search" class="search">
-        <div class="pagefind-ui svelte-1bkqzc5 pagefind-ui--reset">
-          <form class="pagefind-ui__form svelte-1bkqzc5" role="search" aria-label="Search this site" action="javascript:void(0);">
-            <input class="pagefind-ui__search-input svelte-1bkqzc5" type="text" placeholder="Search">
-            <button class="pagefind-ui__search-clear svelte-1bkqzc5 pagefind-ui__suppressed">Clear</button>
-            <div class="pagefind-ui__drawer svelte-1bkqzc5 pagefind-ui__hidden"></div>
-          </form>
-        </div>
+        <!-- Pagefind will attach itself here -->
       </div>
     </div>
-  </div>
+</div>
 
   <!-- Scripts -->
   <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>

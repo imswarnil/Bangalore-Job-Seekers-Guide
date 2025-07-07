@@ -17,21 +17,7 @@ layout: default
   <!-- 2. TABLE OF CONTENTS (TOC) - Placeholder      -->
   <!-- ============================================= -->
   <div class="l-post__toc toc" aria-labelledby="toc-title">
-    <section class="toc" aria-labelledby="toc-title">
-      <h3 class="toc__title" id="toc-title">On this page</h3>
-      <nav class="toc__navigation">
-        <!-- 
-          NOTE: A real TOC requires JavaScript or a Jekyll plugin to generate.
-          For now, this is a static placeholder as requested.
-        -->
-        <nav class="toc">
-          <ol>
-            <li><a href="#eleventy">Eleventy</a></li>
-            <li><a href="#css-customization">CSS Customization</a></li>
-          </ol>
-        </nav>
-      </nav>
-    </section>
+   {% include post_toc.html html=content h_min=2 h_max=3 %}
   </div>
   
   <div class="l-post__content post-content">
