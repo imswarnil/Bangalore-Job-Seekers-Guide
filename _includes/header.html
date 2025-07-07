@@ -1,20 +1,39 @@
 <header class="header">
   <div class="header__column">
+    <!-- The only change is here: href="{{ '/' | relative_url }}" -->
     <a class="header__logo" href="{{ '/' | relative_url }}" aria-label="Spruce CSS Eleventy Documentation Template">
-      <!-- Your SVG Logo -->
-   <img class="image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">    </a>
+        <!-- The rest of this is an exact copy-paste -->
+        <svg width="100%" height="100%" viewBox="0 0 482 133" ...>
+            <!-- All your SVG path data -->
+        </svg>
+                <img src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">
+
+    </a>
     <nav class="header__navigation">
-      <!-- We will make this navigation dynamic later -->
-      <ul>
-        <li><a href="/faq/">FAQ</a></li>
-        <li><a href="/changelog/">Changelog</a></li>
-        <li><a href="https://sprucecss.com" target="_blank" rel="noopener">Spruce CSS <span class="sr-only">Open in new window</span> <svg...></svg></a></li>
-      </ul>
+        <ul>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/changelog/">Changelog</a></li>
+            <li><a href="https://sprucecss.com" target="_blank" rel="noopener">Spruce CSS <span class="sr-only">Open in new window</span> <svg ...></svg></a></li>
+        </ul>
     </nav>
-    <button class="btn btn--primary btn--icon header__toggle" data-action="sidebar-toggle" aria-controls="primary-menu" aria-expanded="true" aria-label="Toogle navigation"><svg...></svg></button>
+    <button class="btn btn--primary btn--icon header__toggle" ...>
+        <svg ...></svg>
+    </button>
   </div>
   <div class="header__actions">
-    <!-- Search, theme switcher, social links... -->
-    <!-- ... paste that whole section here -->
+    <span class="open-search">
+        <svg ...></svg> 
+        <span class="open-search__caption">Search</span> 
+        <button class="btn btn--outline-primary btn--sm open-search__btn" data-action="open-search">Ctrl K</button>
+    </span>
+    <div class="theme-switcher" id="theme-switcher" data-theme-mode="system">
+        <button class="btn btn--outline-primary btn--sm btn--icon theme-switcher__system-mode" ...><svg ...></svg></button> 
+        <button class="btn btn--outline-primary btn--sm btn--icon theme-switcher__light-mode" ...><svg ...></svg></button> 
+        <button class="btn btn--outline-primary btn--sm btn--icon theme-switcher__dark-mode" ...><svg ...></svg></button>
+    </div>
+    <div class="header__socials">
+        <a href="https://github.com/conedevelopment/sprucecss-eleventy-documentation-template" aria-label="GitHub"><svg ...></svg></a>
+        <a href="https://twitter.com/conedevelopment" aria-label="Twitter"><svg ...></svg></a>
+    </div>
   </div>
 </header>

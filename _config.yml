@@ -193,7 +193,6 @@ defaults:
       layout: page
 
 # 9. Site navigation (unchanged from your original for now, can be updated if needed)
-fixed_navbar: true
 navbar:
   - name: Home
     link: /
@@ -205,41 +204,10 @@ navbar:
   - name: Elements
     link: /elements/
     icon: puzzle-piece
-  - name: Layouts
-    link: /#
-    icon: "layout"
-    dropdown:
-      - name: Post Layouts
-        link: /#
-        icon: article
-      - name: Video Layout
-        link: /videos/
-        icon: play-circle
   - name: Categories
     link: /categories/
     icon: tag
-  - name: Example Pages
-    link: /#
-    icon: "sparkle"
-    dropdown:
-      - name: Landing Page
-        link: /landing/
-        icon: rocket-launch
-      - name: Sponsors Page
-        link: /sponsors/
-        icon: handshake
-      - name: Image Gallery
-        link: /gallery/
-        icon: image
-      - name: Products
-        link: /products/
-        icon: package
-      - name: Recipe Page
-        link: /example-recipe/
-        image : "https://yt3.googleusercontent.com/bUPnDYABdzOveHZUSC-0745utTub-SQ76iuOjvYVUEeQrsA1fBMTgXbAsZ1SigmXd6BbtkqnwA=s900-c-k-c0x00ffffff-no-rj"
-      - name: Showcase
-        link: /showcase/
-        icon: star
+    
 
 # 8. Installed Gems
 plugins:
