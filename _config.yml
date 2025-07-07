@@ -169,7 +169,7 @@ collections:
     output: true
     description: "My thoughts, articles, and ideas on technology, Salesforce, and development."
     image: "https://picsum.photos/2560/600?image=866"
-    permalink: /:categories/:title
+    permalink: /:title
 
 # 6. Jekyll collections settings
 defaults:
