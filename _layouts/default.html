@@ -10,6 +10,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      <main class="content im-main-content-area">
         {{ content }}
     </main>
+    <!-- Place this script at the bottom of your <body> -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const animatedTitles = document.querySelectorAll('.anim-reveal-letters');
+
+  animatedTitles.forEach(title => {
+    // Restore original text color
+    title.style.color = '';
+    
+    // Split into words, then letters
+    const text = title.textContent;
+    const words = text.split(' ');
+    
+    title.innerHTML = ''; // Clear original content
+    
+    let totalDelay = 0;
+
+    words.forEach((word, wordIndex) => {
+      const wordWrapper = document.createElement('span');
+      wordWrapper.style.display = 'inline-block'; // Keep word together
+      
+      for (let i = 0; i < word.length; i++) {
+        const letter = word[i];
+        const letterWrap = document.createElement('span');
+        letterWrap.className = 'letter-wrap';
+        
+        const letterEl = document.createElement('span');
+        letterEl.className = 'letter';
+        letterEl.textContent = letter;
+        letterEl.style.animationDelay = `${totalDelay}s`;
+        
+        letterWrap.appendChild(letterEl);
+        wordWrapper.appendChild(letterWrap);
+        
+        totalDelay += 0.04; // Stagger delay for each letter
+      }
+      
+      title.appendChild(wordWrapper);
+
+      // Add a space after the word if it's not the last one
+      if (wordIndex < words.length - 1) {
+        const space = document.createTextNode(' ');
+        title.appendChild(space);
+      }
+    });
+  });
+});
+</script>
    {% include head/sw.html %}
 </body>
 </html>
