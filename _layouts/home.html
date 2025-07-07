@@ -23,11 +23,9 @@ layout: default
             <div class="timeline-item">
                 <article class="card timeline-card">
                     <header class="card-header">
-                        <time class="timeline-date" datetime="{{ post.date | date_to_xmlschema }}">
-                            {{ post.date | date: "%B %Y" }}
-                        </time>
+                        <p class="timeline-date">{{ post.date | date: "%B %Y" }}</p>
                         {% if post.type %}
-                        <span class="tag timeline-category-tag tag-type-{{ post.type | slugify }} ml-auto">
+                        <span class="timeline-category-tag tag-type-{{ post.type | slugify }} ml-auto">
                             {{ post.type | replace: "-", " " | capitalize }}
                         </span>
                         {% endif %}
@@ -36,27 +34,16 @@ layout: default
                     {% if post.image %}
                     <div class="card-image">
                         <figure class="image is-2by1">
-                            <img src="{{ post.image }}" alt="{{ post.title }}">
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
                         </figure>
                     </div>
                     {% endif %}
 
                     <div class="card-content">
                         <h3 class="title is-4">{{ post.title }}</h3>
-                        
-                        {{ post.content }}
-
-                        {% if post.type == 'video' and post.video_id %}
-                        <div class="video-container">
-                            <iframe 
-                                src="https://www.youtube.com/embed/{{ post.video_id }}" 
-                                title="YouTube video player" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                        <div class="content">
+                            {{ post.content }}
                         </div>
-                        {% endif %}
                     </div>
                 </article>
             </div>

@@ -1,25 +1,16 @@
 /* --- 1. BASE STYLING --- */
 body {
-    line-height: 1.7;
-}
-
-strong {
-    color: $text-heading;
+    line-height: 1.6;
 }
 
 /* --- 2. NAVBAR CUSTOMIZATION --- */
 .navbar {
-    background-color: rgba($background-main, 0.85);
+    border-bottom: 1px solid $border;
     backdrop-filter: blur(10px);
 }
 
-.navbar-item {
-    font-weight: 600;
-}
-
-.button.is-primary {
-    border-radius: 8px;
-    font-weight: 600;
+.navbar-brand .navbar-item strong {
+    color: $primary;
 }
 
 /* --- 3. HERO SECTION --- */
@@ -34,15 +25,12 @@ strong {
     margin: 0 auto;
     padding: 2rem 0;
 
-    // The vertical line
     &::before {
         content: '';
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 20px;
+        top: 0; bottom: 0; left: 20px;
         width: 3px;
-        background-color: $border-color;
+        background-color: $border;
         border-radius: 3px;
     }
 }
@@ -52,60 +40,61 @@ strong {
     padding-left: 60px;
     margin-bottom: 3rem;
 
-    // The circular marker
     &::before {
-        content: '';
+        content: '\f111'; // Font Awesome circle icon
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
         position: absolute;
         left: 20px;
         top: 10px;
+        font-size: 1rem;
+        text-align: center;
         width: 24px;
         height: 24px;
+        line-height: 24px;
         transform: translateX(-50%);
-        background-color: $background-main;
-        border: 3px solid $border-color;
-        border-radius: 50%;
+        color: $border;
+        background-color: $honeydew;
         z-index: 1;
         transition: all 0.3s ease;
     }
-    
-    // Highlight the marker on hover
+
     &:hover::before {
-        border-color: $primary-color;
+        color: $primary;
+        transform: translateX(-50%) scale(1.2);
     }
 }
 
 /* --- 5. TIMELINE POST CARD --- */
 .timeline-card {
-    background-color: $surface-color;
-    border-radius: 16px;
-    border: 1px solid $border-color;
-    box-shadow: $card-shadow;
+    border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
+        box-shadow: 0 15px 30px rgba($berkeley-blue, 0.1);
     }
-    
+
     .card-header {
-        padding: 1rem 1.5rem;
         align-items: center;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid $border;
     }
 
     .timeline-date {
         font-weight: 600;
-        color: $text-heading;
         font-size: 0.9rem;
         text-transform: uppercase;
+        color: $cerulean;
     }
 
     .timeline-category-tag {
         font-size: 0.8rem;
         font-weight: 600;
+        padding: 0.25rem 0.75rem;
         border-radius: 999px;
     }
 
-    // Generate tag styles from the SASS map in _variable.scss
     @each $name, $colors in $category-colors {
         &.tag-type-#{$name} {
             background-color: map-get($colors, background);
@@ -114,42 +103,30 @@ strong {
     }
 
     .card-image img {
-        border-radius: 0; // Remove default radius to only have it on the card
+      // The default Bulma card image has sharp top corners, we need to round them.
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
 
     .card-content {
         padding: 1.5rem;
-    }
 
-    // Responsive video container
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%; // 16:9 aspect ratio
-        height: 0;
-        overflow: hidden;
-        border-radius: 12px;
-        margin-top: 1rem;
-        
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .title {
+            margin-bottom: 0.5rem;
+        }
+
+        .content {
+            // This ensures paragraphs inside post content get the right color
+            p {
+                color: $text-body;
+            }
         }
     }
 }
 
-
 /* --- 6. RESPONSIVENESS --- */
 @media screen and (max-width: 768px) {
-    .timeline-container::before {
-        left: 10px;
-    }
-    .timeline-item {
-        padding-left: 40px;
-    }
-    .timeline-item::before {
-        left: 10px;
-    }
+    .timeline-container::before { left: 10px; }
+    .timeline-item { padding-left: 40px; }
+    .timeline-item::before { left: 10px; }
 }
