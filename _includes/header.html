@@ -12,7 +12,7 @@
         This 'if' statement checks if the link is external.
         It looks for '://' (like in https://) to decide.
       -->
-      {% if item.link contains '://' %}
+      {% if item.link contains '://'  %}
       
         <!-- IF IT IS EXTERNAL: Add target="_blank" and the SVG icon -->
         <a href="{{ item.link }}" target="_blank" rel="noopener">
