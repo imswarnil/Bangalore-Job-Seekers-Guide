@@ -1,0 +1,8 @@
+// Reusable mixin for creating a hover effect
+@mixin card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-hover;
+  }
+}

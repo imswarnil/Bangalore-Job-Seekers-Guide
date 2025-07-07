@@ -1,15 +1,10 @@
-/* --- 1. GLOBAL & TYPOGRAPHY STYLES --- */
-body {
-    line-height: 1.6;
-}
-
+// General overrides and helpers
 strong {
-    color: $text-strong;
+    color: $text-heading;
 }
 
-/* --- 2. NAVBAR CUSTOMIZATION --- */
+// Navbar custom styling
 .navbar {
-    border-bottom: 1px solid $border;
     backdrop-filter: blur(10px);
 }
 
@@ -17,194 +12,63 @@ strong {
     color: $primary;
 }
 
-.button.is-primary {
-    font-weight: 600;
+// --- POST LAYOUT STYLES ---
+.post-header-creative {
+    text-align: center;
+    padding: 3rem 0;
+
+    .post-feature-image {
+        max-height: 500px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: $radius;
+        margin-bottom: 2rem;
+        box-shadow: $shadow-hover;
+    }
+
+    .title {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
-/* --- 3. HERO SECTION STYLES --- */
-.hero-section {
-    background: linear-gradient(180deg, $white 0%, $honeydew 100%);
-    padding: 5rem 1.5rem;
+.post-meta {
+    color: $text-muted;
+    font-weight: 500;
+    margin-top: 1rem;
 }
 
-.hero-section .title {
-    font-size: 3rem;
-    font-weight: 800;
+.post-article .content {
+    font-size: 1.1rem;
+    h2, h3 {
+        margin-top: 2.5em;
+    }
 }
 
-.hero-section .subtitle {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: $cerulean;
-}
-
-.hero-image {
-    padding-left: 2rem;
-}
-
-/* --- 4. MAIN LAYOUT & SIDEBAR --- */
-.main-layout-columns {
-    gap: 2rem;
-}
-
-.sticky-sidebar {
-    position: -webkit-sticky;
+.post-sidebar-sticky-wrapper {
     position: sticky;
-    top: 100px;
+    top: 120px;
 }
 
-.sidebar-widget {
+.widget-box {
+    @extend .box; // Inherit .box styles
+    padding: 1.5rem;
     margin-bottom: 2rem;
 }
 
-.menu-label {
-    color: $cerulean;
+.widget-title {
+    font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: $text-muted;
+    margin-bottom: 1rem;
 }
 
-.menu-list a {
-    border-radius: $button-radius;
-    padding: 0.75em 1em;
-    font-weight: 500;
-    color: $berkeley-blue;
-    &:hover {
-        background-color: lighten($honeydew, 1%);
-    }
-    &.is-active {
-        background-color: lighten($primary, 35%);
-        color: $primary;
-        font-weight: 600;
-    }
-}
-
-.adsense-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-color: darken($honeydew, 2%);
-    border: 1px dashed $cerulean;
-    border-radius: $box-radius;
-    min-height: 250px;
-    color: $cerulean;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.social-links {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    a {
-        font-size: 1.5rem;
-        color: $cerulean;
-        &:hover {
-            color: $primary;
-        }
-    }
-}
-
-/* --- 5. TIMELINE CONTAINER & ITEMS --- */
-.timeline-container {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 0;
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0; bottom: 0; left: 20px;
-        width: 3px;
-        background-color: $border;
-        border-radius: 3px;
-    }
-}
-
-.timeline-item {
-    position: relative;
-    padding-left: 60px;
-    margin-bottom: 3rem;
-
-    &::before {
-        content: '';
-        position: absolute;
-        left: 20px;
-        top: 10px;
-        width: 24px;
-        height: 24px;
-        transform: translateX(-50%);
-        background-color: $white;
-        border: 3px solid $border;
-        border-radius: 50%;
-        z-index: 1;
-        transition: all 0.3s ease;
-    }
-
-    &:hover::before {
-        border-color: $primary;
-    }
-}
-
-/* --- 6. TIMELINE POST CARD --- */
-.timeline-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba($berkeley-blue, 0.12);
-    }
-
-    .card-header {
-        align-items: center;
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid $border;
-    }
-
-    .timeline-date {
-        font-weight: 600;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        color: $cerulean;
-    }
-
-    .timeline-category-tag {
-        font-size: 0.8rem;
-        font-weight: 600;
-        padding: 0.25rem 0.75rem;
-        border-radius: 999px;
-    }
-
-    @each $name, $colors in $category-colors {
-        &.tag-type-#{$name} {
-            background-color: map-get($colors, background);
-            color: map-get($colors, text);
-        }
-    }
-
-    .card-content {
-        .content {
-            p {
-                color: $text;
-            }
-        }
-    }
-}
-
-/* --- 7. RESPONSIVENESS --- */
-@media screen and (max-width: 768px) {
-    .timeline-container::before { left: 10px; }
-    .timeline-item { padding-left: 40px; }
-    .timeline-item::before { left: 10px; }
-
-    .hero-section .title {
-        font-size: 2.5rem;
-    }
-    .hero-image {
-        padding-left: 0;
-        margin-top: 2rem;
-    }
+// --- FOOTER STYLES ---
+.main-footer {
+    padding: 4rem 1.5rem;
+    background-color: darken($background, 3%);
+    border-top: 1px solid $border;
 }
