@@ -3,14 +3,31 @@ body {
     line-height: 1.6;
 }
 
+strong {
+    // Corrected: Use the variable defined for strong text
+    color: $text-strong; 
+}
+
 /* --- 2. NAVBAR CUSTOMIZATION --- */
 .navbar {
+    // Corrected: Use the variable defined for navbar background
+    background-color: $navbar-background-color;
     border-bottom: 1px solid $border;
     backdrop-filter: blur(10px);
 }
 
 .navbar-brand .navbar-item strong {
+    // Corrected: Use the primary action color
     color: $primary;
+}
+
+.navbar-item {
+    font-weight: 600;
+}
+
+.button.is-primary {
+    border-radius: $button-border-radius;
+    font-weight: 600;
 }
 
 /* --- 3. HERO SECTION --- */
@@ -30,7 +47,8 @@ body {
         position: absolute;
         top: 0; bottom: 0; left: 20px;
         width: 3px;
-        background-color: $border;
+        // Corrected: Use the generic border variable
+        background-color: $border; 
         border-radius: 3px;
     }
 }
@@ -41,7 +59,7 @@ body {
     margin-bottom: 3rem;
 
     &::before {
-        content: '\f111'; // Font Awesome circle icon
+        content: '\f111';
         font-family: "Font Awesome 6 Free";
         font-weight: 900;
         position: absolute;
@@ -53,13 +71,15 @@ body {
         height: 24px;
         line-height: 24px;
         transform: translateX(-50%);
+        // Corrected: Use the border and main background variables
         color: $border;
-        background-color: $honeydew;
+        background-color: $body-background-color;
         z-index: 1;
         transition: all 0.3s ease;
     }
 
     &:hover::before {
+        // Corrected: Use the primary action color
         color: $primary;
         transform: translateX(-50%) scale(1.2);
     }
@@ -67,8 +87,11 @@ body {
 
 /* --- 5. TIMELINE POST CARD --- */
 .timeline-card {
+    // Corrected: Use the card background and shadow variables
+    background-color: $card-background-color;
     border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: $card-shadow;
 
     &:hover {
         transform: translateY(-5px);
@@ -85,7 +108,8 @@ body {
         font-weight: 600;
         font-size: 0.9rem;
         text-transform: uppercase;
-        color: $cerulean;
+        // Corrected: Use the specific color for subtitles/secondary text
+        color: $subtitle-color;
     }
 
     .timeline-category-tag {
@@ -95,6 +119,7 @@ body {
         border-radius: 999px;
     }
 
+    // This section correctly uses the SASS map, no changes needed
     @each $name, $colors in $category-colors {
         &.tag-type-#{$name} {
             background-color: map-get($colors, background);
@@ -103,7 +128,6 @@ body {
     }
 
     .card-image img {
-      // The default Bulma card image has sharp top corners, we need to round them.
       border-top-left-radius: 12px;
       border-top-right-radius: 12px;
     }
@@ -116,9 +140,10 @@ body {
         }
 
         .content {
-            // This ensures paragraphs inside post content get the right color
             p {
-                color: $text-body;
+                // Corrected: This was the source of the error.
+                // It now correctly uses the variable defined for body text color.
+                color: $text;
             }
         }
     }
