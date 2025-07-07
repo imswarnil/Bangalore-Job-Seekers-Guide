@@ -198,7 +198,7 @@ navbar:
     link: /
     icon: house
   - name: About # This could link to a page that uses resume data
-    link: /about/
+    link: www.google.com
     icon: identification-card
     icon: "file-text" # e.g., ph-file-text or similar
   - name: Elements
