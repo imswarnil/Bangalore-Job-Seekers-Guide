@@ -1,3 +1,43 @@
 ---
-layout: home
+layout: default 
 ---
+
+<article class="l-post" data-pagefind-body="">
+    <div class="post-heading">
+    <!-- Breadcrumbs can be made dynamic later with a plugin, for now we can simulate it -->
+    <ol class="breadcrumb-list post-heading__breadcrumb">
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="#">{{ page.category }}</a></li>
+      <li><span aria-current="page">{{ page.title }}</span></li>
+    </ol>
+    <h1 class="post-heading__title">{{ page.title }}</h1>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- 2. TABLE OF CONTENTS (TOC) - Placeholder      -->
+  <!-- ============================================= -->
+  <div class="l-post__toc toc" aria-labelledby="toc-title">
+    <section class="toc" aria-labelledby="toc-title">
+      <h3 class="toc__title" id="toc-title">On this page</h3>
+      <nav class="toc__navigation">
+        <!-- 
+          NOTE: A real TOC requires JavaScript or a Jekyll plugin to generate.
+          For now, this is a static placeholder as requested.
+        -->
+        <nav class="toc">
+          <ol>
+            <li><a href="#eleventy">Eleventy</a></li>
+            <li><a href="#css-customization">CSS Customization</a></li>
+          </ol>
+        </nav>
+      </nav>
+    </section>
+  </div>
+  
+  <div class="l-post__content post-content">
+    {{ content }}
+  </div>
+
+</article>
+
+{% include post-paginate.html %}

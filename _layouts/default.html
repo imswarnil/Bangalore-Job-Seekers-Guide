@@ -2,19 +2,40 @@
 <html lang="{{ site.lang | default: 'en-US' }}">
 {% include head.html %}
 <body class="site-wrapper">
-    {% include header.html %}
-    {{ content }}
-    <div class="modal-backdrop">
-        <div class="modal" role="dialog" aria-modal="true">
-            <div id="search" class="search"></div>
-        </div>
+  <a class="btn btn--primary skip-link" href="#content">Skip to content</a>
+  <div class="container container--wide">
+      {% include header.html %}   
+    <div class="l-main">
+            {% include sidebar.html %}    
+      <div class="l-main__body">
+        <main id="content">
+          {{ content }}
+        </main>
+        {% include post-paginate.html %}
+      </div>
     </div>
-    <!-- Use the 'relative_url' filter for all script paths -->
-    <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>
-    <script src="{{ '/assets/js/theme-change-assets.js' | relative_url }}" defer="defer"></script>
-    <script src="{{ '/assets/js/navigation.js' | relative_url }}" defer="defer"></script>
-    <script src="{{ '/assets/js/theme-switcher.js' | relative_url }}" defer="defer"></script>
-    <script src="{{ '/assets/js/modal.js' | relative_url }}" defer="defer"></script>
-    <script src="{{ '/assets/js/accordion-card.js' | relative_url }}" defer="defer"></script>
+  </div>
+
+  <div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div id="search" class="search">
+        <div class="pagefind-ui svelte-1bkqzc5 pagefind-ui--reset">
+          <form class="pagefind-ui__form svelte-1bkqzc5" role="search" aria-label="Search this site" action="javascript:void(0);">
+            <input class="pagefind-ui__search-input svelte-1bkqzc5" type="text" placeholder="Search">
+            <button class="pagefind-ui__search-clear svelte-1bkqzc5 pagefind-ui__suppressed">Clear</button>
+            <div class="pagefind-ui__drawer svelte-1bkqzc5 pagefind-ui__hidden"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>
+  <script src="{{ '/assets/js/theme-change-assets.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/navigation.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/theme-switcher.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/modal.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/accordion-card.js' | relative_url }}" defer="defer"></script>
 </body>
 </html>
