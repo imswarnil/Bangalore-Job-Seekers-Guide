@@ -1,0 +1,383 @@
+---
+// An empty front matter is required for Jekyll to process this file
+---
+
+//==============================================================
+// PROJECT: KYOTO INK - NEO-BRUTALIST THEME
+//==============================================================
+// This single file contains all variables, mixins, framework
+// imports, overrides, and custom component styles for the site.
+//
+// Style: Neo-Clean Brutalism
+// - Sharp edges, no border-radius.
+// - Hard, solid box-shadows for depth.
+// - High-contrast color palette.
+// - Bold, functional typography.
+// - Direct, minimal animations.
+//==============================================================
+
+
+// --- 1. GOOGLE FONT IMPORTS ---
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto+Mono:wght@500&display=swap');
+
+
+// --- 2. SCSS VARIABLES (THE DESIGN SYSTEM) ---
+//--------------------------------------------------------------
+
+// ** COLOR PALETTE (FROM IMAGE) **
+$primary: #457B9D;      // Cerulean Blue (Primary actions, links)
+$accent: #E63946;       // Red (Pantone) (High-visibility accents, danger)
+$secondary: #A8DADC;    // Non Photo Blue (Info, secondary states)
+$text: #1D3557;         // Berkeley Blue (Main text, borders, shadows)
+$background: #F1FAEE;   // Honeydew (Page background)
+$surface: #FFFFFF;      // Pure White (Card/Box backgrounds for contrast)
+
+// Map to Bulma's semantic variables
+$danger: $accent;
+$success: $primary;
+$info: $secondary;
+$warning: #F7B801; // A derived yellow for warnings
+
+// ** TYPOGRAPHY **
+$family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$family-monospace: "Roboto Mono", monospace;
+$family-primary: $family-sans-serif;
+$body-size: 16px;
+$body-line-height: 1.6;
+$body-weight: 400;
+$title-family: $family-sans-serif;
+$title-weight: 900; // Extra bold for high impact
+$title-color: $text;
+$subtitle-weight: 400;
+$subtitle-color: lighten($text, 20%);
+
+// ** UI TOKENS (BRUTALIST) **
+$radius: 0; // No rounded corners
+$border-width: 2px;
+$shadow-offset: 4px;
+$hard-shadow: $shadow-offset $shadow-offset 0 $text;
+
+// ** BULMA VARIABLE OVERRIDES **
+$body-background-color: $background;
+$body-size: $body-size;
+$body-line-height: $body-line-height;
+$body-weight: $body-weight;
+$text: $text;
+$text-strong: $text;
+
+$link: $primary;
+$link-hover: $accent;
+$link-focus-border: $accent;
+
+$button-family: $family-monospace;
+$button-weight: 500;
+$button-radius: $radius;
+$button-border-width: $border-width;
+$button-text-transform: uppercase;
+$button-letter-spacing: 0.05em;
+
+$input-radius: $radius;
+$input-border-color: $text;
+$input-background-color: $surface;
+$input-shadow: none;
+$input-color: $text;
+$input-placeholder-color: lighten($text, 40%);
+
+$card-radius: $radius;
+$card-shadow: none;
+$card-header-shadow: none;
+$card-background-color: $surface;
+
+$box-radius: $radius;
+$box-shadow: none;
+$box-background-color: $surface;
+
+$navbar-background-color: $surface;
+$navbar-item-color: $text;
+$navbar-item-hover-color: $text;
+$navbar-item-hover-background-color: $secondary;
+$navbar-item-active-color: $surface;
+$navbar-item-active-background-color: $primary;
+
+$footer-background-color: darken($background, 3%);
+
+
+// --- 3. SCSS MIXINS (REUSABLE PATTERNS) ---
+//--------------------------------------------------------------
+
+// The core mixin for the brutalist box effect
+@mixin brutalist-box($color: $text) {
+  border: $border-width solid $color;
+  box-shadow: $shadow-offset $shadow-offset 0 $color;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+
+  &:active {
+    transform: translate($shadow-offset, $shadow-offset);
+    box-shadow: 0 0 0 $color;
+  }
+}
+
+// A subtle hover effect for interactive boxes
+@mixin interactive-box-hover {
+  &:hover, &:focus {
+    transform: translate(-2px, -2px);
+    box-shadow: ($shadow-offset + 2px) ($shadow-offset + 2px) 0 $text;
+  }
+}
+
+
+// --- 4. SCSS KEYFRAME ANIMATIONS ---
+//--------------------------------------------------------------
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+// --- 5. BULMA FRAMEWORK IMPORT ---
+//--------------------------------------------------------------
+@import "../node_modules/bulma/sass/index";
+
+
+// --- 6. GLOBAL OVERRIDES ---
+//--------------------------------------------------------------
+
+html {
+    background: $background;
+    scroll-behavior: smooth;
+}
+
+body {
+    animation: fadeIn 0.4s ease-in;
+}
+
+// Global link styling
+a {
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+// Content readability
+.content {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: $title-family;
+        font-weight: $title-weight;
+    }
+    blockquote {
+        background-color: $secondary;
+        border-left: 4px solid $text;
+        padding: 1.5em;
+        border-radius: 0;
+    }
+    hr {
+        background-color: $text;
+        height: $border-width;
+    }
+}
+
+
+// --- 7. COMPREHENSIVE COMPONENT OVERRIDES ---
+//--------------------------------------------------------------
+
+// NAVBAR
+.navbar {
+    border-bottom: $border-width solid $text;
+    .navbar-item, .navbar-link {
+        font-family: $family-monospace;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    .navbar-link::after {
+        display: none;
+    }
+    .button {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
+// BUTTONS
+.button {
+    @include brutalist-box;
+    &:hover {
+        transform: translateY(-2px);
+    }
+    &.is-primary {
+        background-color: $primary;
+        color: $surface;
+        border-color: $text;
+        &:hover {
+            background-color: darken($primary, 5%);
+        }
+    }
+    &.is-accent { // Custom class for the accent color
+        background-color: $accent;
+        color: $surface;
+        border-color: $text;
+        &:hover {
+            background-color: darken($accent, 5%);
+        }
+    }
+}
+
+// CARD & BOX
+.card, .box {
+  @include brutalist-box;
+}
+.card.is-interactive, .box.is-interactive {
+    @include interactive-box-hover;
+}
+.card-header-title {
+    font-family: $title-family;
+    font-weight: $title-weight;
+}
+
+// FORMS
+.input, .textarea, .select select {
+    border: $border-width solid $text;
+    box-shadow: none;
+    transition: all 0.2s ease;
+    &:focus, &:active {
+        border-color: $primary;
+        box-shadow: none;
+    }
+}
+
+// MESSAGE
+.message {
+    @include brutalist-box;
+    .message-header {
+        background-color: $text;
+        color: $surface;
+        border-bottom: $border-width solid $text;
+        font-family: $family-monospace;
+        text-transform: uppercase;
+    }
+    &.is-primary .message-header { background-color: $primary; }
+    &.is-accent .message-header { background-color: $accent; }
+    &.is-info .message-header { background-color: $secondary; color: $text; }
+}
+
+// TABS
+.tabs ul {
+    border-bottom-color: $text;
+    border-bottom-width: $border-width;
+}
+.tabs a {
+    border-bottom-width: $border-width;
+    padding-bottom: calc(0.5em - #{$border-width});
+    &:hover {
+        border-bottom-color: $primary;
+        color: $primary;
+    }
+}
+.tabs li.is-active a {
+    border-bottom-color: $accent;
+    color: $accent;
+    font-weight: 700;
+}
+
+// PAGINATION
+.pagination-link, .pagination-previous, .pagination-next {
+    @include brutalist-box;
+    font-weight: 700;
+    height: 42px;
+    &.is-current {
+        background-color: $text;
+        border-color: $text;
+        color: $surface;
+        transform: translate($shadow-offset, $shadow-offset);
+        box-shadow: 0 0 0 $text;
+    }
+}
+
+// TAGS
+.tags .tag {
+    font-family: $family-monospace;
+    font-weight: 500;
+    border: $border-width solid $text;
+    background-color: $secondary;
+    color: $text;
+}
+
+
+// --- 8. CUSTOM LAYOUT STYLES (HOMEPAGE, POST, ETC.) ---
+//--------------------------------------------------------------
+
+// ** HERO SECTION **
+.hero.is-home {
+    .title {
+        font-size: clamp(3rem, 10vw, 6rem); // Responsive title size
+        text-transform: uppercase;
+    }
+}
+
+// ** NEW TIMELINE: CHAPTER FLOW **
+.chapter-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 2rem;
+    position: relative;
+    padding-bottom: 3rem;
+
+    // The vertical connector line - solid and strong
+    &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 2rem;
+        bottom: 0;
+        left: 49px; // Center it on the 100px column
+        width: $border-width;
+        background: $text;
+        z-index: 0;
+    }
+}
+.chapter-meta {
+    text-align: right;
+    position: relative;
+    z-index: 1;
+
+    .chapter-number {
+        font-family: $family-monospace;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: $surface;
+        background-color: $primary;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border: $border-width solid $text;
+        margin-top: 1rem;
+    }
+}
+.chapter-card {
+    @include brutalist-box;
+    @include interactive-box-hover;
+}
+
+@media screen and (max-width: 768px) {
+    .chapter-item {
+        grid-template-columns: 1fr;
+    }
+    .chapter-meta {
+        text-align: left;
+    }
+    .chapter-item:not(:last-child)::after {
+        display: none;
+    }
+}
+
+// ** POST PAGE **
+.post-header {
+    border-bottom: $border-width solid $text;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    .title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        text-transform: uppercase;
+    }
+}
+.post-feature-image {
+    border: $border-width solid $text;
+    margin-bottom: 2rem;
+}
