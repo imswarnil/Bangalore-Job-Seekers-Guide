@@ -1,0 +1,50 @@
+// --- 1. THEME & COLOR PALETTE ---
+$primary-color: #4361EE;      // A vibrant, professional blue
+$primary-light: #EFF2FF;    // Light blue for tags/backgrounds
+$background-main: #F8F9FC;    // Page background
+$surface-color: #FFFFFF;     // Card background
+$text-heading: #111827;     // Dark color for titles
+$text-body: #4B5563;       // Softer color for paragraphs
+$border-color: #E5E7EB;     // Subtle border color
+$card-shadow: 0 8px 25px rgba(17, 24, 39, 0.06);
+
+// --- 2. TYPOGRAPHY ---
+$family-sans-serif: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+// --- 3. CATEGORY TAG COLORS ---
+// A SASS map to easily manage colors for different post types
+$category-colors: (
+  milestone: (
+    background: #D1FAE5, // Green
+    text: #065F46
+  ),
+  story: (
+    background: #DBEAFE, // Blue
+    text: #1E40AF
+  ),
+  "lesson learned": (
+    background: #FEF3C7, // Yellow
+    text: #92400E
+  ),
+  video: (
+    background: #FEE2E2, // Red
+    text: #991B1B
+  ),
+  qna: (
+    background: #F3E8FF, // Purple
+    text: #6B21A8
+  ),
+  resource: (
+    background: #E0E7FF, // Indigo
+    text: #3730A3
+  )
+);
+
+// --- 4. OVERRIDE BULMA VARIABLES ---
+$body-background-color: $background-main;
+$text: $text-body;
+$title-color: $text-heading;
+$subtitle-color: $text-body;
+$link: $primary-color;
+$primary: $primary-color;
+$footer-background-color: #E9ECF0;
