@@ -4,7 +4,6 @@
     <!-- This liquid magic groups all your posts by category -->
     {% assign posts_by_category = site.posts | group_by: "category" %}
 
-    <!-- Now we loop through each category group -->
     {% for category_group in posts_by_category %}
       <div class="sidebar-section">
         <h3 class="sidebar-section__title">{{ category_group.name }}</h3>
@@ -28,5 +27,4 @@
     {% endfor %}
 
   </div>
-  <div class="sidebar__footer">© {% now 'YYYY' %} - {{ site.author }}</div>
 </aside>
