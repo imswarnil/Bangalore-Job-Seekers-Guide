@@ -2,53 +2,112 @@
 layout: default
 ---
 <main>
-    <!-- Hero Section -->
+    <!-- 1. HERO SECTION -->
     <section class="section hero-section">
-        <div class="container has-text-centered" style="max-width: 800px;">
-            <h1 class="title is-1">My Journey, Your Playbook.</h1>
-            <p class="subtitle is-5 mt-4">I graduated from LNCT in 2017 with no job offer. It was terrifying. This is the exact, step-by-step path I carved out for myself to land my first tech job in Bangalore.</p>
-            <a href="#timeline-start" class="button is-primary is-large mt-4">
-                <span>Follow The Path</span>
-                <span class="icon"><i class="fas fa-arrow-down"></i></span>
-            </a>
+        <div class="container">
+            <div class="columns is-vcentered">
+                <!-- Hero Text Content -->
+                <div class="column is-6">
+                    <h1 class="title is-size-1-desktop is-size-2-mobile">My Journey, Your Playbook.</h1>
+                    <p class="subtitle is-size-5 mt-4">From an LNCT grad who felt lost, to you. This is the practical, step-by-step system with the tools and stories you need to land your first tech job in Bangalore.</p>
+                    <a href="#timeline-start" class="button is-primary is-large mt-5">
+                        <span>Follow The Path</span>
+                        <span class="icon"><i class="fas fa-arrow-down"></i></span>
+                    </a>
+                </div>
+                <!-- Hero SVG Image -->
+                <div class="column is-6">
+                    <figure class="image hero-image">
+                        <img src="{{ '/assets/images/hero.svg' | relative_url }}" alt="Illustration of a person planning their career path">
+                    </figure>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- The Timeline Feed -->
+    <!-- 2. MAIN CONTENT & SIDEBAR LAYOUT -->
     <section id="timeline-start" class="section">
-        <div class="timeline-container">
-            
-            {% assign posts = site.posts | sort: 'date' | reverse %}
-            {% for post in posts %}
-            <div class="timeline-item">
-                <article class="card timeline-card">
-                    <header class="card-header">
-                        <p class="timeline-date">{{ post.date | date: "%B %Y" }}</p>
-                        {% if post.type %}
-                        <span class="timeline-category-tag tag-type-{{ post.type | slugify }} ml-auto">
-                            {{ post.type | replace: "-", " " | capitalize }}
-                        </span>
-                        {% endif %}
-                    </header>
+        <div class="container">
+            <div class="columns main-layout-columns">
 
-                    {% if post.image %}
-                    <div class="card-image">
-                        <figure class="image is-2by1">
-                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                        </figure>
-                    </div>
-                    {% endif %}
+                <!-- MAIN CONTENT: THE TIMELINE FEED (Column 1) -->
+                <div class="column is-8">
+                    <div class="timeline-container">
+                        {% assign posts = site.posts | sort: 'date' | reverse %}
+                        {% for post in posts %}
+                        <div class="timeline-item">
+                            <article class="card timeline-card">
+                                <header class="card-header">
+                                    <p class="timeline-date">{{ post.date | date: "%B %Y" }}</p>
+                                    {% if post.type %}
+                                    <span class="timeline-category-tag tag-type-{{ post.type | slugify }} ml-auto">
+                                        {{ post.type | replace: "-", " " | capitalize }}
+                                    </span>
+                                    {% endif %}
+                                </header>
 
-                    <div class="card-content">
-                        <h3 class="title is-4">{{ post.title }}</h3>
-                        <div class="content">
-                            {{ post.content }}
+                                {% if post.image %}
+                                <div class="card-image">
+                                    <figure class="image is-2by1">
+                                        <a href="{{ post.url | relative_url }}"><img src="{{ post.image | relative_url }}" alt="{{ post.title }}"></a>
+                                    </figure>
+                                </div>
+                                {% endif %}
+
+                                <div class="card-content">
+                                    <h3 class="title is-4"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                                    <div class="content">
+                                        {{ post.excerpt }}
+                                    </div>
+                                    <a href="{{ post.url | relative_url }}" class="button is-primary is-light is-small mt-4">Read More →</a>
+                                </div>
+                            </article>
                         </div>
+                        {% endfor %}
                     </div>
-                </article>
-            </div>
-            {% endfor %}
+                </div>
 
+                <!-- STICKY SIDEBAR (Column 2) -->
+                <div class="column is-4">
+                    <div class="sticky-sidebar">
+
+                        <!-- Navigation Widget -->
+                        <div class="box sidebar-widget">
+                            <aside class="menu">
+                                <p class="menu-label">Quick Navigation</p>
+                                <ul class="menu-list">
+                                    <li><a href="#timeline-start" class="is-active">Start of Path</a></li>
+                                    <li><a>Key Milestones</a></li>
+                                    <li><a>Tools & Resources</a></li>
+                                </ul>
+                            </aside>
+                        </div>
+
+                        <!-- AdSense Placeholder Widget -->
+                        <div class="sidebar-widget">
+                             <div class="adsense-placeholder">
+                                <div>
+                                    <p>Ad Placeholder</p>
+                                    <p>(300x250)</p>
+                                </div>
+                             </div>
+                        </div>
+
+                        <!-- Social Links Widget -->
+                        <div class="box sidebar-widget">
+                            <p class="menu-label has-text-centered">Follow The Journey</p>
+                            <div class="social-links mt-4">
+                                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 </main>
