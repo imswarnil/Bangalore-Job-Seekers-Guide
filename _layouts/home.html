@@ -1,0 +1,67 @@
+---
+layout: default
+---
+<main>
+    <!-- Hero Section -->
+    <section class="section hero-section">
+        <div class="container has-text-centered" style="max-width: 800px;">
+            <h1 class="title is-1">My Journey, Your Playbook.</h1>
+            <p class="subtitle is-5 mt-4">I graduated from LNCT in 2017 with no job offer. It was terrifying. This is the exact, step-by-step path I carved out for myself to land my first tech job in Bangalore.</p>
+            <a href="#timeline-start" class="button is-primary is-large mt-4">
+                <span>Follow The Path</span>
+                <span class="icon"><i class="fas fa-arrow-down"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- The Timeline Feed -->
+    <section id="timeline-start" class="section">
+        <div class="timeline-container">
+            
+            {% assign posts = site.posts | sort: 'date' | reverse %}
+            {% for post in posts %}
+            <div class="timeline-item">
+                <article class="card timeline-card">
+                    <header class="card-header">
+                        <time class="timeline-date" datetime="{{ post.date | date_to_xmlschema }}">
+                            {{ post.date | date: "%B %Y" }}
+                        </time>
+                        {% if post.type %}
+                        <span class="tag timeline-category-tag tag-type-{{ post.type | slugify }} ml-auto">
+                            {{ post.type | replace: "-", " " | capitalize }}
+                        </span>
+                        {% endif %}
+                    </header>
+
+                    {% if post.image %}
+                    <div class="card-image">
+                        <figure class="image is-2by1">
+                            <img src="{{ post.image }}" alt="{{ post.title }}">
+                        </figure>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-content">
+                        <h3 class="title is-4">{{ post.title }}</h3>
+                        
+                        {{ post.content }}
+
+                        {% if post.type == 'video' and post.video_id %}
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/{{ post.video_id }}" 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        {% endif %}
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+
+        </div>
+    </section>
+</main>
