@@ -4,15 +4,34 @@
 <body class="site-wrapper">
   <a class="btn btn--primary skip-link" href="#content">Skip to content</a>
   <div class="container container--wide">
-      {% include header.html %}   
-    <div class="l-main">
-            {% include sidebar.html %}    
-      <div class="l-main__body">
-        <main id="content">
-          {{ content }}
-        </main>
-      </div>
+      {% include header.html %} 
+
+      {% if page.layout == "home" %}
+
+  <!-- =================================== -->
+  <!--      LAYOUT FOR HOMEPAGE ONLY       -->
+  <!-- =================================== -->
+  <main id="content">
+    {{ content }}
+  </main>
+  
+{% else %}
+
+  <!-- =================================== -->
+  <!-- LAYOUT FOR ALL OTHER PAGES (with Sidebar) -->
+  <!-- =================================== -->
+  <div class="l-main container">
+    {% include sidebar.html %}
+    <div class="l-main__body">
+      <main id="content">
+        {{ content }}
+      </main>
     </div>
+  </div>
+
+{% endif %}
+
+
   </div>
 
   <div class="modal-backdrop">
