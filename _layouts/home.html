@@ -1,26 +1,22 @@
 ---
 layout: default
-title: My Journey, Your Playbook
 ---
-
 <!-- 1. HERO SECTION -->
-<section class="section hero">
+<section class="section hero is-medium">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-vcentered">
-                <div class="column is-6-desktop">
-                    <p class="title is-5 has-text-primary">The Bangalore Fresher's Playbook</p>
-                    <h1 class="title is-1 is-spaced">From Graduation Day to Your First Payday.</h1>
-                    <p class="subtitle is-4">This isn't theory. This is the exact, chronological path I took to land a tech job after graduating without a campus placement. Follow my journey, post by post.</p>
-                    <div class="buttons are-large mt-5">
-                        <a href="#timeline-start" class="button is-primary">Start The Path</a>
-                        <a href="#" class="button is-light">Explore Toolkit</a>
+                <div class="column is-7">
+                    <p class="title is-5 has-text-primary has-text-weight-bold">THE BANGALORE FRESHER'S PLAYBOOK</p>
+                    <h1 class="title is-1 is-spaced" style="line-height: 1.1;">Systemizing the Path from Campus to Career.</h1>
+                    <p class="subtitle is-4">This is the operational guide I wish I had. A chronological log of the failures, lessons, and breakthroughs that led to my first tech job.</p>
+                    <div class="buttons are-large mt-6">
+                        <a href="#feed" class="button is-primary">Initiate Playbook</a>
                     </div>
                 </div>
-                <div class="column is-6-desktop has-text-centered">
+                <div class="column is-5 is-hidden-mobile">
                     <figure class="image">
-                        <!-- Assumes hero.svg is in /assets/images/ -->
-                        <img src="{{ '/assets/images/hero.svg' | relative_url }}" alt="Career Journey Illustration" style="max-width: 450px; margin: auto;">
+                        <img src="{{ '/assets/images/hero.svg' | relative_url }}" alt="Blueprint Illustration">
                     </figure>
                 </div>
             </div>
@@ -29,84 +25,61 @@ title: My Journey, Your Playbook
 </section>
 
 <!-- 2. MAIN CONTENT & SIDEBAR LAYOUT -->
-<section id="timeline-start" class="section">
+<section id="feed" class="section">
     <div class="container">
         <div class="columns">
-
             <!-- MAIN CONTENT: THE TIMELINE FEED -->
             <div class="column is-8">
-                <h2 class="title is-3">Recent Transmissions</h2>
-                <hr>
-                <!-- This is where Jekyll will render your posts -->
-                {% assign posts = site.posts | sort: 'date' | reverse %}
-                {% for post in posts %}
-                    <div class="card mb-6"> <!-- Using a standard Bulma card -->
-                        <header class="card-header">
-                            <p class="card-header-title is-size-5">
-                                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                            </p>
-                        </header>
-                        <div class="card-content">
-                            <div class="content">
-                                <div class="level is-mobile">
-                                    <div class="level-left">
-                                        <div class="level-item">
-                                            <p class="subtitle is-6">
-                                                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
-                                            </p>
+                <div class="timeline-container">
+                    {% for post in site.posts %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <p class="timeline-date">{{ post.date | date: "%B %d, %Y" }}</p>
+                            <div class="card timeline-card mt-2">
+                                <div class="card-content">
+                                    <div class="level is-mobile mb-4">
+                                        <div class="level-left">
+                                            <h2 class="title is-4"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
                                         </div>
-                                    </div>
-                                    <div class="level-right">
-                                        <div class="level-item">
+                                        <div class="level-right">
                                             {% if post.type %}
-                                                <!-- Uses the auto-generated tag style -->
-                                                <span class="tag is-{{ post.type | slugify }} is-light">{{ post.type | replace: "-", " " | capitalize }}</span>
+                                                <div class="tags">
+                                                    <span class="tag is-{{ post.type | slugify }}">{{ post.type | replace: "-", " " | capitalize }}</span>
+                                                </div>
                                             {% endif %}
                                         </div>
                                     </div>
+                                    <div class="content">
+                                        {{ post.excerpt }}
+                                        <a href="{{ post.url | relative_url }}" class="is-link is-underlined has-text-weight-bold">Read More...</a>
+                                    </div>
                                 </div>
-                                <p>{{ post.excerpt }}</p>
                             </div>
                         </div>
-                        <footer class="card-footer">
-                            <a href="{{ post.url | relative_url }}" class="card-footer-item">Read More →</a>
-                        </footer>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
 
             <!-- STICKY SIDEBAR -->
             <aside class="column is-4 is-hidden-touch">
                 <div style="position: sticky; top: 100px;">
-                    <!-- About Widget -->
-                    <div class="box"> <!-- Using a standard Bulma box -->
-                        <h3 class="title is-5">About The Author</h3>
-                        <p class="subtitle is-6">Hi, I'm Swarnil. I graduated from LNCT in 2017 and built this playbook from my own experience. My goal is to give you the guide I never had.</p>
-                        <a href="#" class="button is-primary is-outlined is-fullwidth mt-4">More About Me</a>
-                    </div>
-                    
-                    <!-- AdSense Placeholder Widget -->
-                    <div class="box">
-                        <div style="background: #e9ecef; border: 1px dashed #ced4da; display:flex; align-items:center; justify-content:center; min-height: 250px;">
-                            <p class="has-text-grey">Ad Placeholder</p>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Widget -->
-                    <div class="box">
+                    <div class="box sidebar-widget">
                          <aside class="menu">
-                            <p class="menu-label">Playbook Sections</p>
+                            <p class="menu-label">Index</p>
                             <ul class="menu-list">
-                                <li><a class="is-active">Recent Posts</a></li>
-                                <li><a>Key Milestones</a></li>
-                                <li><a>Tools & Resources</a></li>
-                                <li><a>Q&A Sessions</a></li>
+                                <li><a class="is-active">The Timeline</a></li>
+                                <li><a>Key Lessons</a></li>
+                                <li><a>Toolkit & Resources</a></li>
                             </ul>
                         </aside>
                     </div>
+                    <div class="sidebar-widget">
+                        <div class="adsense-placeholder">
+                            <p class="has-text-grey">Ad Unit (300x250)</p>
+                        </div>
+                    </div>
                 </div>
             </aside>
-
         </div>
     </div>
 </section>

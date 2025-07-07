@@ -1,123 +1,72 @@
 //==============================================================
-// AI BUILDER THEME : VARIABLES
+// PROJECT: BLUEPRINT : VARIABLES
 //==============================================================
-// This is the single source of truth for all design tokens.
-// Changing a value here will propagate throughout the entire site.
 
 // --- 1. COLOR SYSTEM ---
-// A professional, high-contrast palette.
-$primary: #005F73;       // A deep, professional teal for actions
-$secondary: #0A9396;     // A brighter teal for secondary accents
-$accent: #EE9B00;        // A warm amber for callouts, warnings
-$danger: #AE2012;
-$success: $secondary;
-
-$background: #F8F9FA;    // A very light, almost white gray
-$surface: #FFFFFF;       // For cards, boxes, navbars
-$border: #DEE2E6;        // A neutral, subtle border
-$text: #212529;          // Main body text for high readability
-$text-light: #495057;    // For less important text
-$text-muted: #6C757D;     // For meta text, placeholders
-$text-heading: #001219;  // A near-black for all titles
+$primary: #06B6D4;       // A vibrant, sharp Cyan
+$primary-dark: #0891B2;
+$primary-light: #CFFAFE;
+$background: #F9FAFB;
+$surface: #FFFFFF;
+$border: #E5E7EB;
+$text: #374151;
+$text-heading: #111827;
+$text-muted: #6B7280;
+$success: #10B981;
+$danger: #EF4444;
 
 // --- 2. TYPOGRAPHY SYSTEM ---
-// Using two distinct fonts for a professional, technical feel.
-$family-sans-serif: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $family-monospace: "IBM Plex Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-$body-size: 17px;
+$body-size: 16px;
 $body-line-height: 1.7;
-$body-weight: 400;
 
 // --- 3. UI TOKENS ---
-// Reusable values for consistency.
-$radius-small: 4px;
-$radius-medium: 8px;
-$radius-large: 12px;
+$radius: 0; // Sharp, 90-degree angles everywhere
 $border-width: 1px;
-$border-accent-width: 3px;
-$shadow-light: 0 4px 6px rgba($text-heading, 0.04);
+$border-accent-width: 2px;
+$glow-shadow: 0 0 15px rgba($primary, 0.3);
 
 // --- 4. BULMA VARIABLE OVERRIDES ---
-// Mapping our design system to Bulma's core variables.
-
-// General
 $body-background-color: $background;
-$body-size: $body-size;
-$body-line-height: $body-line-height;
-$body-weight: $body-weight;
 $text: $text;
 $text-strong: $text-heading;
+$family-primary: $family-sans-serif;
 
 // Links
 $link: $primary;
-$link-hover: darken($primary, 5%);
-$link-focus-border: $primary;
+$link-hover: $primary-dark;
 
 // Typography
-$family-primary: $family-sans-serif;
 $title-family: $family-monospace;
 $title-color: $text-heading;
 $title-weight: 600;
-$subtitle-color: $text-light;
+$subtitle-color: $text-muted;
 $subtitle-family: $family-sans-serif;
-$subtitle-weight: 400;
 
-// Buttons
+// Buttons & Forms
 $button-family: $family-monospace;
 $button-weight: 600;
-$button-radius: $radius-small;
+$button-radius: $radius;
 $button-border-width: $border-width;
 $button-text-transform: uppercase;
-$button-letter-spacing: 0.05em;
-$button-padding-vertical: calc(0.75em - #{$border-width});
-$button-padding-horizontal: 1.5em;
-
-// Forms
-$input-family: $family-sans-serif;
-$input-background-color: $surface;
+$button-letter-spacing: 0.08em;
+$input-radius: $radius;
 $input-border-color: $border;
 $input-shadow: none;
-$input-radius: $radius-small;
-$input-color: $text;
-$input-placeholder-color: $text-muted;
+$label-family: $family-monospace;
 $label-color: $text-heading;
-$label-weight: 600;
 
-// Cards & Boxes (NO SHADOWS)
-$card-background-color: $surface;
-$card-radius: $radius-medium;
+// Components
+$card-radius: $radius;
 $card-shadow: none;
-$card-header-color: $text-heading;
-$card-header-weight: 600;
-$box-background-color: $surface;
-$box-radius: $radius-medium;
+$card-header-shadow: none;
+$box-radius: $radius;
 $box-shadow: none;
-$box-padding: 2rem;
-
-// Menu
-$menu-label-color: $text-muted;
-$menu-label-font-size: 0.8rem;
-$menu-label-letter-spacing: 0.1em;
-$menu-list-link-color: $text-light;
-$menu-list-link-radius: $radius-small;
-$menu-list-link-active-background-color: lighten($primary, 40%);
-$menu-list-link-active-color: $primary;
-
-// Navbar
-$navbar-background-color: rgba($surface, 0.85);
-$navbar-item-color: $text-light;
+$menu-label-family: $family-monospace;
+$menu-list-link-radius: $radius;
+$navbar-background-color: rgba($surface, 0.8);
+$navbar-item-color: $text-muted;
 $navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: transparent;
-$navbar-dropdown-background-color: $surface;
-$navbar-dropdown-border-top: 2px solid $primary;
-$navbar-dropdown-shadow: 0 10px 20px rgba($text-heading, 0.1);
-$navbar-divider-background-color: $border;
-
-// Other Components
-$tabs-link-active-border-bottom-color: $primary;
-$tabs-link-active-color: $primary;
-$panel-heading-background-color: $background;
-$panel-heading-color: $text-heading;
-$pagination-current-background-color: $primary;
-$message-background-color: $background;
-$footer-background-color: darken($background, 3%);
+$footer-background-color: darken($background, 2%);
+$tag-radius: $radius;

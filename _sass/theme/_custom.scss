@@ -1,159 +1,141 @@
 //==============================================================
-// AI BUILDER THEME : GLOBAL OVERRIDES
+// PROJECT: BLUEPRINT : OVERRIDES
 //==============================================================
-// This file applies our design system to Bulma's classes.
-// No new classes are created here, only modifications to existing ones.
 
-// --- 1. GLOBAL ELEMENT STYLING ---
-strong {
-  color: $text-heading;
-}
-
-// --- 2. LAYOUT & STRUCTURE ---
-.hero.is-primary {
-  .hero-body {
-    .title { color: $surface; }
-    .subtitle { color: rgba($surface, 0.85); }
-  }
+// --- 1. GLOBAL STYLES & LAYOUT ---
+body {
+  animation: fadeIn 0.5s ease-out;
 }
 
 .section {
-  // Add more vertical space between sections for a cleaner look
   padding: 5rem 1.5rem;
 }
 
-.footer {
-  border-top: $border-width solid $border;
+.container {
+  max-width: 1400px;
 }
 
-// --- 3. COMPONENT-WIDE STYLES ---
+// --- 2. COMPONENTS ---
 
-// Apply our signature border to all Cards and Boxes
-.card, .box {
-  @include accented-border;
-  &:hover {
-    border-bottom-color: $primary;
-  }
-}
-
-// Apply our hover lift to all Cards, Boxes, and Buttons
-.card, .box, .button {
-  @include subtle-hover-lift;
-}
-
-// Apply our glass effect to the fixed-top navbar
-.navbar.is-fixed-top {
+// Navbar
+.navbar {
   @include glass-navbar;
-}
-.navbar-brand .navbar-item strong {
-  color: $primary;
+  border-bottom: $border-width solid $border;
+  .navbar-item {
+    font-family: $family-monospace;
+    font-weight: 500;
+  }
+  .navbar-link, .navbar-item {
+    @include animated-underline;
+  }
 }
 
-// Apply focus styles to all form elements
-.input, .textarea, .select select {
-  @include form-element-focus;
-}
-
-// --- 4. DEEPER COMPONENT CUSTOMIZATION ---
-
+// Buttons
 .button {
-  // Style for the primary, outlined button
-  &.is-primary.is-outlined {
-    background-color: transparent;
-    border-color: $primary;
+  transition: none; // Disable default transition to allow mixin to work
+}
+.button.is-primary {
+  @include button-fill-effect($primary, $surface);
+}
+.button.is-light {
+  @include button-fill-effect($text-muted, $surface);
+}
+
+// Cards & Boxes
+.card, .box {
+  @include blueprint-border-effect;
+}
+.card-header-title {
+  font-family: $family-monospace;
+}
+
+// Menu
+.menu-label {
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+.menu-list a {
+  @include animated-underline;
+  padding: 0.75em 0.25em;
+  &.is-active {
     color: $primary;
-    &:hover {
-      background-color: $primary;
-      color: $surface;
-    }
-  }
-  // Style for the light button
-  &.is-light {
-    background-color: darken($background, 3%);
-    border-color: darken($background, 3%);
-    color: $text-light;
-    &:hover {
-      background-color: darken($background, 6%);
-      border-color: darken($background, 6%);
+    font-weight: 600;
+    &::after { // Show the underline for the active item
+      transform: scaleX(1);
     }
   }
 }
 
-.content {
-  h1, h2, h3, h4, h5, h6 {
-    font-family: $title-family;
-    font-weight: 600;
-  }
-  blockquote {
-    background-color: lighten($accent, 40%);
-    border-left: 5px solid $accent;
-    border-radius: $radius-small;
-    padding: 1.5em;
-  }
-  pre {
-    background-color: $text-heading;
-    border-radius: $radius-medium;
-    padding: 1.5em;
+// Hero
+.hero.is-primary {
+  background: linear-gradient(45deg, $primary 0%, $primary-dark 100%);
+  .title, .subtitle {
+    color: $surface;
   }
 }
 
-.menu {
-  // Use monospace for a technical feel
-  .menu-label, .menu-list a {
-    font-family: $family-monospace;
+// Forms
+.input, .textarea {
+  border-radius: $radius;
+  border: $border-width solid $border;
+  transition: all 0.3s ease;
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 10px rgba($primary, 0.2);
   }
 }
 
-.message {
-  @include accented-border;
-  box-shadow: $shadow-light; // A subtle shadow for floating elements
-  border-radius: $radius-small;
-  .message-header {
-    border-radius: $radius-small $radius-small 0 0;
-    font-family: $family-monospace;
-    font-weight: 600;
+// Timeline (custom component)
+.timeline-container {
+  position: relative;
+  &::before {
+    content: ''; position: absolute; top: 0; bottom: 0;
+    left: 1rem; width: 2px; background-color: $border;
   }
 }
-
-.panel {
-  @include accented-border;
-  box-shadow: none;
-  border-radius: $radius-medium;
-  .panel-heading {
-    border-radius: $radius-medium $radius-medium 0 0;
-    font-family: $family-monospace;
-    font-weight: 600;
+.timeline-item {
+  position: relative;
+  padding-left: 3rem; margin-bottom: 3rem;
+  .timeline-marker {
+    position: absolute; left: 1rem; top: 0.5rem;
+    width: 1rem; height: 1rem;
+    transform: translateX(-50%);
+    background: $surface;
+    border: 2px solid $border;
+    transition: all 0.3s ease;
+  }
+  &:hover .timeline-marker {
+    border-color: $primary;
+    animation: pulseGlow 2s infinite;
   }
 }
-
-.tabs {
+.timeline-card {
+  @include blueprint-border-effect;
+}
+.timeline-date {
+  font-family: $family-monospace;
+  font-size: 0.8rem;
+  color: $text-muted;
+  text-transform: uppercase;
+}
+.timeline-card .tag {
   font-family: $family-monospace;
   font-weight: 600;
-  ul {
-    border-bottom-color: $border;
-  }
-  a {
-    border-bottom-width: 3px;
-    padding: 0.75em 1em;
-  }
 }
-
-.table {
-  th {
-    font-family: $family-monospace;
-    color: $text-heading;
-    border-bottom-width: 2px;
-  }
-}
-
-.pagination {
-  .pagination-link {
-    font-family: $family-monospace;
-    border-radius: $radius-small;
-  }
-}
-
-// Generate all our custom tag styles
+// Generate tag styles from our map
 .tag {
-  @include category-tag-styles;
+    @include category-tag-styles;
+}
+
+// Sidebar Widgets
+.sidebar-widget {
+  margin-bottom: 2rem;
+}
+.adsense-placeholder {
+  @include blueprint-border-effect;
+  border-style: dashed;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
