@@ -1,19 +1,20 @@
 // main.scss
 
-// 1. Abstracts (variables, functions, mixins)
+// 1. Abstracts
 @import 'abstracts/variables';
+@import 'abstracts/mixins';
 
-// 2. Base Styles
+// 2. Base
 @import 'base/reset';
+@import 'base/base';
+@import 'base/typography';
 
-
-// 3. Layout (Grid, Navbar, Footer, etc.)
+// 3. Layout
 @import 'layout/grid';
 @import 'layout/navbar';
-// ... import other layout files
 
-// 4. Components (Buttons, Cards, etc.)
+
+// 4. Components
 @import 'components/buttons';
-// ... import other component files
-
-// 5. Page-specific styles (optional, for overrides)
+@import 'components/cards';
+@import 'components/timeline';

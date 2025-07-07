@@ -2,31 +2,41 @@
 .js-container {
   width: 100%;
   max-width: $container-width;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: $layout-padding;
-  padding-right: $layout-padding;
+  margin-inline: auto;
+  padding-inline: $layout-padding;
 
-  &--narrow {
-    max-width: $container-width-narrow;
-  }
+  &--narrow { max-width: $container-width-narrow; }
+  &--fluid { max-width: 100%; }
 }
 
 .js-grid {
   display: grid;
   gap: $layout-padding;
+}
 
-  // Generate columns 1 through 12
-  @for $i from 1 through 12 {
-    &--cols-#{$i} {
-      grid-template-columns: repeat($i, 1fr);
+// Generates .js-grid-cols-1 to .js-grid-cols-12
+@for $i from 1 through 12 {
+  .js-grid--cols-#{$i} {
+    grid-template-columns: repeat($i, 1fr);
+  }
+}
+
+// Responsive column generation for all breakpoints
+@each $bp, $size in $breakpoints {
+  @include mq($bp) {
+    @for $i from 1 through 12 {
+      .js-grid--cols-#{$bp}-#{$i} {
+        grid-template-columns: repeat($i, 1fr);
+      }
     }
   }
 }
 
-// Responsive column spans (example for medium screens)
-@media (max-width: 768px) {
+// Stack columns on mobile by default
+@include mq(md) {
+  // This is a placeholder, you might want more specific overrides
+} @else {
   .js-grid {
-    grid-template-columns: 1fr; // Stack columns on mobile by default
+    grid-template-columns: 1fr;
   }
 }

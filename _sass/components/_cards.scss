@@ -1,0 +1,48 @@
+// scss/components/_cards.scss
+.js-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--js-c-background);
+  border: 1px solid var(--js-c-border);
+  border-radius: map-get($radius, "large");
+  overflow: hidden;
+  box-shadow: $shadow-base;
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-large;
+  }
+
+  &__image {
+    img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    padding: map-get($spacing, "4");
+    flex-grow: 1; // Allows footer to stick to the bottom
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    margin-bottom: map-get($spacing, "2");
+  }
+
+  &__body {
+    flex-grow: 1;
+  }
+
+  &__footer {
+    padding: map-get($spacing, "3") map-get($spacing, "4");
+    margin-top: map-get($spacing, "4");
+    border-top: 1px solid var(--js-c-border);
+    display: flex;
+    justify-content: flex-end;
+  }
+}

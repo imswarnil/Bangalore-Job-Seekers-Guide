@@ -1,0 +1,30 @@
+// scss/base/_base.scss
+html {
+  font-size: $font-size-base;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: $font-family-body;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-base;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100%;
+
+  // Set CSS variables for theming
+  @each $key, $value in $colors-light {
+    --js-c-#{$key}: #{$value};
+  }
+
+  &[data-theme="dark"] {
+    @each $key, $value in $colors-dark {
+      --js-c-#{$key}: #{$value};
+    }
+  }
+
+  // Apply the theme
+  background-color: var(--js-c-background);
+  color: var(--js-c-foreground);
+}

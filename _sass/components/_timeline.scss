@@ -1,0 +1,56 @@
+// scss/components/_timeline.scss
+.js-timeline {
+  position: relative;
+  padding-left: map-get($spacing, "6");
+
+  // The vertical line
+  &::before {
+    content: '';
+    position: absolute;
+    left: 12px; // Position in the middle of the dot
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--js-c-border);
+  }
+
+  &__item {
+    position: relative;
+    margin-bottom: map-get($spacing, "5");
+
+    // The dot on the line
+    &::before {
+      content: '';
+      position: absolute;
+      left: -38px; // Adjust to align with the line
+      top: 4px; // Align with text
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--js-c-background);
+      border: 2px solid var(--js-c-accent);
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: map-get($spacing, "1");
+  }
+
+  &__title {
+    font-weight: $font-weight-semibold;
+    color: var(--js-c-contrast);
+  }
+
+  &__date {
+    font-size: $font-size-sm;
+    color: var(--js-c-secondary);
+  }
+
+  &__body {
+    font-size: $font-size-sm;
+    color: var(--js-c-foreground);
+  }
+}

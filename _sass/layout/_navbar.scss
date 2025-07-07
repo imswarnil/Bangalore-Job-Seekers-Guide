@@ -86,3 +86,51 @@
     }
   }
 }
+// scss/layout/_navbar.scss
+// (Same as the previous answer, it's a solid foundation)
+
+// scss/layout/_footer.scss
+.js-footer {
+  padding: map-get($spacing, "6") $layout-padding;
+  background-color: var(--js-c-background-100);
+  border-top: 1px solid var(--js-c-border);
+  color: var(--js-c-secondary);
+  font-size: $font-size-sm;
+
+  &__grid {
+    display: grid;
+    gap: map-get($spacing, "5");
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  &__column-title {
+    font-weight: $font-weight-semibold;
+    color: var(--js-c-contrast);
+    margin-bottom: map-get($spacing, "3");
+  }
+
+  &__links {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      margin-bottom: map-get($spacing, "2");
+    }
+    
+    a {
+      color: var(--js-c-secondary);
+      text-decoration: none;
+      &:hover {
+        color: var(--js-c-accent);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__bottom {
+    margin-top: map-get($spacing, "5");
+    padding-top: map-get($spacing, "4");
+    border-top: 1px solid var(--js-c-border);
+    text-align: center;
+  }
+}

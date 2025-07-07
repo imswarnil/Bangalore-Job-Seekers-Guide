@@ -1,79 +1,84 @@
-// ==========================================================================
-// Theme Variables (The "Jobseekers" Design System)
-// ==========================================================================
+// scss/abstracts/_variables.scss
 @charset "utf-8";
 
 // 1. FONT
-// Import Geist font or any other font you prefer from Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Geist+Sans:wght@300;400;500;600;700&display=swap');
 
 $font-family-headings: "Geist", sans-serif;
 $font-family-body: "Geist", sans-serif;
-$font-family-button: "Geist", sans-serif;
 
 // 2. COLORS
-// We'll use SCSS maps for clean light/dark mode management
 $colors-light: (
-  "contrast":       #000,
-  "background":     #fff,
-  "background-100": #f3f3f3,
-  "background-200": #ededed,
-  "foreground":     #4d4d4d,
-  "secondary":      #757575,
-  "mute":           #b2b2b2,
-  "border":         hsla(0, 0%, 50%, .2),
-  "accent":         hsl(220, 90%, 55%) // Example accent color
+  "accent":           hsl(220, 90%, 55%),
+  "accent-foreground":#fff,
+  "contrast":         #000,
+  "background":       #fff,
+  "background-100":   #f3f3f3,
+  "background-200":   #ededed,
+  "foreground":       #4d4d4d,
+  "secondary":        #757575,
+  "mute":             #b2b2b2,
+  "border":           hsla(0, 0%, 50%, .2),
+  "success":          #348f3f,
+  "error":            #c34d4d
 );
-
 $colors-dark: (
-  "contrast":       #fff,
-  "background":     #0f0f0f,
-  "background-100": #212121,
-  "background-200": #282828,
-  "foreground":     #aaa,
-  "secondary":      #888,
-  "mute":           #666,
-  "border":         hsla(0, 0%, 60%, .3),
-  "accent":         hsl(210, 100%, 70%) // Lighter accent for dark mode
+  "accent":           hsl(210, 100%, 70%),
+  "accent-foreground":#0f0f0f,
+  "contrast":         #fff,
+  "background":       #0f0f0f,
+  "background-100":   #212121,
+  "background-200":   #282828,
+  "foreground":       #aaa,
+  "secondary":        #888,
+  "mute":             #666,
+  "border":           hsla(0, 0%, 60%, .3),
+  "success":          #4caf50,
+  "error":            #f44336
 );
 
 // 3. TYPOGRAPHY
 $font-size-base: 16px;
+$font-size-sm: 0.875rem;
+$font-size-lg: 1.125rem;
 $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
 $line-height-base: 1.6;
+$line-height-heading: 1.2;
 
 // 4. SPACING
 $spacing: (
-  "1": 0.125rem, // 2px
-  "2": 0.25rem,  // 4px
-  "3": 0.5rem,   // 8px
-  "4": 0.75rem,  // 12px
-  "5": 1rem,     // 16px
-  "6": 1.5rem,   // 24px
-  "7": 2rem,     // 32px
-  "8": 3rem,     // 48px
-  "9": 4rem      // 64px
+  "1": 0.25rem,  // 4px
+  "2": 0.5rem,   // 8px
+  "3": 1rem,     // 16px
+  "4": 1.5rem,   // 24px
+  "5": 2rem,     // 32px
+  "6": 3rem,     // 48px
+  "7": 4rem      // 64px
 );
 
 // 5. BORDERS & RADIUS
-$radius: (
-  "small": 4px,
-  "base":  8px,
-  "large": 16px,
-  "pill":  9999px
-);
+$radius: ("small": 4px, "base": 8px, "large": 16px, "pill": 9999px);
 
 // 6. LAYOUT
-$container-width: 1100px;
-$container-width-narrow: 700px;
+$container-width: 1140px;
+$container-width-narrow: 720px;
 $layout-padding: clamp(1rem, 5vw, 2rem);
 $navbar-height: 60px;
 $sidebar-width: 250px;
 
-// 7. SHADOWS
-$shadow-base: 0 4px 20px -8px rgba(0,0,0,.24);
+// 7. SHADOWS & TRANSITIONS
+$shadow-base: 0 4px 20px -8px rgba(0,0,0,.15);
 $shadow-large: 0 20px 60px -10px hsla(0,4%,68%,.24);
-$shadow-dark-large: 0 20px 60px -10px rgba(0,0,0,.7);
+$shadow-dark-large: 0 20px 60px -10px rgba(0,0,0,.5);
+$transition-base: 200ms ease-in-out;
+
+// 8. BREAKPOINTS
+$breakpoints: (
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px
+);
