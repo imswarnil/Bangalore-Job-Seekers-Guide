@@ -1,0 +1,79 @@
+// ==========================================================================
+// Theme Variables (The "Jobseekers" Design System)
+// ==========================================================================
+@charset "utf-8";
+
+// 1. FONT
+// Import Geist font or any other font you prefer from Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Geist+Sans:wght@300;400;500;600;700&display=swap');
+
+$font-family-headings: "Geist", sans-serif;
+$font-family-body: "Geist", sans-serif;
+$font-family-button: "Geist", sans-serif;
+
+// 2. COLORS
+// We'll use SCSS maps for clean light/dark mode management
+$colors-light: (
+  "contrast":       #000,
+  "background":     #fff,
+  "background-100": #f3f3f3,
+  "background-200": #ededed,
+  "foreground":     #4d4d4d,
+  "secondary":      #757575,
+  "mute":           #b2b2b2,
+  "border":         hsla(0, 0%, 50%, .2),
+  "accent":         hsl(220, 90%, 55%) // Example accent color
+);
+
+$colors-dark: (
+  "contrast":       #fff,
+  "background":     #0f0f0f,
+  "background-100": #212121,
+  "background-200": #282828,
+  "foreground":     #aaa,
+  "secondary":      #888,
+  "mute":           #666,
+  "border":         hsla(0, 0%, 60%, .3),
+  "accent":         hsl(210, 100%, 70%) // Lighter accent for dark mode
+);
+
+// 3. TYPOGRAPHY
+$font-size-base: 16px;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$line-height-base: 1.6;
+
+// 4. SPACING
+$spacing: (
+  "1": 0.125rem, // 2px
+  "2": 0.25rem,  // 4px
+  "3": 0.5rem,   // 8px
+  "4": 0.75rem,  // 12px
+  "5": 1rem,     // 16px
+  "6": 1.5rem,   // 24px
+  "7": 2rem,     // 32px
+  "8": 3rem,     // 48px
+  "9": 4rem      // 64px
+);
+
+// 5. BORDERS & RADIUS
+$radius: (
+  "small": 4px,
+  "base":  8px,
+  "large": 16px,
+  "pill":  9999px
+);
+
+// 6. LAYOUT
+$container-width: 1100px;
+$container-width-narrow: 700px;
+$layout-padding: clamp(1rem, 5vw, 2rem);
+$navbar-height: 60px;
+$sidebar-width: 250px;
+
+// 7. SHADOWS
+$shadow-base: 0 4px 20px -8px rgba(0,0,0,.24);
+$shadow-large: 0 20px 60px -10px hsla(0,4%,68%,.24);
+$shadow-dark-large: 0 20px 60px -10px rgba(0,0,0,.7);

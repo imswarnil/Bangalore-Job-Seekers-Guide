@@ -1,7 +1,19 @@
+// main.scss
 
-@import "./theme/variable";
-@import "../node_modules/bulma/sass/index";
+// 1. Abstracts (variables, functions, mixins)
+@import 'abstracts/variables';
+
+// 2. Base Styles
+@import 'base/reset';
 
 
+// 3. Layout (Grid, Navbar, Footer, etc.)
+@import 'layout/grid';
+@import 'layout/navbar';
+// ... import other layout files
 
+// 4. Components (Buttons, Cards, etc.)
+@import 'components/buttons';
+// ... import other component files
 
+// 5. Page-specific styles (optional, for overrides)

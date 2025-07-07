@@ -1,0 +1,32 @@
+// scss/layout/_grid.scss
+.js-container {
+  width: 100%;
+  max-width: $container-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $layout-padding;
+  padding-right: $layout-padding;
+
+  &--narrow {
+    max-width: $container-width-narrow;
+  }
+}
+
+.js-grid {
+  display: grid;
+  gap: $layout-padding;
+
+  // Generate columns 1 through 12
+  @for $i from 1 through 12 {
+    &--cols-#{$i} {
+      grid-template-columns: repeat($i, 1fr);
+    }
+  }
+}
+
+// Responsive column spans (example for medium screens)
+@media (max-width: 768px) {
+  .js-grid {
+    grid-template-columns: 1fr; // Stack columns on mobile by default
+  }
+}
