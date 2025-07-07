@@ -1,18 +1,3 @@
-
-
-
-@import "./theme/variable";
-@import "./theme/mixins";
-
-@import "../node_modules/bulma/sass/index";
-@import "./theme/custom";
-
-
-
----
-// An empty front matter is required for Jekyll to process this file
----
-
 //==============================================================
 // PROJECT: KYOTO INK - A COMPLETE JEKYLL/BULMA THEME
 //==============================================================
@@ -37,7 +22,7 @@
 //--------------------------------------------------------------
 
 // ** COLOR PALETTE **
-$primary: #4361EE;      // A deep, elegant Indigo
+$primary : #E63946;      // A deep, elegant Indigo
 $secondary: #3A0CA3;     // A vibrant purple for secondary accents
 $success: #4CC9F0;       // A bright cyan for success states
 $danger: #F72585;        // A vivid magenta for errors
