@@ -5,7 +5,6 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 
- <main>
         <!-- 1. HEADER / NAVBAR -->
         <nav class="navbar" role="navigation"><div class="container"><div class="navbar-brand"><a class="navbar-item"><strong>ghost</strong></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item">Product</a><a class="navbar-item">Explore</a><a class="navbar-item">Resources</a><a class="navbar-item">Pricing</a></div><div class="navbar-end"><a class="navbar-item"><span class="icon"><i class="fas fa-search"></i></span></a><a class="navbar-item">Sign in</a><div class="navbar-item"><a class="button is-dark"><strong>Get Started</strong><span class="has-text-grey-dark ml-2">— free</span></a></div></div></div></div></nav>
         <!-- 2. HERO SECTION -->
