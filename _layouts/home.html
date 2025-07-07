@@ -1,87 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-{% include head.html %}
+---
+layout : default
+---
 
-<body class="site-wrapper">
-
-  <a class="btn btn--primary skip-link" href="#content">Skip to content</a>
-
-  <div class="container container--wide">
-
-      {% include header.html %}
-
-   
-    <div class="l-main">
-      <!-- ======================================================= -->
-      <!-- 3. DYNAMIC SIDEBAR SECTION (The core logic is here)     -->
-      <!-- ======================================================= -->
-            {% include sidebar.html %}    
-      <div class="l-main__body">
-        <main id="content">
-          {{ content }}
-        </main>
-
-              {% include post-paginate.html %}
-
-
-        
-        <!-- ======================================================= -->
-        <!-- 5. FOOTER SECTION (Static, but with dynamic content)    -->
-        <!-- ======================================================= -->
-        <footer class="footer">
-            <div class="footer__inner">
-                <div class="footer__column">
-                    <h3 class="footer__title" id="footer-title-getting-started">Getting Started</h3>
-                    <ul class="footer__navigation" aria-labelledby="footer-title-getting-started">
-                        <li><a href="/getting-started/introduction/">Introduction</a></li>
-                        <li><a href="/getting-started/features/">Features</a></li>
-                        <li><a href="/getting-started/structure/">Structure</a></li>
-                        <li><a href="/getting-started/setup/">Setup</a></li>
-                    </ul>
-                </div>
-                <div class="footer__column">
-                    <h3 class="footer__title" id="footer-title-spruce-css">Spruce CSS</h3>
-                    <ul class="footer__navigation" aria-labelledby="footer-title-spruce-css">
-                        <li><a href="https://sprucecss.com/docs/getting-started/introduction/" target="_blank" rel="noopener">Introduction <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                        <li><a href="https://sprucecss.com/docs/customization/themes/" target="_blank" rel="noopener">Themes <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                        <li><a href="https://sprucecss.com/ui/getting-started/introduction/" target="_blank" rel="noopener">Components <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                    </ul>
-                </div>
-                <div class="footer__column">
-                    <h3 class="footer__title" id="footer-title-more-from-us">More From Us</h3>
-                    <ul class="footer__navigation" aria-labelledby="footer-title-more-from-us">
-                        <li><a href="https://conedevelopment.com/services/" target="_blank" rel="noopener">Services <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                        <li><a href="https://pineco.de/" target="_blank" rel="noopener">Pine development blog <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                        <li><a href="https://root.conedevelopment.com/" target="_blank" rel="noopener">Root Laravel admin <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                        <li><a href="https://bite-sized-a11y.com/" target="_blank" rel="noopener">Bite-Sized Accessibility <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-                    </ul>
+        <!-- 
+          ================================
+          HERO SECTION
+          ================================
+        -->
+        <section class="hero-section">
+            <div class="container container--narrow">
+                <div class="post-heading">
+                    <span class="post-heading__headline">For every job seeker who feels lost</span>
+                    <h1 class="post-heading__title">You Have a Degree, But You Don't Have a Direction.</h1>
+                    <p class="post-heading__description">
+                        This is not just another job portal. It’s a real, honest guide built on the experience of failure, for every student and graduate in India who feels stuck, confused, and alone on their career journey.
+                    </p>
+                    <div class="post-heading__actions">
+                        <a href="/the-beginning-category-url/post-1-url" class="btn btn--primary btn--lg btn--primary-shadow">Start with My Story</a>
+                        <a href="/guides-category-url" class="btn btn--outline-primary btn--lg">Explore the Guides</a>
+                    </div>
                 </div>
             </div>
-        </footer>
-      </div>
-    </div>
-  </div>
+        </section>
 
-  <div class="modal-backdrop">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div id="search" class="search">
-        <div class="pagefind-ui svelte-1bkqzc5 pagefind-ui--reset">
-          <form class="pagefind-ui__form svelte-1bkqzc5" role="search" aria-label="Search this site" action="javascript:void(0);">
-            <input class="pagefind-ui__search-input svelte-1bkqzc5" type="text" placeholder="Search">
-            <button class="pagefind-ui__search-clear svelte-1bkqzc5 pagefind-ui__suppressed">Clear</button>
-            <div class="pagefind-ui__drawer svelte-1bkqzc5 pagefind-ui__hidden"></div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+        <!-- 
+          ================================
+          HOW IT WORKS / FEATURES SECTION
+          ================================
+        -->
+        <section class="section">
+            <div class="container container--narrow">
+                <div class="section-title">
+                    <h2 class="h2">This Project is Built on Three Core Ideas</h2>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                        </div>
+                        <h3 class="h4">Honest, Real-Time Journal</h3>
+                        <p>No theory, no fake promises. I document my own journey—the rejections, the small wins, the lessons—as it happens. This is a real case study, not a lecture.</p>
+                    </div>
 
-  <!-- Scripts -->
-  <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>
-  <script src="{{ '/assets/js/theme-change-assets.js' | relative_url }}" defer="defer"></script>
-  <script src="{{ '/assets/js/navigation.js' | relative_url }}" defer="defer"></script>
-  <script src="{{ '/assets/js/theme-switcher.js' | relative_url }}" defer="defer"></script>
-  <script src="{{ '/assets/js/modal.js' | relative_url }}" defer="defer"></script>
-  <script src="{{ '/assets/js/accordion-card.js' | relative_url }}" defer="defer"></script>
-</body>
-</html>
+                    <div class="feature-card">
+                        <div class="feature-card__icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.928A9.095 9.095 0 013 18.72v-3.072a9.095 9.095 0 01.338-2.584l3.123-3.123m0 0a9.094 9.094 0 012.584-.338h3.072a9.095 9.095 0 012.584.338l3.123 3.123m-7.5-2.928A9.095 9.095 0 013 18.72m10.5-11.458a9.094 9.094 0 01.479 3.741 3 3 0 01-2.72 4.682m-2.928-7.5a9.095 9.095 0 012.584-.338h.003a9.095 9.095 0 012.584.338m-7.5-2.928l3.123-3.123a9.094 9.094 0 012.584-.338h3.072a9.094 9.094 0 012.584.338l3.123 3.123" />
+                           </svg>
+                        </div>
+                        <h3 class="h4">A Supportive Community</h3>
+                        <p>You are not alone. This is a place to ask questions, share your story, and connect with others who understand exactly what you're going through. No question will go unanswered.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                            </svg>
+                        </div>
+                        <h3 class="h4">Practical, Actionable Guides</h3>
+                        <p>We focus on real problems: handling rejection, building a resume from scratch, staying mentally strong, and finding a path that truly fits you—not just what society expects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+          ================================
+          ABOUT / MY STORY SECTION
+          ================================
+        -->
+        <section class="section about-section">
+            <div class="container container--narrow">
+                <div class="l-post">
+                    <div class="post-content">
+                        <div class="section-title" style="text-align: left; margin-inline: 0;">
+                            <span class="post-heading__headline">The Story Behind The Guide</span>
+                            <h2 class="h2">I Graduated as an Engineer. Then I Became Jobless.</h2>
+                        </div>
+                        <p class="lead">My story starts where most success stories end: with failure. I followed the path everyone told me to—Kota, engineering, the whole package. But on graduation day, I had a degree but no job, no plan, and no hope.</p>
+                        <p>That difficult and painful experience taught me a powerful lesson: millions of students in India feel just as lost. I built this guide to be the resource I wish I had during my darkest days. It's built on empathy, for us.</p>
+                        <a href="/the-beginning-category-url/post-1-url" class="btn btn--primary btn--primary-shadow">Read My Full Story (The Beginning)</a>
+                    </div>
+                    <div class="l-post__toc">
+                        <!-- You can place an image here -->
+                        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649414?q=80&w=1920&auto=format&fit=crop" alt="A person looking out from a train window, symbolizing a journey." style="border-radius: var(--spruce-border-radius-sm);">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+          ================================
+          FEATURED POSTS SECTION
+          ================================
+        -->
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2 class="h2">Latest from the Guide</h2>
+                    <p>Start here with some of our most recent and helpful posts.</p>
+                </div>
+                <div class="l-card">
+                    <!-- Featured Post 1 -->
+                    <article class="post-card">
+                        <a href="/your-post-url-1" class="card__link" aria-label="Read more about The Promise"></a>
+                        <span class="post-card__serial-number"></span>
+                        <h3 class="post-card__title">The Beginning: The Promise</h3>
+                        <p>The story starts with the promise we are all given. A look into the societal pressure and the Kota journey that started it all.</p>
+                    </article>
+                    <!-- Featured Post 2 -->
+                    <article class="post-card">
+                        <a href="/your-post-url-2" class="card__link" aria-label="Read more about The Detour"></a>
+                        <span class="post-card__serial-number"></span>
+                        <h3 class="post-card__title">The Detour: Freedom and Distraction</h3>
+                        <p>After the pressure of Kota, college was a new world. Here’s how unstructured freedom led to a different, distracting dream.</p>
+                    </article>
+                    <!-- Add more posts as needed -->
+                </div>
+            </div>
+        </section>

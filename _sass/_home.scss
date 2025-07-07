@@ -1,0 +1,64 @@
+ /* Small custom additions to enhance Spruce */
+        .hero-section {
+            padding-block: var(--spruce-section-gap);
+            text-align: center;
+        }
+
+        .hero-section .post-heading__title {
+            max-inline-size: 25ch;
+            margin-inline: auto;
+        }
+
+        .hero-section .post-heading__description {
+            max-inline-size: 65ch;
+            margin-inline: auto;
+        }
+
+        .section {
+            padding-block: var(--spruce-section-gap);
+        }
+
+        .section-title {
+            text-align: center;
+            max-inline-size: 45ch;
+            margin-inline: auto;
+            margin-block-end: 3rem;
+        }
+
+        .feature-grid {
+            --columns: 1;
+            display: grid;
+            gap: 3rem;
+            grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+        }
+
+        @media(min-width: 48em) {
+            .feature-grid {
+                --columns: 3;
+            }
+        }
+
+        .feature-card {
+            text-align: center;
+        }
+        
+        .feature-card__icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            block-size: 4rem;
+            inline-size: 4rem;
+            border-radius: 50%;
+            background-color: var(--spruce-base-color-code-background);
+            color: var(--spruce-base-color-primary);
+            margin-block-end: 1.5rem;
+        }
+
+        .feature-card__icon svg {
+            block-size: 1.75rem;
+            inline-size: 1.75rem;
+        }
+
+        .about-section {
+            background-color: var(--spruce-footer-color-background);
+        }
