@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: home
 category: Do Something
 title: "Your Resume is a Product, Not a Document"
 date: 2017-08-20
