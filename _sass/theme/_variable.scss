@@ -1,60 +1,108 @@
-// --- 1. COLOR PALETTE ---
-$primary: #4361EE;      // Professional Blue
-$background: #F8F9FC;
-$surface: #FFFFFF;
-$text: #374151;         // Main body text
-$text-heading: #111827; // Titles and strong text
-$text-muted: #6B7280;      // Subtitles, meta-text
-$border: #E5E7EB;
+// --- 1. COLOR SYSTEM ---
+$primary: #005F73;       // A deep, professional teal
+$secondary: #0A9396;     // A brighter teal for accents
+$accent: #EE9B00;        // A warm amber for callouts
+$danger: #AE2012;
+$success: #0A9396;
 
-// --- 2. TYPOGRAPHY ---
+$background: #F8F9FA;
+$surface: #FFFFFF;
+$border: #DEE2E6;
+$text: #212529;
+$text-light: #495057;
+$text-muted: #6C757D;
+$text-heading: #001219;
+
+// --- 2. TYPOGRAPHY SYSTEM ---
 $family-sans-serif: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$body-size: 17px; // Slightly larger for readability
+$family-monospace: "IBM Plex Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$body-size: 16px;
 $body-line-height: 1.7;
 
 // --- 3. UI TOKENS ---
-$radius: 12px;
-$shadow: 0 8px 25px rgba($text-heading, 0.07);
-$shadow-hover: 0 12px 30px rgba($text-heading, 0.1);
+$radius-small: 4px;
+$radius-medium: 8px;
+$radius-large: 12px;
+$border-width: 1px;
+$border-accent-width: 3px;
+$shadow: 0 4px 6px rgba($text-heading, 0.04);
 
 // --- 4. BULMA VARIABLE OVERRIDES ---
-// This section maps our design system to Bulma's variables.
+// This is where our design system is applied to Bulma's core.
+// It ensures every Bulma component inherits our theme.
+
+// General
 $body-background-color: $background;
+$body-size: $body-size;
+$body-line-height: $body-line-height;
 $text: $text;
 $text-strong: $text-heading;
 
-$link: $primary;
+// Links & Primary Actions
 $primary: $primary;
+$link: $primary;
+$link-hover: darken($primary, 5%);
 
+// Typography
+$family-primary: $family-sans-serif;
+$title-family: $family-monospace;
 $title-color: $text-heading;
-$title-weight: 800;
-$subtitle-color: $text-muted;
+$title-weight: 600;
+$subtitle-color: $text-light;
+$subtitle-family: $family-sans-serif;
+$subtitle-weight: 400;
 
-$card-background-color: $surface;
-$card-shadow: $shadow;
-$card-radius: $radius;
-
-$box-background-color: $surface;
-$box-shadow: $shadow;
-$box-radius: $radius;
-
-$navbar-background-color: rgba($surface, 0.85);
-$navbar-item-color: $text-muted;
-$navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: transparent;
-
-$button-radius: 8px;
-$button-family: $family-sans-serif;
+// Buttons
+$button-family: $family-monospace;
 $button-weight: 600;
+$button-radius: $radius-small;
+$button-border-width: $border-width;
+$button-text-transform: uppercase;
+$button-letter-spacing: 0.05em;
 
+// Forms
+$input-family: $family-sans-serif;
+$input-background-color: $surface;
+$input-border-color: $border;
+$input-shadow: none;
+$input-radius: $radius-small;
+$label-color: $text-heading;
+$label-weight: 600;
+
+// Cards
+$card-background-color: $surface;
+$card-radius: $radius-medium;
+$card-shadow: none; // Explicitly remove default shadow
+$card-header-color: $text-heading;
+$card-header-weight: 600;
+
+// Box
+$box-background-color: $surface;
+$box-radius: $radius-medium;
+$box-shadow: none; // Explicitly remove default shadow
+
+// Menu
+$menu-label-color: $text-muted;
+$menu-label-font-size: 0.8rem;
+$menu-label-letter-spacing: 0.1em;
+$menu-list-link-color: $text-light;
+$menu-list-link-radius: $radius-small;
+$menu-list-link-active-background-color: lighten($primary, 40%);
+$menu-list-link-active-color: $primary;
+
+// Tags
+$tag-radius: $radius-small;
+$tag-family: $family-monospace;
+
+// Footer
 $footer-background-color: darken($background, 3%);
 
 // --- 5. CATEGORY TAGS MAP ---
 $category-colors: (
-  milestone: (bg: #D1FAE5, text: #065F46),
-  story: (bg: #DBEAFE, text: #1E40AF),
-  "lesson-learned": (bg: #FEF3C7, text: #92400E),
-  video: (bg: #FEE2E2, text: #991B1B),
-  qna: (bg: #F3E8FF, text: #6B21A8),
-  resource: (bg: #E0E7FF, text: #3730A3)
+  milestone: (bg: lighten($success, 35%), text: $success),
+  story: (bg: lighten($primary, 40%), text: $primary),
+  "lesson-learned": (bg: lighten($accent, 35%), text: $accent),
+  video: (bg: lighten($danger, 40%), text: $danger),
+  qna: (bg: #E9ECEF, text: #495057),
+  resource: (bg: lighten($secondary, 40%), text: $secondary)
 );

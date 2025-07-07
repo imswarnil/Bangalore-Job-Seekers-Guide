@@ -1,84 +1,71 @@
 .timeline-container {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding-top: 2rem;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 2rem;
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0; bottom: 0; left: 14px;
-        width: 3px;
-        background-color: $border;
-        z-index: 0;
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 14px;
+    width: 2px;
+    background-color: $border;
+    z-index: 0;
+  }
 }
 
 .timeline-item {
-    position: relative;
-    padding-left: 50px;
-    margin-bottom: 3rem;
+  position: relative;
+  padding-left: 50px;
+  margin-bottom: 3rem;
 
-    &::before {
-        content: '';
-        position: absolute;
-        left: 14px; top: 5px;
-        width: 18px; height: 18px;
-        transform: translateX(-50%);
-        background-color: $surface;
-        border: 3px solid $border;
-        border-radius: 50%;
-        z-index: 1;
-        transition: all 0.3s ease;
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    left: 14px; top: 5px;
+    width: 14px; height: 14px;
+    transform: translateX(-50%);
+    background-color: $surface;
+    border: 2px solid $border;
+    border-radius: 50%;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
 
-    &:hover::before {
-        border-color: $primary;
-        transform: translateX(-50%) scale(1.1);
-    }
+  &:hover::before {
+    border-color: $secondary;
+    transform: translateX(-50%) scale(1.1);
+  }
 }
 
 .timeline-card {
-    @include card-hover-effect; // Use our mixin
+  @include accented-border; // Use our custom border mixin
 
-    .card-header {
-        align-items: center;
-        padding: 1rem 1.5rem;
-    }
+  .card-header {
+    border-bottom: 1px solid $border;
+    padding: 1.25rem 1.5rem;
+  }
 
-    .timeline-date {
-        font-weight: 600;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        color: $text-muted;
-        letter-spacing: 0.05em;
-    }
+  .timeline-date {
+    font-family: $family-monospace;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: $text-muted;
+  }
 
-    .timeline-category-tag {
-        font-size: 0.8rem;
-        font-weight: 600;
-        padding: 0.25rem 0.75rem;
-        border-radius: 999px;
-    }
+  .timeline-category-tag {
+    font-weight: 600;
+  }
 
-    @each $name, $colors in $category-colors {
-        &.tag-type-#{$name} {
-            background-color: map-get($colors, bg);
-            color: map-get($colors, text);
-        }
+  @each $name, $colors in $category-colors {
+    &.tag-type-#{$name} {
+      background-color: map-get($colors, bg);
+      color: map-get($colors, text);
     }
-    
-    .card-content {
-        .content {
-            p:last-of-type {
-                margin-bottom: 0;
-            }
-        }
-    }
-}
+  }
 
-@media screen and (max-width: 768px) {
-    .timeline-container::before { left: 10px; }
-    .timeline-item { padding-left: 40px; }
-    .timeline-item::before { left: 10px; }
+  .card-content {
+    padding: 1.5rem;
+  }
 }

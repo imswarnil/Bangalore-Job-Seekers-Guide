@@ -1,74 +1,79 @@
-// General overrides and helpers
-strong {
-    color: $text-heading;
+// --- GLOBAL COMPONENT OVERRIDES ---
+
+// Apply our custom border style to Cards and Boxes
+.card, .box {
+  @include accented-border;
 }
 
-// Navbar custom styling
-.navbar {
-    backdrop-filter: blur(10px);
+// Enhance all buttons with our hover mixin
+.button {
+  @include subtle-hover;
 }
 
-.navbar-brand .navbar-item strong {
-    color: $primary;
+// Enhance form focus states with our mixin
+.input:focus, .textarea:focus, .select select:focus,
+.input:active, .textarea:active, .select select:active {
+  @include form-focus-state;
 }
 
-// --- POST LAYOUT STYLES ---
-.post-header-creative {
-    text-align: center;
-    padding: 3rem 0;
-
-    .post-feature-image {
-        max-height: 500px;
-        width: 100%;
-        object-fit: cover;
-        border-radius: $radius;
-        margin-bottom: 2rem;
-        box-shadow: $shadow-hover;
-    }
-
-    .title {
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-.post-meta {
-    color: $text-muted;
-    font-weight: 500;
-    margin-top: 1rem;
-}
-
-.post-article .content {
-    font-size: 1.1rem;
-    h2, h3 {
-        margin-top: 2.5em;
-    }
-}
-
-.post-sidebar-sticky-wrapper {
-    position: sticky;
-    top: 120px;
-}
-
-.widget-box {
-    @extend .box; // Inherit .box styles
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.widget-title {
-    font-size: 0.9rem;
+// Deeper customization for other components
+.message {
+  @include accented-border;
+  box-shadow: none;
+  .message-header {
+    font-family: $family-monospace;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: $text-muted;
-    margin-bottom: 1rem;
+  }
 }
 
-// --- FOOTER STYLES ---
-.main-footer {
-    padding: 4rem 1.5rem;
-    background-color: darken($background, 3%);
-    border-top: 1px solid $border;
+.notification {
+  border-radius: $radius-medium;
+}
+
+.tabs {
+  font-family: $family-monospace;
+  font-weight: 600;
+  a {
+    border-bottom-width: 3px;
+    &:hover {
+      border-bottom-color: $border;
+    }
+  }
+  li.is-active a {
+    border-bottom-color: $primary;
+    color: $primary;
+  }
+}
+
+.panel {
+  @include accented-border;
+  box-shadow: none;
+  border-radius: $radius-medium;
+  .panel-heading {
+    border-radius: $radius-medium $radius-medium 0 0;
+    font-family: $family-monospace;
+    font-weight: 600;
+  }
+}
+
+.table {
+  th {
+    font-family: $family-monospace;
+    color: $text-heading;
+  }
+  tbody tr:hover {
+    background-color: lighten($primary, 45%);
+  }
+}
+
+// General content cleanup
+.content {
+  color: $text;
+}
+
+// Final responsive adjustments
+@media screen and (max-width: 768px) {
+  .title.is-1 {
+    font-size: 2.5rem;
+  }
 }

@@ -1,8 +1,24 @@
-// Reusable mixin for creating a hover effect
-@mixin card-hover-effect {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+// A mixin for our custom border effect, replacing drop shadows.
+@mixin accented-border {
+  border: $border-width solid $border;
+  border-bottom: $border-accent-width solid $border;
+  transition: border-color 0.3s ease;
+
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: $shadow-hover;
+    border-bottom-color: $primary;
   }
+}
+
+// A mixin for creating a subtle hover transition on interactive elements.
+@mixin subtle-hover {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// A mixin for focused form states.
+@mixin form-focus-state {
+  border-color: $primary;
+  box-shadow: 0 0 0 0.125em rgba($primary, 0.25);
 }
