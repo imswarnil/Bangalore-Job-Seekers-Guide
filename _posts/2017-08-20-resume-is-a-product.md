@@ -1,5 +1,6 @@
 ---
 layout: post
+category: Do Something
 title: "Your Resume is a Product, Not a Document"
 date: 2017-08-20
 type: lesson-learned
