@@ -1,81 +1,78 @@
-/* ==========================================================================
-   COMPONENT OVERRIDES & CUSTOM STYLES
-   ========================================================================== */
-
-// 1. General Elements
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+// Apply the heading font to all titles
+.title, .subtitle {
+  font-family: $family-heading;
 }
 
-// 2. Buttons
-.button {
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  transition: background-color 200ms ease, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms ease;
-  border: 1px solid transparent; // Set a transparent border to prevent layout shift on outlined buttons
+// Replicate the unique button shadow from the original .btn--primary-shadow
+.button.is-primary-shadow {
+  box-shadow: 0 0.55em 1em -0.2em #b3b5ff, 0 0.15em 0.35em -0.185em #b3b5ff;
+}
 
-  // Apply default shadow
-  @include material-shadow(1);
-
-  &:hover, &.is-hovered {
-    transform: translateY(-1px);
-    @include material-shadow(2); // Use level 2 shadow on hover
-  }
-
-  &:active, &.is-active {
-    transform: translateY(0);
-    @include material-shadow(1);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  &.is-outlined {
-    background-color: transparent !important;
-    box-shadow: none;
-    border-color: currentColor;
-    &:hover {
-      transform: none;
-      background-color: rgba($primary, 0.08) !important;
+// Style the sidebar menu to perfectly match the target
+.menu-list a {
+  padding: 0.5em 0.75em;
+  font-size: 1rem;
+  // Active link style with the vertical bar
+  &.is-active {
+    font-weight: 700;
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: -1rem; // Aligns with parent padding
+      inline-size: 0.2rem;
+      background-color: $primary;
+      border-top-right-radius: $radius;
+      border-bottom-right-radius: $radius;
     }
   }
 }
 
-// 3. Form Elements
-.input:focus,
-.textarea:focus {
-  border-width: 2px !important;
-  // Adjust padding to compensate for thicker border
-  padding-left: calc(0.75em - 1px);
-  padding-right: calc(0.75em - 1px);
+// Add padding to sidebar for the active indicator
+.menu-list {
+  padding-left: 1rem;
+  border-left: 1px solid $border-light;
 }
 
-// 4. Card, Box, and Navbar Shadows
-.card, .box {
-  @include material-shadow(1);
-  border: 1px solid $border;
-}
-
-.navbar {
-  @include material-shadow(4);
-}
-
-// 5. Tabs
-.tabs {
-  a {
-    border-bottom-width: 2px;
+// Replicate the large serial numbers on the cards
+.card.has-serial-number {
+  counter-increment: card;
+  .card-content {
+    padding-top: 3rem;
   }
-  li.is-active a {
-    border-bottom-color: $primary;
+  &::before {
+    content: counter(card, decimal-leading-zero);
+    position: absolute;
+    top: 1rem;
+    left: clamp(1.5rem, 5vw, 3rem);
     color: $primary;
+    font-family: $family-heading;
+    font-size: clamp(2.8rem, 4vw + 1rem, 4rem);
+    font-weight: 800;
+    line-height: 0.8;
   }
 }
 
-// 6. Modal
-.modal-card {
-  @include material-shadow(3);
+// Reset the card counter for each list of cards
+.card-list {
+  counter-reset: card;
 }
 
-// 7. Dropdown Menu
-.dropdown-menu {
-  @include material-shadow(3);
+// Header styles to match spacing and border
+.navbar {
+  border-bottom: 1px solid $border;
+}
+.navbar-brand .navbar-item {
+  padding-left: 0; // Remove default padding for logo
+}
+
+// Search button style
+.navbar .button.is-search-btn {
+  background-color: $white;
+  color: $text-grey;
+  border-color: $border-light;
+  &:hover {
+    border-color: $primary;
+  }
 }

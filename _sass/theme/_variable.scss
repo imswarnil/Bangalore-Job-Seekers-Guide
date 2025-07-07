@@ -1,84 +1,72 @@
-/* ==========================================================================
-   THEME VARIABLES - GOOGLE MATERIAL DESIGN
-   ========================================================================== */
-
 @charset "utf-8";
 
-// 1. Import Google's Roboto Font
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+// 1. Import Fonts (as seen in the original CSS)
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Open+Sans:wght@400;700&display=swap');
 
-// 2. Set the primary font family
-$family-sans-serif: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+// 2. Define Fonts
+$family-sans-serif: "Open Sans", sans-serif;
+$family-heading: "Manrope", sans-serif; // We'll apply this with custom CSS
 
-// 3. Define the Material Design Color Palette
-//    Using Sass variables allows us to use them in functions later.
-$google-blue: #1a73e8;
-$google-red: #ea4335;
-$google-yellow: #fbbc05;
-$google-green: #34a853;
+// 3. Define the Color Palette (from --spruce-base-color-* variables)
+$primary-blue: hsl(238, 100%, 50%);
+$heading-dark-blue: hsl(232, 68%, 11%);
+$text-grey: hsl(208, 21%, 39%);
+$border-light: hsla(0, 0%, 0%, 0.08); // Made it slightly more visible
+$white: hsl(0, 0%, 100%);
+$light-bg: hsl(0, 0%, 100%); // The body background is white in the original
 
-$text-dark: #202124;    // Primary text
-$text-light: #5f6368;   // Secondary text
-$border-color: #dadce0; // Borders
-$background-light: #f8f9fa; // Page background
-$white: #ffffff;
-
-// 4. Override Bulma's initial variables
-//    These variables MUST be defined before importing Bulma.
+// 4. Override Bulma's Initial Variables
+// =====================================
 
 // Theme Colors
-$primary: $google-blue;
-$info: $google-blue;
-$success: $google-green;
-$warning: $google-yellow;
-$danger: $google-red;
-
-// Invert colors (Bulma will calculate these automatically, but we can set them)
-$primary-invert: $white;
-$info-invert: $white;
-$success-invert: $white;
-$warning-invert: findColorInvert($warning); // Let Bulma decide the best contrast
-$danger-invert: $white;
-
-// Typography
-$body-background-color: $background-light;
-$text: $text-dark;
-$text-light: $text-light;
-$text-strong: $text-dark;
-
-$weight-medium: 500;
-$weight-semibold: 500; // Align semibold with medium for Material style
+$primary: $primary-blue;
 
 // Links
 $link: $primary;
 $link-hover: darken($primary, 5%);
-$link-focus-border: $primary;
 
-// General Look & Feel (Borders, Radius)
-$border: $border-color;
-$radius-small: 4px;
-$radius: 8px;
-$radius-large: 16px;
+// Typography
+$body-background-color: $light-bg;
+$text: $text-grey;
+$text-strong: $heading-dark-blue;
+$family-primary: $family-sans-serif;
 
-// Component-specific variables
-$button-weight: $weight-medium;
-$input-radius: $radius-small;
-$input-focus-border-color: $primary;
-$input-shadow: none;
+$title-color: $heading-dark-blue;
+$title-family: $family-heading;
+$title-weight: 800;
+$subtitle-color: $text-grey;
+$subtitle-family: $family-sans-serif;
 
-$card-radius: $radius;
-$card-shadow: none; // We will handle shadows with a custom mixin
-$card-background-color: $white;
+// General
+$border: $border-light;
+$radius: 0.425rem;
+$radius-small: 0.425rem;
+$radius-large: 0.925rem;
+$box-shadow: 0 0.75rem 1.25rem hsla(0, 0%, 0%, 0.05);
+
+// Components
+$button-family: $family-heading;
+$button-weight: 700;
+$button-padding-vertical: 0.75em;
+$button-padding-horizontal: 1.5em;
+
+$card-shadow: none; // We want flat cards with a border
 $card-header-shadow: none;
-$card-header-weight: $weight-medium;
-
-$box-radius: $radius;
-$box-shadow: none; // We will handle shadows with a custom mixin
 
 $navbar-background-color: $white;
-$navbar-height: 4rem;
-$navbar-item-color: $text-light;
-$navbar-item-hover-color: $text;
-$navbar-item-hover-background-color: rgba($primary, 0.08);
+$navbar-item-color: $heading-dark-blue;
+$navbar-item-hover-color: $primary;
+$navbar-item-hover-background-color: transparent;
 $navbar-item-active-color: $primary;
-$navbar-item-active-background-color: rgba($primary, 0.12);
+$navbar-item-active-font-weight: 700;
+$navbar-padding-vertical: 1.75rem;
+$navbar-padding-horizontal: clamp(1.5rem, 5vw, 3rem); // Use clamp for responsive padding
+
+// Menu (for the sidebar)
+$menu-label-color: $heading-dark-blue;
+$menu-label-font-size: 1rem;
+$menu-list-link-color: $text-grey;
+$menu-list-link-hover-background-color: transparent;
+$menu-list-link-hover-color: $primary;
+$menu-list-link-active-color: $heading-dark-blue;
+$menu-list-link-active-background-color: transparent;
