@@ -2,8 +2,7 @@
   <div class="header__column">
     <a class="header__logo" href="{{ '/' | relative_url }}" aria-label="Spruce CSS Eleventy Documentation Template">
       <!-- Your SVG Logo -->
-      {% include logo.svg %}
-    </a>
+   <img class="image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">    </a>
     <nav class="header__navigation">
       <!-- We will make this navigation dynamic later -->
       <ul>

@@ -2,7 +2,6 @@
 layout: default
 title: Bangalore Job Seekers Guide
 description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections"
-image: /assets/logos/logo.svg
 ---
 <div class="js-container">
         <h1 class="h1">Full-Fledged Custom Theme</h1>
