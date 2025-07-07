@@ -35,32 +35,25 @@
   </div>
 
 <div class="modal-backdrop">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
 
-        <!-- Search Form (Adapted from your code) -->
-        <form id="search-form" onsubmit="event.preventDefault(); return false;" role="search" class="search-form-container">
-            <h2 id="search-modal-title" class="sr-only">Site Search</h2>
-            <div class="form-group-with-button">
-                <input class="form-control" type="text" placeholder="Search posts, guides, stories..." name="q" id="search-input" autocomplete="off">
-                <button type="submit" id="search-submit-button" class="btn btn--primary">
-                    <!-- The JS will handle showing/hiding these spans -->
-                    <span class="search-button-icon">
-                        <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" style="fill:currentColor;"><path d="M19.501,9.75c-0,2.152 -0.699,4.14 -1.875,5.752l5.935,5.94c0.585,0.586 0.585,1.537 -0,2.123c-0.586,0.586 -1.538,0.586 -2.124,0l-5.935,-5.939c-1.612,1.181 -3.6,1.875 -5.752,1.875c-5.386,-0 -9.75,-4.364 -9.75,-9.751c0,-5.386 4.364,-9.75 9.75,-9.75c5.387,-0 9.751,4.364 9.751,9.75Zm-9.751,6.751c3.704,-0 6.751,-3.047 6.751,-6.751c-0,-3.703 -3.047,-6.75 -6.751,-6.75c-3.703,0 -6.75,3.047 -6.75,6.75c0,3.704 3.047,6.751 6.75,6.751Z"></path></svg>
-                    </span>
-                    <span class="search-button-text">Search</span>
-                    <span class="search-button-loading" style="display: none;">Loading...</span>
-                </button>
-            </div>
-        </form>
-
-        <!-- Search Results will be injected here by JavaScript -->
-        <div id="search-results-container" class="search-results-container">
-            <!-- Example: <div class="search-results__message">Start typing to see results.</div> -->
+    <!-- The form and results will now be direct children of the modal -->
+    <form id="search-form" role="search" onsubmit="event.preventDefault();">
+        <h2 id="search-modal-title" class="sr-only">Site Search</h2>
+        <div class="form-group-with-button">
+            <input class="form-control" type="text" placeholder="Search posts, guides, stories..." id="search-input" autocomplete="off">
+            <button type="submit" id="search-submit-button" class="btn btn--primary">
+                Search
+            </button>
         </div>
+    </form>
 
+    <div id="search-results-container" class="search-results-container">
+        <!-- JS will populate this area -->
     </div>
-</div>
 
+  </div>
+</div>
 <!-- Add some basic CSS for the new classes in your main stylesheet -->
 <style>
     .form-group-with-button {
@@ -128,21 +121,22 @@
     let isModalOpen = false;
     let searchDebounceTimer;
 
-    // --- Modal Management ---
-    function openModal() {
-        if (isModalOpen) return;
-        modalBackdrop.classList.add('modal-backdrop--open');
-        document.body.style.overflow = 'hidden';
-        searchInput.focus();
-        isModalOpen = true;
-    }
+// --- Modal Management ---
+function openModal() {
+    if (isModalOpen) return;
+    // This is the only class we need to toggle
+    modalBackdrop.classList.add('modal-backdrop--open'); 
+    document.body.style.overflow = 'hidden';
+    searchInput.focus(); // This should now work correctly
+    isModalOpen = true;
+}
 
-    function closeModal() {
-        if (!isModalOpen) return;
-        modalBackdrop.classList.remove('modal-backdrop--open');
-        document.body.style.overflow = '';
-        isModalOpen = false;
-    }
+function closeModal() {
+    if (!isModalOpen) return;
+    modalBackdrop.classList.remove('modal-backdrop--open');
+    document.body.style.overflow = '';
+    isModalOpen = false;
+}
 
     // --- Search Logic (Your original logic is excellent, we keep it) ---
     function findResults(termToMatch, dataToSearch) {

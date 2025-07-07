@@ -1,3 +1,32 @@
 @import "./sprucemain";
 @import "./spruce";
 @import "./home";
+
+/* --- Search Modal Fixes --- */
+
+.modal-backdrop {
+    /* ... your existing styles like background-color, etc. ... */
+    position: fixed;
+    inset: 0;
+    z-index: 50; /* A high z-index to be on top of other page content */
+    display: none; /* Keep this */
+    
+    /* Add these to center the modal inside */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal-backdrop--open {
+    display: flex; /* Changed from 'block' to 'flex' to enable centering */
+}
+
+.modal {
+    /* ... your existing styles like background-color, padding, etc. ... */
+    position: relative; /* This is key */
+    z-index: 51; /* MUST be higher than the backdrop's z-index */
+    width: 100%;
+    max-width: 40rem; /* Or your preferred max-width */
+    margin: 1rem auto;
+}
