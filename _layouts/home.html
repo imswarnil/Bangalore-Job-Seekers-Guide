@@ -12,51 +12,12 @@
 
    
     <div class="l-main">
-
       <!-- ======================================================= -->
       <!-- 3. DYNAMIC SIDEBAR SECTION (The core logic is here)     -->
       <!-- ======================================================= -->
-      <aside class="sidebar l-main__sidebar">
-        <div class="sidebar__body">
-            
-            <!-- This Liquid code groups all your posts by their 'category' front matter -->
-            {% assign posts_by_category = site.posts | group_by: "category" %}
-    
-            <!-- Now, we loop through each category group to create a navigation section -->
-            {% for category_group in posts_by_category %}
-              <div class="sidebar-section">
-                <h3 class="sidebar-section__title">{{ category_group.name }}</h3>
-                <nav class="sidebar-section__navigation">
-                  <ul>
-                    <!-- 
-                      Then, we loop through the posts within this category.
-                      We use 'reverse' to show OLDEST posts first. Remove '| reverse' to show newest first.
-                    -->
-                    {% for post in category_group.items | reverse %}
-                      <li>
-                        <!-- This checks if the current page is the one being linked to and adds an attribute for styling -->
-                        <a href="{{ post.url | relative_url }}" {% if page.url == post.url %}aria-current="page"{% endif %}>
-                          {{ post.title }}
-                        </a>
-                      </li>
-                    {% endfor %}
-                  </ul>
-                </nav>
-              </div>
-            {% endfor %}
-            
-        </div>
-        <div class="sidebar__footer">© Some Data Here</div>
-      </aside>
-
-
+            {% include sidebar.html %}    
       <div class="l-main__body">
         <main id="content">
-          <!-- ======================================================= -->
-          <!-- 4. DYNAMIC CONTENT AREA                                 -->
-          <!-- This is where the content of your index.html or     -->
-          <!-- individual post files will be injected.             -->
-          <!-- ======================================================= -->
           {{ content }}
         </main>
         
