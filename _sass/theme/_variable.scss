@@ -1,0 +1,84 @@
+/* ==========================================================================
+   THEME VARIABLES - GOOGLE MATERIAL DESIGN
+   ========================================================================== */
+
+@charset "utf-8";
+
+// 1. Import Google's Roboto Font
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+// 2. Set the primary font family
+$family-sans-serif: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+// 3. Define the Material Design Color Palette
+//    Using Sass variables allows us to use them in functions later.
+$google-blue: #1a73e8;
+$google-red: #ea4335;
+$google-yellow: #fbbc05;
+$google-green: #34a853;
+
+$text-dark: #202124;    // Primary text
+$text-light: #5f6368;   // Secondary text
+$border-color: #dadce0; // Borders
+$background-light: #f8f9fa; // Page background
+$white: #ffffff;
+
+// 4. Override Bulma's initial variables
+//    These variables MUST be defined before importing Bulma.
+
+// Theme Colors
+$primary: $google-blue;
+$info: $google-blue;
+$success: $google-green;
+$warning: $google-yellow;
+$danger: $google-red;
+
+// Invert colors (Bulma will calculate these automatically, but we can set them)
+$primary-invert: $white;
+$info-invert: $white;
+$success-invert: $white;
+$warning-invert: findColorInvert($warning); // Let Bulma decide the best contrast
+$danger-invert: $white;
+
+// Typography
+$body-background-color: $background-light;
+$text: $text-dark;
+$text-light: $text-light;
+$text-strong: $text-dark;
+
+$weight-medium: 500;
+$weight-semibold: 500; // Align semibold with medium for Material style
+
+// Links
+$link: $primary;
+$link-hover: darken($primary, 5%);
+$link-focus-border: $primary;
+
+// General Look & Feel (Borders, Radius)
+$border: $border-color;
+$radius-small: 4px;
+$radius: 8px;
+$radius-large: 16px;
+
+// Component-specific variables
+$button-weight: $weight-medium;
+$input-radius: $radius-small;
+$input-focus-border-color: $primary;
+$input-shadow: none;
+
+$card-radius: $radius;
+$card-shadow: none; // We will handle shadows with a custom mixin
+$card-background-color: $white;
+$card-header-shadow: none;
+$card-header-weight: $weight-medium;
+
+$box-radius: $radius;
+$box-shadow: none; // We will handle shadows with a custom mixin
+
+$navbar-background-color: $white;
+$navbar-height: 4rem;
+$navbar-item-color: $text-light;
+$navbar-item-hover-color: $text;
+$navbar-item-hover-background-color: rgba($primary, 0.08);
+$navbar-item-active-color: $primary;
+$navbar-item-active-background-color: rgba($primary, 0.12);
