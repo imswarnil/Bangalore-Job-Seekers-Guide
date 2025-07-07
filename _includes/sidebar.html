@@ -1,0 +1,28 @@
+<aside class="sidebar l-main__sidebar">
+  <div class="sidebar__body">
+    <div class="sidebar-section sidebar-section--navigation">
+      <h3 class="sidebar-section__title">Navigation</h3>
+      <nav class="sidebar-section__navigation">
+        <!-- Static part of the sidebar navigation -->
+      </nav>
+    </div>
+    
+    <!-- DYNAMIC SECTIONS WILL GO HERE -->
+    {% for collection in site.collections %}
+      {% if collection.label == "getting-started" or collection.label == "customization" %}
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">{{ collection.title }}</h3>
+          <nav class="sidebar-section__navigation">
+            <ul>
+            {% for doc in collection.docs %}
+              <li><a href="{{ doc.url | relative_url }}">{{ doc.data.title }}</a></li>
+            {% endfor %}
+            </ul>
+          </nav>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+  <div class="sidebar__footer">© 2023 - Some rights reserved.</div>
+</aside>

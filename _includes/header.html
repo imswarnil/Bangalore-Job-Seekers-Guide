@@ -1,0 +1,21 @@
+<header class="header">
+  <div class="header__column">
+    <a class="header__logo" href="{{ '/' | relative_url }}" aria-label="Spruce CSS Eleventy Documentation Template">
+      <!-- Your SVG Logo -->
+      {% include logo.svg %}
+    </a>
+    <nav class="header__navigation">
+      <!-- We will make this navigation dynamic later -->
+      <ul>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="https://sprucecss.com" target="_blank" rel="noopener">Spruce CSS <span class="sr-only">Open in new window</span> <svg...></svg></a></li>
+      </ul>
+    </nav>
+    <button class="btn btn--primary btn--icon header__toggle" data-action="sidebar-toggle" aria-controls="primary-menu" aria-expanded="true" aria-label="Toogle navigation"><svg...></svg></button>
+  </div>
+  <div class="header__actions">
+    <!-- Search, theme switcher, social links... -->
+    <!-- ... paste that whole section here -->
+  </div>
+</header>

@@ -1,16 +1,37 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: 'en-US' }}">
-{% include head.html %}
-<body data-theme="light"> <!-- Or "dark" -->
+<body class="site-wrapper">
+  
+  <a class="btn btn--primary skip-link" href="#content">Skip to content</a>
 
-    {% include navbar.html %}
+  <div class="container container--wide">
+    
+    {% include header.html %}
 
-     <main class="js-container">
-        {{ content }}
-    </main>
-    
-    {% include footer.html %}
-    
-    {% include head/sw.html %}
+    <div class="l-main">
+      
+      {% include sidebar.html %}
+      
+      <div class="l-main__body">
+        <main id="content">
+          <!-- The content from your individual pages will go here -->
+          {{ content }}
+        </main>
+        
+        {% include footer.html %}
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-backdrop">
+    <!-- Modal content remains, it's part of the global layout -->
+    <div class="modal" role="dialog" aria-modal="true"><div id="search" class="search"></div></div>
+  </div>
+
+  <!-- Use relative_url for all your JS files -->
+  <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>
+  <script src="{{ '/assets/js/theme-change-assets.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/navigation.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/theme-switcher.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/modal.js' | relative_url }}" defer="defer"></script>
+  <script src="{{ '/assets/js/accordion-card.js' | relative_url }}" defer="defer"></script>
 </body>
-</html>
