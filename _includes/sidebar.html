@@ -1,28 +1,32 @@
 <aside class="sidebar l-main__sidebar">
   <div class="sidebar__body">
-    <div class="sidebar-section sidebar-section--navigation">
-      <h3 class="sidebar-section__title">Navigation</h3>
-      <nav class="sidebar-section__navigation">
-        <!-- Static part of the sidebar navigation -->
-      </nav>
-    </div>
     
-    <!-- DYNAMIC SECTIONS WILL GO HERE -->
-    {% for collection in site.collections %}
-      {% if collection.label == "getting-started" or collection.label == "customization" %}
-        <div class="sidebar-section">
-          <h3 class="sidebar-section__title">{{ collection.title }}</h3>
-          <nav class="sidebar-section__navigation">
-            <ul>
-            {% for doc in collection.docs %}
-              <li><a href="{{ doc.url | relative_url }}">{{ doc.data.title }}</a></li>
+    <!-- This liquid magic groups all your posts by category -->
+    {% assign posts_by_category = site.posts | group_by: "category" %}
+
+    <!-- Now we loop through each category group -->
+    {% for category_group in posts_by_category %}
+      <div class="sidebar-section">
+        <h3 class="sidebar-section__title">{{ category_group.name }}</h3>
+        <nav class="sidebar-section__navigation">
+          <ul>
+            <!-- 
+              Loop through the posts within this category.
+              We reverse the list to show OLDEST first, as you requested.
+            -->
+            {% for post in category_group.items | reverse %}
+              <li>
+                <!-- Add an 'active' indicator for the current page -->
+                <a href="{{ post.url | relative_url }}" {% if page.url == post.url %}aria-current="page"{% endif %}>
+                  {{ post.title }}
+                </a>
+              </li>
             {% endfor %}
-            </ul>
-          </nav>
-        </div>
-      {% endif %}
+          </ul>
+        </nav>
+      </div>
     {% endfor %}
 
   </div>
-  <div class="sidebar__footer">© 2023 - Some rights reserved.</div>
+  <div class="sidebar__footer">© {% now 'YYYY' %} - {{ site.author }}</div>
 </aside>

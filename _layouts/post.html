@@ -1,59 +1,46 @@
 ---
 layout: default
 ---
-<section class="section">
-  <div class="container">
+<article class="post-content">
+  <header class="post-heading">
+    <!-- You can use the 'category' as a headline -->
+    <p class="post-heading__headline">{{ page.category }}</p>
     
-    <!-- Creative Post Header -->
-    <header class="post-header-creative">
-      {% if page.image %}
-        <figure class="image is-3by1">
-          <img src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}" class="post-feature-image">
-        </figure>
-      {% endif %}
-      <div style="max-width: 800px; margin: 3rem auto 0 auto;">
-        <h1 class="title is-1">{{ page.title }}</h1>
-        <p class="post-meta">
-          {% if page.author %}By {{ page.author }} · {% endif %}
-          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-          {% if page.type %} · <span class="tag timeline-category-tag tag-type-{{ page.type | slugify }}">{{ page.type | replace: "-", " " | capitalize }}</span>{% endif %}
-        </p>
-      </div>
-    </header>
-
-    <hr style="max-width: 800px; margin: 3rem auto;">
+    <h1 class="post-heading__title">{{ page.title }}</h1>
     
-    <!-- Main Three-Column Layout -->
-    <div class="columns is-centered">
-      <!-- MAIN ARTICLE BODY -->
-      <div class="column is-7-desktop">
-        <article class="post-article">
-          <div class="content post-content">
-            {{ content }}
-          </div>
-          {% if page.comments %}
-            <hr>
-            <div id="comments">
-              <h2 class="title is-4">Comments</h2>
-              <p>Comments are enabled for this post.</p>
-            </div>
-          {% endif %}
-        </article>
-      </div>
+    <!-- Display post meta data -->
+    <p class="post-heading__description">
+      Published on {{ page.date | date: "%B %d, %Y" }} by {{ page.author }}.
+    </p>
 
-      <!-- RIGHT WIDGETS SIDEBAR (Optional) -->
-      <div class="column is-3-desktop is-hidden-touch">
-        <div class="post-sidebar-sticky-wrapper">
-          <div class="widget-box">
-            <h2 class="widget-title">On this page</h2>
-            {% include toc.html html=content %}
-          </div>
-          <div class="widget-box">
-            <h2 class="widget-title">Advertisement</h2>
-            <div class="adsense-placeholder" style="background: #f0f2f5; border: 1px dashed #d1d9e6; display:flex; align-items:center; justify-content:center; min-height: 250px;"><p>300 x 250 Ad</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    {% if page.TLDR %}
+      <blockquote class="quote">
+        <p><strong>TL;DR:</strong> {{ page.TLDR }}</p>
+      </blockquote>
+    {% endif %}
+  </header>
+
+  {% if page.image %}
+    <figure>
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+    </figure>
+  {% endif %}
+
+  <!-- This is where the main markdown content of your post will be rendered -->
+  {{ content }}
+
+</article>
+
+<!-- Optional: Simple Previous/Next Post Navigation -->
+<nav class="post-navigation">
+  {% if page.previous.url %}
+  <a href="{{ page.previous.url | relative_url }}" class="post-navigation-item">
+    <!-- Previous post content -->
+  </a>
+  {% endif %}
+  {% if page.next.url %}
+  <a href="{{ page.next.url | relative_url }}" class="post-navigation-item post-navigation-item--next">
+    <!-- Next post content -->
+  </a>
+  {% endif %}
+</nav>
