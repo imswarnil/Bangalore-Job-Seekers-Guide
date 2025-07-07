@@ -1,0 +1,28 @@
+//==============================================================
+// PROJECT: BLUEPRINT : ANIMATIONS
+//==============================================================
+
+// A subtle fade-in animation for content loading
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// A glowing animation for active states
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px rgba($primary, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba($primary, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba($primary, 0.2);
+  }
+}
