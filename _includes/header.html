@@ -4,12 +4,35 @@
         <img class="image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">
         </a>
         <nav class="header__navigation">
-            <ul>
-                <li><a href="/faq/">FAQ</a></li>
-                <li><a href="/changelog/">Changelog</a></li>
-                <li><a href="https://sprucecss.com" target="_blank" rel="noopener">Spruce CSS <span class="sr-only">Open in new window</span> <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg></a></li>
-            </ul>
-        </nav>
+  <ul>
+    <!-- This loop reads each item from 'site.navbar' in your _config.yml -->
+    {% for item in site.navbar %}
+    <li>
+      <!-- 
+        This 'if' statement checks if the link is external.
+        It looks for '://' (like in https://) to decide.
+      -->
+      {% if item.link contains '://' %}
+      
+        <!-- IF IT IS EXTERNAL: Add target="_blank" and the SVG icon -->
+        <a href="{{ item.link }}" target="_blank" rel="noopener">
+          {{ item.name }}
+          <span class="sr-only">Open in new window</span>
+          <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M1.111,1.907c0,1.049 0.858,1.908 1.907,1.908l14.478,-0l-16.938,16.938c-0.744,0.744 -0.744,1.945 -0,2.689c0.744,0.744 1.945,0.744 2.689,0l16.938,-16.938l0,14.478c0,1.049 0.859,1.907 1.908,1.907c1.049,-0 1.907,-0.858 1.907,-1.907l0,-19.075c0,-1.049 -0.858,-1.907 -1.907,-1.907l-19.075,0c-1.049,0 -1.907,0.858 -1.907,1.907Z"></path></svg>
+        </a>
+
+      {% else %}
+      
+        <!-- IF IT IS INTERNAL: Create a simple link -->
+        <a href="{{ item.link | relative_url }}">
+          {{ item.name }}
+        </a>
+
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
         <button class="btn btn--primary btn--icon header__toggle" data-action="sidebar-toggle" aria-controls="primary-menu" aria-expanded="true" aria-label="Toogle navigation"><svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" width="24" height="24" class="btn__icon"><path d="M24,19.6c0,-0.331 -0.269,-0.6 -0.6,-0.6l-20.8,0c-0.331,0 -0.6,0.269 -0.6,0.6l0,2.8c0,0.331 0.269,0.6 0.6,0.6l20.8,-0c0.331,-0 0.6,-0.269 0.6,-0.6l0,-2.8Zm0,-9c0,-0.331 -0.269,-0.6 -0.6,-0.6l-22.8,-0c-0.331,-0 -0.6,0.269 -0.6,0.6l0,2.8c0,0.331 0.269,0.6 0.6,0.6l22.8,-0c0.331,-0 0.6,-0.269 0.6,-0.6l0,-2.8Zm0,-9c0,-0.331 -0.269,-0.6 -0.6,-0.6l-15.8,-0c-0.331,-0 -0.6,0.269 -0.6,0.6l0,2.8c0,0.331 0.269,0.6 0.6,0.6l15.8,-0c0.331,-0 0.6,-0.269 0.6,-0.6l0,-2.8Z"></path></svg></button>
       </div>
       <div class="header__actions">
