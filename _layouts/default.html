@@ -34,9 +34,12 @@
 
   </div>
 
-  <!-- 
-  This entire block of code can be saved as `_includes/search-modal.html`
-  and included in your main layout file (e.g., default.html) before the closing </body> tag.
+
+  <!--
+  This is the complete and corrected code for your search modal.
+  It includes the HTML structure, the necessary CSS to fix the "freezing" issue,
+  and the JavaScript to manage everything.
+  Save this as `_includes/search-modal.html`
 -->
 
 <!-- =================================== -->
@@ -59,7 +62,6 @@
   </div>
 </div>
 
-
 <!-- =================================== -->
 <!--          SEARCH MODAL CSS           -->
 <!-- =================================== -->
@@ -67,18 +69,19 @@
     /* --- Modal Structure & Visibility --- */
     .modal-backdrop {
         position: fixed;
-        inset: 0; /* Cover the whole screen (top, right, bottom, left = 0) */
-        background-color: rgba(10, 22, 41, 0.5); /* Semi-transparent dark blue background */
-        backdrop-filter: blur(4px); /* Modern blur effect */
-        z-index: 100; /* Ensure it's on top of other page content */
+        inset: 0; /* Cover the whole screen */
+        background-color: rgba(10, 22, 41, 0.5); /* A dark, semi-transparent background */
+        backdrop-filter: blur(4px);
+        z-index: 100; /* Set a high z-index for the backdrop */
         
         /* By default, it's hidden */
         display: none; 
 
-        /* Use flexbox to center the modal inside */
+        /* Use flexbox to center the modal */
         align-items: flex-start; /* Align modal to the top */
         justify-content: center;
-        padding: 10vh 1rem 1rem 1rem; /* Add padding from the top */
+        padding-top: 15vh; /* Push modal down from the top */
+        padding-inline: 1rem;
     }
 
     /* This class is toggled by JavaScript to show the modal */
@@ -86,29 +89,30 @@
         display: flex;
     }
 
+    /* THIS IS THE CRUCIAL FIX */
     .modal {
         position: relative;
-        z-index: 101; /* MUST be higher than the backdrop's z-index to be clickable */
+        z-index: 101; /* MUST be higher than the backdrop's z-index */
         width: 100%;
-        max-width: 600px; /* A good width for a search modal */
+        max-width: 650px; /* A good width for a search modal */
         background-color: var(--spruce-base-color-background);
         border-radius: var(--spruce-border-radius-lg, 0.925rem);
-        box-shadow: var(--spruce-box-shadow, 0 0.75rem 1.25rem hsla(0, 0%, 0%, 0.05));
+        box-shadow: var(--spruce-box-shadow, 0 0.75rem 1.25rem hsla(0, 0%, 0%, 0.1));
         padding: clamp(1rem, 5vw, 1.5rem);
     }
-
+    
     /* --- Form & Results Styling --- */
     .form-group-with-button {
         display: flex;
         gap: 0.5rem;
     }
     .form-group-with-button .form-control {
-        flex-grow: 1; /* Make the input take up available space */
+        flex-grow: 1;
     }
     
     .search-results-container {
         margin-top: 1.5rem;
-        max-height: 60vh; /* Limit height and allow scrolling */
+        max-height: 60vh;
         overflow-y: auto;
     }
 
@@ -118,7 +122,7 @@
         border-radius: var(--spruce-border-radius, 0.425rem);
         text-decoration: none;
         color: var(--spruce-base-color-text);
-        border: 1px solid transparent; /* Use transparent border to prevent layout shift on hover */
+        border: 1px solid transparent;
         transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
     }
 
@@ -141,7 +145,6 @@
         line-height: 1.5;
     }
 
-    /* Highlight style using Spruce CSS variables */
     .search-result-item mark {
         background-color: var(--spruce-base-color-mark-background);
         color: var(--spruce-base-color-mark-foreground);
@@ -157,162 +160,162 @@
     }
 </style>
 
-
 <!-- =================================== -->
 <!--         SEARCH MODAL JAVASCRIPT     -->
 <!-- =================================== -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    // --- UI Element References ---
-    const openSearchButton = document.querySelector('.open-search');
-    const modalBackdrop = document.querySelector('.modal-backdrop');
-    const searchInput = document.getElementById('search-input');
-    const searchForm = document.getElementById('search-form');
-    const resultsContainer = document.getElementById('search-results-container');
-    
-    if (!openSearchButton || !modalBackdrop || !searchInput || !resultsContainer) {
-        console.error("One or more search UI elements are missing. Search will be disabled.");
-        if(openSearchButton) openSearchButton.style.display = 'none';
-        return;
-    }
+        // --- UI Element References ---
+        const openSearchButton = document.querySelector('.open-search');
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        const searchInput = document.getElementById('search-input');
+        const searchForm = document.getElementById('search-form');
+        const resultsContainer = document.getElementById('search-results-container');
+        
+        if (!openSearchButton || !modalBackdrop || !searchInput || !resultsContainer) {
+            console.error("Search UI components are missing. Search will be disabled.");
+            if(openSearchButton) openSearchButton.style.display = 'none';
+            return;
+        }
 
-    // --- State & Config ---
-    const siteBaseUrl = '{{ site.baseurl | default: "" }}';
-    const searchDataUrl = '{{ "/assets/search.json" | relative_url }}';
-    let searchData = [];
-    let isModalOpen = false;
-    let searchDebounceTimer;
+        // --- State & Config ---
+        const siteBaseUrl = '{{ site.baseurl | default: "" }}';
+        const searchDataUrl = '{{ "/assets/search.json" | relative_url }}';
+        let searchData = [];
+        let isModalOpen = false;
+        let searchDebounceTimer;
 
-    // --- Modal Management ---
-    function openModal() {
-        if (isModalOpen) return;
-        modalBackdrop.classList.add('modal-backdrop--open'); 
-        document.body.style.overflow = 'hidden';
-        searchInput.focus();
-        isModalOpen = true;
-    }
+        // --- Modal Management ---
+        function openModal() {
+            if (isModalOpen) return;
+            modalBackdrop.classList.add('modal-backdrop--open'); 
+            document.body.style.overflow = 'hidden';
+            searchInput.focus();
+            isModalOpen = true;
+        }
 
-    function closeModal() {
-        if (!isModalOpen) return;
-        modalBackdrop.classList.remove('modal-backdrop--open');
-        document.body.style.overflow = '';
-        isModalOpen = false;
-    }
+        function closeModal() {
+            if (!isModalOpen) return;
+            modalBackdrop.classList.remove('modal-backdrop--open');
+            document.body.style.overflow = '';
+            isModalOpen = false;
+        }
 
-    // --- Search Logic ---
-    function findResults(termToMatch, dataToSearch) {
-        if (!termToMatch) return [];
-        const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1);
-        if (terms.length === 0) return [];
+        // --- Search Logic (Your existing logic is excellent) ---
+        function findResults(termToMatch, dataToSearch) {
+            if (!termToMatch) return [];
+            const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1);
+            if (terms.length === 0) return [];
 
-        return dataToSearch.map(item => {
-            let score = 0;
-            const itemTitle = (item.title || '').toLowerCase();
-            const itemContent = (item.content || '').toLowerCase();
-            const itemDesc = (item.description || '').toLowerCase();
-            const itemTags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
-            const itemCategory = (item.category || '').toLowerCase();
+            return dataToSearch.map(item => {
+                let score = 0;
+                const itemTitle = (item.title || '').toLowerCase();
+                const itemContent = (item.content || '').toLowerCase();
+                const itemDesc = (item.description || '').toLowerCase();
+                const itemTags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
+                const itemCategory = (item.category || '').toLowerCase();
 
+                terms.forEach(term => {
+                    if (itemTitle.includes(term)) score += 12;
+                    if (itemDesc.includes(term)) score += 4;
+                    if (itemTags.includes(term)) score += 6;
+                    if (itemCategory.includes(term)) score += 8;
+                    if (itemContent.includes(term)) score += 1;
+                });
+                return { ...item, score };
+            }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
+        }
+        
+        // --- Rendering Logic ---
+        function highlightText(text, terms) {
+            if (!text || !terms || terms.length === 0) return text;
+            let sanitizedText = text.replace(/</g, "<").replace(/>/g, ">");
             terms.forEach(term => {
-                if (itemTitle.includes(term)) score += 12;
-                if (itemDesc.includes(term)) score += 4;
-                if (itemTags.includes(term)) score += 6;
-                if (itemCategory.includes(term)) score += 8;
-                if (itemContent.includes(term)) score += 1;
+                const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                sanitizedText = sanitizedText.replace(regex, '<mark>$1</mark>');
             });
-            return { ...item, score };
-        }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
-    }
-    
-    // --- Rendering Logic ---
-    function highlightText(text, terms) {
-        if (!text || !terms || terms.length === 0) return text;
-        // Sanitize text to prevent HTML injection
-        let sanitizedText = text.replace(/</g, "<").replace(/>/g, ">");
-        terms.forEach(term => {
-            const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            sanitizedText = sanitizedText.replace(regex, '<mark>$1</mark>');
-        });
-        return sanitizedText;
-    }
-    
-    function displayResults(results, query) {
-        const safeQuery = query.replace(/</g, "<").replace(/>/g, ">");
-        if (!query) {
-            resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
-            return;
+            return sanitizedText;
         }
-
-        if (results.length === 0) {
-            resultsContainer.innerHTML = `<div class="search-results__message">No results found for "<strong>${safeQuery}</strong>".</div>`;
-            return;
-        }
-
-        const terms = query.toLowerCase().split(' ').filter(term => term.length > 1);
-        resultsContainer.innerHTML = results.slice(0, 10).map(item => { // Show top 10 results
-            const url = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : (item.url || '#');
-            const title = item.title || 'Untitled';
-            const excerpt = (item.description || item.content || '').substring(0, 120) + '...';
-
-            return `<a href="${url}" class="search-result-item">
-                        <div class="search-result-item__title">${highlightText(title, terms)}</div>
-                        <div class="search-result-item__excerpt">${highlightText(excerpt, terms)}</div>
-                    </a>`;
-        }).join('');
-    }
-
-    // --- Event Handling ---
-    function handleSearch() {
-        clearTimeout(searchDebounceTimer);
-        searchDebounceTimer = setTimeout(() => {
-            const query = searchInput.value.trim();
-            const results = findResults(query, searchData);
-            displayResults(results, query);
-        }, 250); // Debounce for 250ms
-    }
-
-    function setupEventListeners() {
-        // Modal toggling
-        openSearchButton.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-        document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openModal(); } });
-        modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isModalOpen) closeModal(); });
-
-        // Search functionality
-        searchInput.addEventListener('input', handleSearch);
-        searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const firstResultLink = resultsContainer.querySelector('.search-result-item');
-            if(firstResultLink) {
-                window.location.href = firstResultLink.href;
+        
+        function displayResults(results, query) {
+            const safeQuery = query.replace(/</g, "<").replace(/>/g, ">");
+            if (!query) {
+                resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
+                return;
             }
-        });
-    }
 
-    // --- Initialization ---
-    function init() {
-        resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
-        fetch(searchDataUrl)
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                if (!Array.isArray(data)) throw new Error("Search data is not a valid JSON array.");
-                searchData = data;
-                setupEventListeners();
-                console.log("Custom search initialized.");
-            })
-            .catch(error => {
-                console.error("Could not initialize custom search:", error);
-                resultsContainer.innerHTML = `<div class="search-results__message" style="color: var(--spruce-alert-color-danger);">Error: Could not load search data.</div>`;
-                if(openSearchButton) openSearchButton.style.display = 'none';
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `<div class="search-results__message">No results found for "<strong>${safeQuery}</strong>".</div>`;
+                return;
+            }
+
+            const terms = query.toLowerCase().split(' ').filter(term => term.length > 1);
+            resultsContainer.innerHTML = results.slice(0, 7).map(item => { // Show top 7 results
+                const url = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : (item.url || '#');
+                const title = item.title || 'Untitled';
+                const excerpt = (item.description || item.content || '').substring(0, 120) + '...';
+
+                return `<a href="${url}" class="search-result-item">
+                            <div class="search-result-item__title">${highlightText(title, terms)}</div>
+                            <div class="search-result-item__excerpt">${highlightText(excerpt, terms)}</div>
+                        </a>`;
+            }).join('');
+        }
+
+        // --- Event Handling ---
+        function handleSearch() {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                const query = searchInput.value.trim();
+                const results = findResults(query, searchData);
+                displayResults(results, query);
+            }, 250); // Debounce for 250ms
+        }
+
+        function setupEventListeners() {
+            // Modal toggling
+            openSearchButton.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+            document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); openModal(); } });
+            modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isModalOpen) closeModal(); });
+
+            // Search functionality
+            searchInput.addEventListener('input', handleSearch);
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const firstResultLink = resultsContainer.querySelector('.search-result-item');
+                if(firstResultLink) {
+                    window.location.href = firstResultLink.href;
+                }
             });
-    }
+        }
 
-    init();
-});
+        // --- Initialization ---
+        function init() {
+            resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
+            fetch(searchDataUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data)) throw new Error("Search data is not a valid array.");
+                    searchData = data;
+                    setupEventListeners();
+                    console.log("Custom search initialized.");
+                })
+                .catch(error => {
+                    console.error("Could not initialize custom search:", error);
+                    resultsContainer.innerHTML = `<div class="search-results__message" style="color: var(--spruce-alert-color-danger);">Error: Could not load search data.</div>`;
+                    if(openSearchButton) openSearchButton.style.display = 'none';
+                });
+        }
+
+        init();
+    });
 </script>
+
+  
 
   <!-- Scripts -->
   <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>
