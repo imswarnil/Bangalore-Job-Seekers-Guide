@@ -2,6 +2,8 @@
 layout: default 
 ---
 
+    {% include adsense.html format="leaderboard" %}
+
 <article class="l-post" data-pagefind-body="">
     <div class="post-heading">
     <!-- Breadcrumbs can be made dynamic later with a plugin, for now we can simulate it -->
@@ -18,12 +20,12 @@ layout: default
   <!-- ============================================= -->
   <div class="l-post__toc toc" aria-labelledby="toc-title">
    {% include toc.html html=content h_min=2 h_max=3 %}
+    {% include adsense.html format="square" %}
+
   </div>
   
   <div class="l-post__content post-content">
     {{ content }}
-
-    {{ page.icon }}
   </div>
 
 </article>

@@ -1,0 +1,49 @@
+// =============================================
+// Adsense Component Styles
+// =============================================
+
+.ad-container {
+  position: relative;
+  display: block;
+  margin: 2rem auto; // Center the ad block with vertical spacing
+  padding: 1rem;
+  text-align: center; // Center the ad unit inside the container
+  border: 1px solid var(--spruce-base-color-border); // Use your theme's border color
+  border-radius: var(--spruce-border-radius); // Use your theme's border radius
+
+  // This ensures the ad unit itself takes up the available space
+  .adsbygoogle {
+    display: block;
+  }
+}
+
+.ad-label {
+  position: absolute;
+  top: -0.75em; // Position the label slightly above the container's top border
+  left: 50%;
+  transform: translateX(-50%); // Center the label perfectly
+  padding: 0.1em 0.5em;
+  font-size: var(--spruce-font-size-sm, 0.875rem); // Use your theme's small font size
+  font-family: var(--spruce-font-family-cursive, monospace); // Use a distinct font
+  color: var(--spruce-base-color-text); // Use your theme's text color
+  background-color: var(--spruce-base-color-background); // Use your theme's background color
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+// Optional: Add some specific styles for different formats if needed.
+// For example, ensuring the in-article ad doesn't have a border.
+.ad-container.ad-article {
+  border: none;
+  padding: 0;
+
+  .ad-label {
+    // Reposition the label for borderless in-article ads
+    position: static;
+    transform: none;
+    text-align: center;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+}
