@@ -28,9 +28,6 @@
         </ul>
       </nav>
     </div>
-
-       {% include adsense.html format="square" %}
-
     
     <!-- First, group all site posts by their category -->
     {% assign posts_by_category = site.posts | group_by: "category" %}
@@ -64,7 +61,5 @@
   <!-- ============================================= -->
   <div class="sidebar__footer">
        {% include adsense.html format="square" %}
-
-    © Some rights reserved.
   </div>
 </aside>
