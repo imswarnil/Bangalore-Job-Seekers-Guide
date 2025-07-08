@@ -1,6 +1,5 @@
 <aside class="sidebar l-main__sidebar">
   <div class="sidebar__body">
-
     <!-- ============================================= -->
     <!-- SECTION 1: STATIC NAVIGATION LINKS            -->
     <!-- This part builds the 'Navigation' section.    -->
@@ -30,10 +29,8 @@
       </nav>
     </div>
 
-    <!-- ============================================= -->
-    <!-- SECTION 2: DYNAMIC POSTS LISTS                -->
-    <!-- This part builds sections from post categories. -->
-    <!-- ============================================= -->
+       {% include adsense.html format="square" %}
+
     
     <!-- First, group all site posts by their category -->
     {% assign posts_by_category = site.posts | group_by: "category" %}
@@ -60,13 +57,14 @@
         </nav>
       </div>
     {% endfor %}
-
   </div>
 
   <!-- ============================================= -->
   <!-- SECTION 3: SIDEBAR FOOTER                     -->
   <!-- ============================================= -->
   <div class="sidebar__footer">
+       {% include adsense.html format="square" %}
+
     © Some rights reserved.
   </div>
 </aside>

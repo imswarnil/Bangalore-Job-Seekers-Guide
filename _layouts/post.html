@@ -20,14 +20,17 @@ layout: default
   <!-- ============================================= -->
   <div class="l-post__toc toc" aria-labelledby="toc-title">
    {% include toc.html html=content h_min=2 h_max=3 %}
-    {% include adsense.html format="square" %}
-
   </div>
+   {% include adsense.html format="square" %}
+
   
   <div class="l-post__content post-content">
     {{ content }}
   </div>
 
 </article>
+
+    {% include adsense.html format="leaderboard-large" %}
+
 
 {% include post-paginate.html %}
