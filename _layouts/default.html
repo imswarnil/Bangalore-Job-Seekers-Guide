@@ -34,10 +34,16 @@
 
   </div>
 
+  <!-- 
+  This entire block of code can be saved as `_includes/search-modal.html`
+  and included in your main layout file (e.g., default.html) before the closing </body> tag.
+-->
+
+<!-- =================================== -->
+<!--         SEARCH MODAL HTML           -->
+<!-- =================================== -->
 <div class="modal-backdrop">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
-
-    <!-- The form and results will now be direct children of the modal -->
     <form id="search-form" role="search" onsubmit="event.preventDefault();">
         <h2 id="search-modal-title" class="sr-only">Site Search</h2>
         <div class="form-group-with-button">
@@ -47,99 +53,124 @@
             </button>
         </div>
     </form>
-
     <div id="search-results-container" class="search-results-container">
-        <!-- JS will populate this area -->
+        <!-- JavaScript will populate this area -->
     </div>
-
   </div>
 </div>
-<!-- Add some basic CSS for the new classes in your main stylesheet -->
+
+
+<!-- =================================== -->
+<!--          SEARCH MODAL CSS           -->
+<!-- =================================== -->
 <style>
+    /* --- Modal Structure & Visibility --- */
+    .modal-backdrop {
+        position: fixed;
+        inset: 0; /* Cover the whole screen (top, right, bottom, left = 0) */
+        background-color: rgba(10, 22, 41, 0.5); /* Semi-transparent dark blue background */
+        backdrop-filter: blur(4px); /* Modern blur effect */
+        z-index: 100; /* Ensure it's on top of other page content */
+        
+        /* By default, it's hidden */
+        display: none; 
+
+        /* Use flexbox to center the modal inside */
+        align-items: flex-start; /* Align modal to the top */
+        justify-content: center;
+        padding: 10vh 1rem 1rem 1rem; /* Add padding from the top */
+    }
+
+    /* This class is toggled by JavaScript to show the modal */
+    .modal-backdrop--open {
+        display: flex;
+    }
+
+    .modal {
+        position: relative;
+        z-index: 101; /* MUST be higher than the backdrop's z-index to be clickable */
+        width: 100%;
+        max-width: 600px; /* A good width for a search modal */
+        background-color: var(--spruce-base-color-background);
+        border-radius: var(--spruce-border-radius-lg, 0.925rem);
+        box-shadow: var(--spruce-box-shadow, 0 0.75rem 1.25rem hsla(0, 0%, 0%, 0.05));
+        padding: clamp(1rem, 5vw, 1.5rem);
+    }
+
+    /* --- Form & Results Styling --- */
     .form-group-with-button {
         display: flex;
         gap: 0.5rem;
     }
     .form-group-with-button .form-control {
-        flex-grow: 1;
+        flex-grow: 1; /* Make the input take up available space */
     }
+    
     .search-results-container {
         margin-top: 1.5rem;
-        max-height: 60vh;
+        max-height: 60vh; /* Limit height and allow scrolling */
         overflow-y: auto;
     }
-    /* --- Add these rules to your existing <style> block --- */
 
-.modal-backdrop {
-    position: fixed;
-    inset: 0; /* Cover the whole screen */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    backdrop-filter: blur(4px); /* Modern blur effect */
-    z-index: 100; /* Ensure it's on top of everything */
-    
-    /* Center the modal inside */
-    display: none; /* HIDE THE MODAL BY DEFAULT */
-    align-items: flex-start; /* Align modal to the top */
-    justify-content: center;
-    padding: 10vh 1rem 1rem 1rem; /* Add some padding from the top */
-}
-
-/* This class will be toggled by JavaScript to show the modal */
-.modal-backdrop--open {
-    display: flex;
-}
-
-.modal {
-    position: relative;
-    z-index: 101; /* Ensure modal is on top of the backdrop */
-    width: 100%;
-    max-width: 600px; /* Or your preferred width */
-    background-color: var(--spruce-base-color-background);
-    border-radius: var(--spruce-border-radius-lg);
-    box-shadow: var(--spruce-box-shadow);
-    padding: clamp(1rem, 5vw, 1.5rem);
-}
     .search-result-item {
         display: block;
         padding: 0.75rem 1rem;
-        border-radius: var(--spruce-border-radius);
+        border-radius: var(--spruce-border-radius, 0.425rem);
         text-decoration: none;
         color: var(--spruce-base-color-text);
-        border: 1px solid rgba(0,0,0,0);
+        border: 1px solid transparent; /* Use transparent border to prevent layout shift on hover */
+        transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
     }
-    .search-result-item:hover {
+
+    .search-result-item:hover,
+    .search-result-item:focus {
         background-color: var(--spruce-base-color-code-background);
         border-color: var(--spruce-base-color-border);
+        outline: none;
     }
+
     .search-result-item__title {
         font-weight: 600;
         color: var(--spruce-base-color-heading);
     }
+
     .search-result-item__excerpt {
-        font-size: var(--spruce-font-size-sm);
+        font-size: var(--spruce-font-size-sm, 0.875rem);
         margin-top: 0.25rem;
+        color: var(--spruce-base-color-text);
+        line-height: 1.5;
     }
+
+    /* Highlight style using Spruce CSS variables */
     .search-result-item mark {
         background-color: var(--spruce-base-color-mark-background);
         color: var(--spruce-base-color-mark-foreground);
+        padding: 0;
+        border-radius: 2px;
     }
+
     .search-results__message {
         text-align: center;
-        padding: 2rem;
+        padding: 2.5rem 1rem;
         color: var(--spruce-base-color-text);
+        opacity: 0.8;
     }
 </style>
 
+
+<!-- =================================== -->
+<!--         SEARCH MODAL JAVASCRIPT     -->
+<!-- =================================== -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
     // --- UI Element References ---
     const openSearchButton = document.querySelector('.open-search');
     const modalBackdrop = document.querySelector('.modal-backdrop');
     const searchInput = document.getElementById('search-input');
-    const searchSubmitButton = document.getElementById('search-submit-button');
+    const searchForm = document.getElementById('search-form');
     const resultsContainer = document.getElementById('search-results-container');
     
-    if (!openSearchButton || !modalBackdrop || !searchInput || !searchSubmitButton || !resultsContainer) {
+    if (!openSearchButton || !modalBackdrop || !searchInput || !resultsContainer) {
         console.error("One or more search UI elements are missing. Search will be disabled.");
         if(openSearchButton) openSearchButton.style.display = 'none';
         return;
@@ -147,29 +178,28 @@
 
     // --- State & Config ---
     const siteBaseUrl = '{{ site.baseurl | default: "" }}';
-    const endpoint = '{{ "/assets/search.json" | relative_url }}';
+    const searchDataUrl = '{{ "/assets/search.json" | relative_url }}';
     let searchData = [];
     let isModalOpen = false;
     let searchDebounceTimer;
 
-// --- Modal Management ---
-function openModal() {
-    if (isModalOpen) return;
-    // This is the only class we need to toggle
-    modalBackdrop.classList.add('modal-backdrop--open'); 
-    document.body.style.overflow = 'hidden';
-    searchInput.focus(); // This should now work correctly
-    isModalOpen = true;
-}
+    // --- Modal Management ---
+    function openModal() {
+        if (isModalOpen) return;
+        modalBackdrop.classList.add('modal-backdrop--open'); 
+        document.body.style.overflow = 'hidden';
+        searchInput.focus();
+        isModalOpen = true;
+    }
 
-function closeModal() {
-    if (!isModalOpen) return;
-    modalBackdrop.classList.remove('modal-backdrop--open');
-    document.body.style.overflow = '';
-    isModalOpen = false;
-}
+    function closeModal() {
+        if (!isModalOpen) return;
+        modalBackdrop.classList.remove('modal-backdrop--open');
+        document.body.style.overflow = '';
+        isModalOpen = false;
+    }
 
-    // --- Search Logic (Your original logic is excellent, we keep it) ---
+    // --- Search Logic ---
     function findResults(termToMatch, dataToSearch) {
         if (!termToMatch) return [];
         const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1);
@@ -194,25 +224,27 @@ function closeModal() {
         }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
     }
     
-    // --- Rendering Logic (Adapted for the new modal UI) ---
+    // --- Rendering Logic ---
     function highlightText(text, terms) {
         if (!text || !terms || terms.length === 0) return text;
-        let highlighted = text.replace(/</g, "<").replace(/>/g, ">");
+        // Sanitize text to prevent HTML injection
+        let sanitizedText = text.replace(/</g, "<").replace(/>/g, ">");
         terms.forEach(term => {
             const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            highlighted = highlighted.replace(regex, '<mark>$1</mark>');
+            sanitizedText = sanitizedText.replace(regex, '<mark>$1</mark>');
         });
-        return highlighted;
+        return sanitizedText;
     }
     
     function displayResults(results, query) {
+        const safeQuery = query.replace(/</g, "<").replace(/>/g, ">");
         if (!query) {
             resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
             return;
         }
 
         if (results.length === 0) {
-            resultsContainer.innerHTML = `<div class="search-results__message">No results found for "<strong>${query}</strong>".</div>`;
+            resultsContainer.innerHTML = `<div class="search-results__message">No results found for "<strong>${safeQuery}</strong>".</div>`;
             return;
         }
 
@@ -236,7 +268,7 @@ function closeModal() {
             const query = searchInput.value.trim();
             const results = findResults(query, searchData);
             displayResults(results, query);
-        }, 200); // Debounce for 200ms
+        }, 250); // Debounce for 250ms
     }
 
     function setupEventListeners() {
@@ -248,10 +280,8 @@ function closeModal() {
 
         // Search functionality
         searchInput.addEventListener('input', handleSearch);
-        document.getElementById('search-form').addEventListener('submit', (e) => {
+        searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // The live search on input is usually sufficient, but you can add more logic here if needed.
-            // For example, redirect to a search page with the first result.
             const firstResultLink = resultsContainer.querySelector('.search-result-item');
             if(firstResultLink) {
                 window.location.href = firstResultLink.href;
@@ -262,7 +292,7 @@ function closeModal() {
     // --- Initialization ---
     function init() {
         resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
-        fetch(endpoint)
+        fetch(searchDataUrl)
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 return response.json();
@@ -276,7 +306,7 @@ function closeModal() {
             .catch(error => {
                 console.error("Could not initialize custom search:", error);
                 resultsContainer.innerHTML = `<div class="search-results__message" style="color: var(--spruce-alert-color-danger);">Error: Could not load search data.</div>`;
-                openSearchButton.style.display = 'none';
+                if(openSearchButton) openSearchButton.style.display = 'none';
             });
     }
 
