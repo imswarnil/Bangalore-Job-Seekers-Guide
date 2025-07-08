@@ -37,8 +37,6 @@
 
   <!--
   This is the complete and corrected code for your search modal.
-  It includes the HTML structure, the necessary CSS to fix the "freezing" issue,
-  and the JavaScript to manage everything.
   Save this as `_includes/search-modal.html`
 -->
 
@@ -62,46 +60,44 @@
   </div>
 </div>
 
+
 <!-- =================================== -->
 <!--          SEARCH MODAL CSS           -->
 <!-- =================================== -->
 <style>
-    /* --- Modal Structure & Visibility --- */
     .modal-backdrop {
         position: fixed;
-        inset: 0; /* Cover the whole screen */
-        background-color: rgba(10, 22, 41, 0.5); /* A dark, semi-transparent background */
+        inset: 0;
+        background-color: rgba(10, 22, 41, 0.5);
         backdrop-filter: blur(4px);
-        z-index: 100; /* Set a high z-index for the backdrop */
-        
-        /* By default, it's hidden */
-        display: none; 
-
-        /* Use flexbox to center the modal */
-        align-items: flex-start; /* Align modal to the top */
-        justify-content: center;
-        padding-top: 15vh; /* Push modal down from the top */
+        z-index: 100;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        padding-top: 15vh;
         padding-inline: 1rem;
+        text-align: center;
+        overflow-y: auto; /* Allow scrolling if modal is too tall */
     }
 
-    /* This class is toggled by JavaScript to show the modal */
     .modal-backdrop--open {
-        display: flex;
+        display: block;
+        opacity: 1;
     }
 
-    /* THIS IS THE CRUCIAL FIX */
     .modal {
+        display: inline-block;
+        text-align: left;
         position: relative;
-        z-index: 101; /* MUST be higher than the backdrop's z-index */
         width: 100%;
-        max-width: 650px; /* A good width for a search modal */
+        max-width: 650px;
         background-color: var(--spruce-base-color-background);
         border-radius: var(--spruce-border-radius-lg, 0.925rem);
         box-shadow: var(--spruce-box-shadow, 0 0.75rem 1.25rem hsla(0, 0%, 0%, 0.1));
         padding: clamp(1rem, 5vw, 1.5rem);
+        margin-bottom: 5vh;
     }
-    
-    /* --- Form & Results Styling --- */
+
     .form-group-with-button {
         display: flex;
         gap: 0.5rem;
@@ -126,8 +122,7 @@
         transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
     }
 
-    .search-result-item:hover,
-    .search-result-item:focus {
+    .search-result-item:hover, .search-result-item:focus {
         background-color: var(--spruce-base-color-code-background);
         border-color: var(--spruce-base-color-border);
         outline: none;
@@ -201,12 +196,11 @@
             isModalOpen = false;
         }
 
-        // --- Search Logic (Your existing logic is excellent) ---
+        // --- Search & Rendering Logic ---
         function findResults(termToMatch, dataToSearch) {
             if (!termToMatch) return [];
             const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1);
             if (terms.length === 0) return [];
-
             return dataToSearch.map(item => {
                 let score = 0;
                 const itemTitle = (item.title || '').toLowerCase();
@@ -214,7 +208,6 @@
                 const itemDesc = (item.description || '').toLowerCase();
                 const itemTags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
                 const itemCategory = (item.category || '').toLowerCase();
-
                 terms.forEach(term => {
                     if (itemTitle.includes(term)) score += 12;
                     if (itemDesc.includes(term)) score += 4;
@@ -226,7 +219,6 @@
             }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
         }
         
-        // --- Rendering Logic ---
         function highlightText(text, terms) {
             if (!text || !terms || terms.length === 0) return text;
             let sanitizedText = text.replace(/</g, "<").replace(/>/g, ">");
@@ -243,18 +235,15 @@
                 resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
                 return;
             }
-
             if (results.length === 0) {
                 resultsContainer.innerHTML = `<div class="search-results__message">No results found for "<strong>${safeQuery}</strong>".</div>`;
                 return;
             }
-
             const terms = query.toLowerCase().split(' ').filter(term => term.length > 1);
-            resultsContainer.innerHTML = results.slice(0, 7).map(item => { // Show top 7 results
+            resultsContainer.innerHTML = results.slice(0, 7).map(item => {
                 const url = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : (item.url || '#');
                 const title = item.title || 'Untitled';
                 const excerpt = (item.description || item.content || '').substring(0, 120) + '...';
-
                 return `<a href="${url}" class="search-result-item">
                             <div class="search-result-item__title">${highlightText(title, terms)}</div>
                             <div class="search-result-item__excerpt">${highlightText(excerpt, terms)}</div>
@@ -262,24 +251,21 @@
             }).join('');
         }
 
-        // --- Event Handling ---
+        // --- Event Handling & Initialization ---
         function handleSearch() {
             clearTimeout(searchDebounceTimer);
             searchDebounceTimer = setTimeout(() => {
                 const query = searchInput.value.trim();
                 const results = findResults(query, searchData);
                 displayResults(results, query);
-            }, 250); // Debounce for 250ms
+            }, 250);
         }
 
         function setupEventListeners() {
-            // Modal toggling
             openSearchButton.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
             document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); openModal(); } });
             modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isModalOpen) closeModal(); });
-
-            // Search functionality
             searchInput.addEventListener('input', handleSearch);
             searchForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -290,7 +276,6 @@
             });
         }
 
-        // --- Initialization ---
         function init() {
             resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
             fetch(searchDataUrl)
@@ -302,7 +287,7 @@
                     if (!Array.isArray(data)) throw new Error("Search data is not a valid array.");
                     searchData = data;
                     setupEventListeners();
-                    console.log("Custom search initialized.");
+                    console.log("Custom search initialized successfully.");
                 })
                 .catch(error => {
                     console.error("Could not initialize custom search:", error);
