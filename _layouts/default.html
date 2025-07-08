@@ -34,119 +34,107 @@
 
   </div>
 
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
 
-  <!--
-  ======================================================================
-  COMPLETE SEARCH MODAL SOLUTION
-  Place this entire block at the bottom of your `_layouts/default.html` file.
-  ======================================================================
--->
+        <!-- Search Form (Adapted from your code) -->
+        <form id="search-form" onsubmit="event.preventDefault(); return false;" role="search" class="search-form-container">
+            <h2 id="search-modal-title" class="sr-only">Site Search</h2>
+            <div class="form-group-with-button">
+                <input class="form-control" type="text" placeholder="Search posts, guides, stories..." name="q" id="search-input" autocomplete="off">
+                <button type="submit" id="search-submit-button" class="btn btn--primary">
+                    <!-- The JS will handle showing/hiding these spans -->
+                    <span class="search-button-icon">
+                        <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" style="fill:currentColor;"><path d="M19.501,9.75c-0,2.152 -0.699,4.14 -1.875,5.752l5.935,5.94c0.585,0.586 0.585,1.537 -0,2.123c-0.586,0.586 -1.538,0.586 -2.124,0l-5.935,-5.939c-1.612,1.181 -3.6,1.875 -5.752,1.875c-5.386,-0 -9.75,-4.364 -9.75,-9.751c0,-5.386 4.364,-9.75 9.75,-9.75c5.387,-0 9.751,4.364 9.751,9.75Zm-9.751,6.751c3.704,-0 6.751,-3.047 6.751,-6.751c-0,-3.703 -3.047,-6.75 -6.751,-6.75c-3.703,0 -6.75,3.047 -6.75,6.75c0,3.704 3.047,6.751 6.75,6.751Z"></path></svg>
+                    </span>
+                    <span class="search-button-text">Search</span>
+                    <span class="search-button-loading" style="display: none;">Loading...</span>
+                </button>
+            </div>
+        </form>
 
-<!-- 1. The Modal HTML Structure -->
-<div id="search-modal-backdrop" class="modal-backdrop">
-  <div id="search-modal-content" class="modal-content-wrapper" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
-    <!-- The Search UI Component will be loaded here by JavaScript -->
-    <div class="spinner-container">
-        <div class="spinner"></div>
-        <p>Loading Search...</p>
+        <!-- Search Results will be injected here by JavaScript -->
+        <div id="search-results-container" class="search-results-container">
+            <!-- Example: <div class="search-results__message">Start typing to see results.</div> -->
+        </div>
+
     </div>
-  </div>
 </div>
 
-<!-- 2. The CSS Styles for the Modal and Search UI -->
+<!-- Add some basic CSS for the new classes in your main stylesheet -->
 <style>
-    /* Correct Modal CSS */
-    .modal-backdrop {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(10, 22, 41, 0.7);
-        backdrop-filter: blur(5px);
-        z-index: 1000;
-        display: none; /* Hidden by default */
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-        padding: 5vh 1rem;
+    .form-group-with-button {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .form-group-with-button .form-control {
+        flex-grow: 1;
+    }
+    .search-results-container {
+        margin-top: 1.5rem;
+        max-height: 60vh;
         overflow-y: auto;
     }
-    .modal-backdrop--open {
+    .search-result-item {
         display: block;
-        opacity: 1;
-    }
-    .modal-content-wrapper {
-        background-color: var(--spruce-base-color-background);
-        border-radius: var(--spruce-border-radius-lg, 0.925rem);
-        max-width: 800px;
-        margin: 0 auto;
-        padding: clamp(1.5rem, 5vw, 3rem);
-        text-align: left; /* Reset alignment for content */
-    }
-    
-    /* Search Component CSS */
-    .search-form-wrapper {
-        margin-bottom: 2rem;
-    }
-    .search-results-wrapper {
-        margin-top: 2rem;
-    }
-    .search-results-header {
-        display: flex; justify-content: space-between; align-items: baseline;
-        border-bottom: 1px solid var(--spruce-base-color-border);
-        padding-bottom: 1rem; margin-bottom: 2.5rem;
-    }
-    .search-results-count {
+        padding: 0.75rem 1rem;
+        border-radius: var(--spruce-border-radius);
+        text-decoration: none;
         color: var(--spruce-base-color-text);
+        border: 1px solid rgba(0,0,0,0);
+    }
+    .search-result-item:hover {
+        background-color: var(--spruce-base-color-code-background);
+        border-color: var(--spruce-base-color-border);
+    }
+    .search-result-item__title {
+        font-weight: 600;
+        color: var(--spruce-base-color-heading);
+    }
+    .search-result-item__excerpt {
         font-size: var(--spruce-font-size-sm);
+        margin-top: 0.25rem;
     }
-    .search-results-grid {
-        display: grid; gap: 1.5rem;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .search-result-item mark {
+        background-color: var(--spruce-base-color-mark-background);
+        color: var(--spruce-base-color-mark-foreground);
     }
-    .result-card { background-color: var(--spruce-card-color-background); border: 1px solid var(--spruce-base-color-border); border-radius: var(--spruce-border-radius); display: flex; flex-direction: column; height: 100%; overflow: hidden; position: relative; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
-    .result-card:hover { transform: translateY(-5px); box-shadow: var(--spruce-box-shadow); }
-    .result-card__image figure { margin: 0; background-color: var(--spruce-base-color-code-background); height: 180px; display: flex; align-items: center; justify-content: center; }
-    .result-card__image img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .result-card__content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-    .result-card__title { font-family: var(--spruce-font-family-heading); font-weight: var(--spruce-font-weight-heading); font-size: 1.125rem; color: var(--spruce-base-color-heading); margin-bottom: 0.5rem; line-height: 1.3; }
-    .result-card__title a { text-decoration: none; color: inherit; }
-    .result-card__link-overlay { position: absolute; inset: 0; z-index: 1; }
-    .result-card__category { font-size: var(--spruce-font-size-sm); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: var(--spruce-base-color-primary); margin-bottom: 0.75rem; }
-    .result-card__excerpt { font-size: 0.95rem; color: var(--spruce-base-color-text); line-height: 1.6; }
-    .result-card__tags { margin-top: auto; padding-top: 1rem; }
-    .result-card__tags .tag { display: inline-block; font-size: var(--spruce-font-size-sm); background-color: var(--spruce-base-color-code-background); color: var(--spruce-base-color-code-foreground); padding: 0.25em 0.75em; border-radius: 9999px; margin-right: 0.5rem; margin-bottom: 0.5rem; }
-    .no-results-message { text-align: center; background-color: var(--spruce-footer-color-background); border: 1px dashed var(--spruce-base-color-border); border-radius: var(--spruce-border-radius); padding: 3rem; }
-    .no-results-message .icon-placeholder { color: var(--spruce-form-color-border); margin-bottom: 1rem; }
-    .no-results-message h3, .no-results-message p { color: var(--spruce-base-color-text); }
-    .spinner-container { text-align: center; padding: 4rem 2rem; color: var(--spruce-base-color-text); }
-    .spinner { border: 4px solid var(--spruce-base-color-border); border-top: 4px solid var(--spruce-base-color-primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .search-results__message {
+        text-align: center;
+        padding: 2rem;
+        color: var(--spruce-base-color-text);
+    }
 </style>
 
-<!-- 3. The JavaScript to Control Everything -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // --- UI & State ---
+    document.addEventListener('DOMContentLoaded', () => {
+    // --- UI Element References ---
     const openSearchButton = document.querySelector('.open-search');
-    const modalBackdrop = document.getElementById('search-modal-backdrop');
-    const modalContent = document.getElementById('search-modal-content');
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+    const searchInput = document.getElementById('search-input');
+    const searchSubmitButton = document.getElementById('search-submit-button');
+    const resultsContainer = document.getElementById('search-results-container');
+    
+    if (!openSearchButton || !modalBackdrop || !searchInput || !searchSubmitButton || !resultsContainer) {
+        console.error("One or more search UI elements are missing. Search will be disabled.");
+        if(openSearchButton) openSearchButton.style.display = 'none';
+        return;
+    }
+
+    // --- State & Config ---
+    const siteBaseUrl = '{{ site.baseurl | default: "" }}';
+    const endpoint = '{{ "/assets/search.json" | relative_url }}';
+    let searchData = [];
     let isModalOpen = false;
-    let isSearchInitialized = false;
+    let searchDebounceTimer;
 
     // --- Modal Management ---
     function openModal() {
         if (isModalOpen) return;
         modalBackdrop.classList.add('modal-backdrop--open');
         document.body.style.overflow = 'hidden';
+        searchInput.focus();
         isModalOpen = true;
-
-        if (!isSearchInitialized) {
-            loadAndInitSearch();
-        } else {
-             // If already initialized, just focus the input
-             const searchInput = document.getElementById('search-input');
-             if (searchInput) {
-                searchInput.focus();
-             }
-        }
     }
 
     function closeModal() {
@@ -156,153 +144,120 @@ document.addEventListener('DOMContentLoaded', () => {
         isModalOpen = false;
     }
 
-    // --- The Main Logic: Load UI then run the Search Script ---
-    function loadAndInitSearch() {
-        const searchUIHtml = `
-            <div class="search-form-wrapper">
-                <form id="search-form" onsubmit="event.preventDefault();" role="search">
-                    <div class="form-group--stacked">
-                        <input class="form-control form-control--lg" type="text" placeholder="Search posts, guides, stories..." name="q" id="search-input" autocomplete="off">
-                        <button type="submit" id="search-submit-button" class="btn btn--primary btn--lg">Search</button>
-                    </div>
-                </form>
-            </div>
-            <div id="search-results" class="search-results-wrapper">
-                <div id="results-container" class="search-results-grid"></div>
-                <div id="no-results" class="no-results-message" style="display: none;">
-                    <h3 class="h4">No results found</h3>
-                    <p>Try different keywords or check your spelling.</p>
-                </div>
-            </div>`;
-        
-        modalContent.innerHTML = searchUIHtml;
-        runSearchLogic(); // Now that HTML exists, initialize the script
-        isSearchInitialized = true;
-        document.getElementById('search-input').focus();
+    // --- Search Logic (Your original logic is excellent, we keep it) ---
+    function findResults(termToMatch, dataToSearch) {
+        if (!termToMatch) return [];
+        const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1);
+        if (terms.length === 0) return [];
+
+        return dataToSearch.map(item => {
+            let score = 0;
+            const itemTitle = (item.title || '').toLowerCase();
+            const itemContent = (item.content || '').toLowerCase();
+            const itemDesc = (item.description || '').toLowerCase();
+            const itemTags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
+            const itemCategory = (item.category || '').toLowerCase();
+
+            terms.forEach(term => {
+                if (itemTitle.includes(term)) score += 12;
+                if (itemDesc.includes(term)) score += 4;
+                if (itemTags.includes(term)) score += 6;
+                if (itemCategory.includes(term)) score += 8;
+                if (itemContent.includes(term)) score += 1;
+            });
+            return { ...item, score };
+        }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
     }
     
-    function runSearchLogic() {
-        // --- This is your powerful search script, now targeted at the loaded HTML ---
-        const siteBaseUrl = '{{ site.baseurl | default: "" }}';
-        const endpoint = '{{ "/assets/search.json" | relative_url }}';
-        let searchData = [];
-
-        const searchInput = document.getElementById('search-input');
-        const searchForm = document.getElementById('search-form');
-        const resultsContainer = document.getElementById('results-container');
-        const noResultsDiv = document.getElementById('no-results');
-        
-        // --- Helper functions ---
-        function highlightText(text, terms) {
-            if (!text || !terms || terms.length === 0) return text;
-            let sanitizedText = text.replace(/</g, "<").replace(/>/g, ">");
-            terms.forEach(term => {
-                const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-                sanitizedText = sanitizedText.replace(regex, '<mark>$1</mark>');
-            });
-            return sanitizedText;
+    // --- Rendering Logic (Adapted for the new modal UI) ---
+    function highlightText(text, terms) {
+        if (!text || !terms || terms.length === 0) return text;
+        let highlighted = text.replace(/</g, "<").replace(/>/g, ">");
+        terms.forEach(term => {
+            const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            highlighted = highlighted.replace(regex, '<mark>$1</mark>');
+        });
+        return highlighted;
+    }
+    
+    function displayResults(results, query) {
+        if (!query) {
+            resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
+            return;
         }
 
-        // --- Core search logic ---
-        function findResults(termToMatch) {
-            if (!termToMatch) return [];
-            const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1);
-            if (terms.length === 0) return [];
-
-            return searchData.map(item => {
-                let score = 0;
-                const itemTitle = (item.title || '').toLowerCase();
-                const itemContent = (item.content || '').toLowerCase();
-                const itemDesc = (item.description || '').toLowerCase();
-                const itemTags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
-                const itemCategory = (item.category || '').toLowerCase();
-                
-                terms.forEach(term => {
-                    if (itemTitle.includes(term)) score += 12;
-                    if (itemDesc.includes(term)) score += 4;
-                    if (itemTags.includes(term)) score += 6;
-                    if (itemCategory.includes(term)) score += 8;
-                    if (itemContent.includes(term)) score += 1;
-                });
-                return { ...item, score };
-            }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
+        if (results.length === 0) {
+            resultsContainer.innerHTML = `<div class="search-results__message">No results found for "<strong>${query}</strong>".</div>`;
+            return;
         }
-        
-        function displayResults(results, query) {
-            if (!query) {
-                resultsContainer.innerHTML = '';
-                noResultsDiv.style.display = 'none';
-                return;
+
+        const terms = query.toLowerCase().split(' ').filter(term => term.length > 1);
+        resultsContainer.innerHTML = results.slice(0, 10).map(item => { // Show top 10 results
+            const url = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : (item.url || '#');
+            const title = item.title || 'Untitled';
+            const excerpt = (item.description || item.content || '').substring(0, 120) + '...';
+
+            return `<a href="${url}" class="search-result-item">
+                        <div class="search-result-item__title">${highlightText(title, terms)}</div>
+                        <div class="search-result-item__excerpt">${highlightText(excerpt, terms)}</div>
+                    </a>`;
+        }).join('');
+    }
+
+    // --- Event Handling ---
+    function handleSearch() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+            const query = searchInput.value.trim();
+            const results = findResults(query, searchData);
+            displayResults(results, query);
+        }, 200); // Debounce for 200ms
+    }
+
+    function setupEventListeners() {
+        // Modal toggling
+        openSearchButton.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+        document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openModal(); } });
+        modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isModalOpen) closeModal(); });
+
+        // Search functionality
+        searchInput.addEventListener('input', handleSearch);
+        document.getElementById('search-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // The live search on input is usually sufficient, but you can add more logic here if needed.
+            // For example, redirect to a search page with the first result.
+            const firstResultLink = resultsContainer.querySelector('.search-result-item');
+            if(firstResultLink) {
+                window.location.href = firstResultLink.href;
             }
+        });
+    }
 
-            if (results.length > 0) {
-                noResultsDiv.style.display = 'none';
-                resultsContainer.innerHTML = results.map(item => {
-                    const itemUrl = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : (item.url || '#');
-                    const displayTitle = item.title || 'Untitled';
-                    const categoryName = item.category || 'Page';
-                    const descMaxLength = 100;
-                    const descriptionSnippet = item.description ?
-                        highlightText(String(item.description).substring(0, descMaxLength) + '...', terms) :
-                        (item.content ? highlightText(String(item.content).substring(0, descMaxLength) + '...', terms) : '');
-
-                    return `
-                        <article class="result-card">
-                            <a href="${itemUrl}" class="result-card__link-overlay" aria-label="${displayTitle}"></a>
-                            <div class="result-card__content">
-                                <p class="result-card__category">${categoryName}</p>
-                                <h3 class="result-card__title"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h3>
-                                <p class="result-card__excerpt">${descriptionSnippet}</p>
-                            </div>
-                        </article>`;
-                }).join('');
-            } else {
-                resultsContainer.innerHTML = '';
-                noResultsDiv.style.display = 'block';
-                const safeSearchTerm = query.replace(/</g, "<").replace(/>/g, ">");
-                noResultsDiv.querySelector('h3').innerHTML = `No results for "${safeSearchTerm}"`;
-            }
-        }
-
-        let debounceTimer;
-        function handleSearchInput() {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const term = searchInput.value.trim();
-                const results = findResults(term);
-                displayResults(results, term);
-            }, 300);
-        }
-
+    // --- Initialization ---
+    function init() {
+        resultsContainer.innerHTML = '<div class="search-results__message">Start typing to search the site.</div>';
         fetch(endpoint)
-            .then(res => res.json())
-            .then(data => {
-                searchData = data;
-                searchInput.addEventListener('input', handleSearchInput);
-                searchForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const firstResultLink = resultsContainer.querySelector('.result-card__link-overlay');
-                    if (firstResultLink) {
-                        window.location.href = firstResultLink.href;
-                    }
-                });
-                console.log("Custom Search logic has been initialized inside the modal.");
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                return response.json();
             })
-            .catch(err => {
-                console.error("Failed to load search data for modal:", err);
-                resultsContainer.innerHTML = `<p style="color:var(--spruce-alert-color-danger)">Could not load search data.</p>`;
+            .then(data => {
+                if (!Array.isArray(data)) throw new Error("Search data is not a valid JSON array.");
+                searchData = data;
+                setupEventListeners();
+                console.log("Custom search initialized.");
+            })
+            .catch(error => {
+                console.error("Could not initialize custom search:", error);
+                resultsContainer.innerHTML = `<div class="search-results__message" style="color: var(--spruce-alert-color-danger);">Error: Could not load search data.</div>`;
+                openSearchButton.style.display = 'none';
             });
     }
 
-    // --- Setup Global Event Listeners ---
-    openSearchButton.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); openModal(); } });
-    modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isModalOpen) closeModal(); });
+    init();
 });
 </script>
-
-  
 
   <!-- Scripts -->
   <script src="{{ '/_pagefind/pagefind-ui.js' | relative_url }}" onload="new PagefindUI({ element: '#search', showImages: false });"></script>
