@@ -1,75 +1,52 @@
-{% comment %}
-  AdSense Component - All Ad Types
-  Usage: {% include adsense.html format="leaderboard" %}
-  
+{%- comment -%}
+  AdSense Component v3.0 - Simplified & Responsive
+  Usage: {% include adsense.html name="Leaderboard Ad" %}
+
   Parameters:
-  - format: ad format type (responsive, leaderboard, rectangle, skyscraper, etc.)
-{% endcomment %}
+  - name: The 'name' of the ad from _config.yml
+{%- endcomment -%}
 
-{% assign format = include.format | default: 'responsive' %}
+{%- if site.adsense.enabled -%}
+  {%- comment -%}
+    1. Get the ad 'name' passed from the include tag.
+       Default to "Responsive Ad" if no name is provided.
+  {%- endcomment -%}
+  {%- assign ad_name = include.name | default: "Responsive Ad" -%}
 
-{% comment %} Select appropriate slot based on format {% endcomment %}
-{% case format %}
-  {% when 'square' %}
-    {% assign ad_slot = '7663977887' %}
-    {% assign ad_style = 'display:inline-block;width:250px;height:250px' %}
-  {% when 'horizontal' %}
-    {% assign ad_slot = '8939839370' %}
-    {% assign ad_style = 'display:block;width:100%;height:90px' %}
-  {% when 'vertical' %}
-    {% assign ad_slot = '3487917390' %}
-    {% assign ad_style = 'display:inline-block;width:120px;height:600px' %}
-  {% when 'leaderboard' %}
-    {% assign ad_slot = '1864856299' %}
-    {% assign ad_style = 'display:inline-block;width:728px;height:90px' %}
-  {% when 'leaderboard-large' %}
-    {% assign ad_slot = '8539588233' %}
-    {% assign ad_style = 'display:inline-block;width:980px;height:90px' %}
-  {% when 'billboard' %}
-    {% assign ad_slot = '4921873558' %}
-    {% assign ad_style = 'display:inline-block;width:970px;height:250px' %}
-  {% when 'article' %}
-    {% assign ad_slot = '6501428979' %}
-    {% assign ad_format = 'fluid' %}
-    {% assign ad_layout = 'in-article' %}
-  {% when 'skyscraper' %}
-    {% assign ad_slot = '5882506557' %}
-    {% assign ad_style = 'display:inline-block;width:160px;height:600px' %}
-  {% when 'skyscraper-medium' %}
-    {% assign ad_slot = '4394096538' %}
-    {% assign ad_style = 'display:inline-block;width:300px;height:600px' %}
-  {% when 'skyscraper-large' %}
-    {% assign ad_slot = '9488965956' %}
-    {% assign ad_style = 'display:inline-block;width:300px;height:1050px' %}
-  {% when 'mobile-leaderboard' %}
-    {% assign ad_slot = '4003326983' %}
-    {% assign ad_style = 'display:inline-block;width:300px;height:50px' %}
-  {% when 'button' %}
-    {% assign ad_slot = '3836856744' %}
-    {% assign ad_style = 'display:inline-block;width:300px;height:60px' %}
-  {% when 'multiplex-h' %}
-    {% assign ad_slot = '9130894804' %}
-    {% assign ad_format = 'autorelaxed' %}
-  {% when 'multiplex-v' %}
-    {% assign ad_slot = '6808134701' %}
-    {% assign ad_format = 'autorelaxed' %}
-  {% else %}
-    {% assign ad_slot = '4774277934' %}
-    {% assign ad_format = 'auto' %}
-    {% assign ad_style = 'display:block;width:100%;height:auto' %}
-{% endcase %}
+  {%- comment -%}
+    2. Find the ad's data in _config.yml by matching the name.
+  {%- endcomment -%}
+  {%- assign ad_unit = site.adsense.ads | where: "name", ad_name | first -%}
 
-{% if site.adsense.enabled %}
-<div class="ad-container ad-{{ format }}">
-  <ins class="adsbygoogle"
-       style="{{ ad_style }}"
-       data-ad-client="ca-pub-1291242080282540"
-       data-ad-slot="{{ ad_slot }}"
-       {% if ad_format %}data-ad-format="{{ ad_format }}"{% endif %}
-       {% if ad_layout %}data-ad-layout="{{ ad_layout }}"{% endif %}
-       data-full-width-responsive="true"></ins>
-  <div class="ad-label">Advertisement</div>
-</div>
-{% endif %}
+  {%- if ad_unit -%}
+    {%- comment -%}
+      3. Prepare the data for the HTML attributes.
+    {%- endcomment -%}
+    {%- assign publisher_id = site.adsense.publisher.id -%}
+    {%- assign slot_id = ad_unit.ad_id -%}
+    {%- assign ad_type = ad_unit.type -%}
+    
+    {%- comment -%} Generate a clean CSS class from the ad name, like 'leaderboard-ad' {%- endcomment -%}
+    {%- assign ad_class = ad_name | slugify -%}
 
+    {%- comment -%} Prepare special data-attributes for specific ad types {%- endcomment -%}
+    {%- if ad_type == 'auto' -%}
+      {%- assign ad_attributes = 'data-ad-format="auto" data-full-width-responsive="true"' -%}
+    {%- elsif ad_type == 'in-article' -%}
+      {%- assign ad_attributes = 'data-ad-format="fluid" data-ad-layout="in-article"' -%}
+    {%- else -%}
+      {%- assign ad_attributes = '' -%}
+    {%- endif -%}
 
+    {%- comment -%}
+      4. Render the final HTML. Notice there are NO inline styles.
+    {%- endcomment -%}
+    <div class="ad-container ad-type-{{ ad_class }}">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="{{ slot_id }}"
+           {{ ad_attributes }}></ins>
+      <div class="ad-label">Advertisement</div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

@@ -1,49 +1,78 @@
-// =============================================
-// Adsense Component Styles
-// =============================================
+// _sass/_adsense.scss
 
+// 1. Base styles for the ad container
+// -----------------------------------------------------------------------------
 .ad-container {
   position: relative;
   display: block;
-  margin: 2rem auto; // Center the ad block with vertical spacing
-  padding: 1rem;
-  text-align: center; // Center the ad unit inside the container
-  border: 1px solid var(--spruce-base-color-border); // Use your theme's border color
-  border-radius: var(--spruce-border-radius); // Use your theme's border radius
+  margin: 2rem auto;
+  width: 100%;
+  overflow: hidden; // **This is the most important rule to prevent layout breaking**
+  border: 1px dashed #dcdcdc;
+  background-color: #f9f9f9; // A subtle background to indicate the ad slot
 
-  // This ensures the ad unit itself takes up the available space
+  // The actual ad unit from Google. We center it within our container.
   .adsbygoogle {
     display: block;
+    margin: 0 auto;
+    background-color: #f1f1f1; // A slightly darker color for the ad itself before it loads
   }
 }
 
+// The "Advertisement" label
 .ad-label {
-  position: absolute;
-  top: -0.75em; // Position the label slightly above the container's top border
-  left: 50%;
-  transform: translateX(-50%); // Center the label perfectly
-  padding: 0.1em 0.5em;
-  font-size: var(--spruce-font-size-sm, 0.875rem); // Use your theme's small font size
-  font-family: var(--spruce-font-family-cursive, monospace); // Use a distinct font
-  color: var(--spruce-base-color-text); // Use your theme's text color
-  background-color: var(--spruce-base-color-background); // Use your theme's background color
-  line-height: 1.5;
-  white-space: nowrap;
+  text-align: center;
+  font-size: 0.7rem;
+  color: #a0a0a0;
+  padding: 0.25rem 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-// Optional: Add some specific styles for different formats if needed.
-// For example, ensuring the in-article ad doesn't have a border.
-.ad-container.ad-article {
-  border: none;
-  padding: 0;
 
+// 2. Specific, responsive sizes for each ad type using their generated class
+// -----------------------------------------------------------------------------
+
+// For the ad called "Leaderboard Ad" -> .ad-type-leaderboard-ad
+.ad-type-leaderboard-ad {
+  max-width: 728px;
+  // Aspect-ratio forces the container to maintain its shape (height/width).
+  // This makes the ad scale down proportionally on mobile.
+  aspect-ratio: 728 / 90;
+}
+
+// For the ad called "Square Ad" -> .ad-type-square-ad
+.ad-type-square-ad {
+  max-width: 300px;
+  aspect-ratio: 300 / 250;
+}
+
+// For "Skyscraper Medium" -> .ad-type-skyscraper-medium
+.ad-type-skyscraper-medium {
+  max-width: 300px;
+  aspect-ratio: 300 / 600;
+}
+
+// For a fully responsive/auto ad
+.ad-type-responsive-ad {
+  max-width: 100%;
+  min-height: 250px; // Responsive ads need a minimum height to work well
+}
+
+// For in-article ads
+.ad-type-article-ad {
+  max-width: 100%;
+  min-height: 280px;
+  border: none;
+  background-color: transparent; // In-article ads should blend in
+  
   .ad-label {
-    // Reposition the label for borderless in-article ads
-    position: static;
-    transform: none;
-    text-align: center;
-    display: block;
-    margin-bottom: 0.5rem;
-    font-style: italic;
+    display: none; // Usually not needed
   }
 }
+
+// You can add more styles for your other ad units here. For example:
+// .ad-type-billboard-ad {
+//   max-width: 970px;
+//   aspect-ratio: 970 / 250;
+// }
