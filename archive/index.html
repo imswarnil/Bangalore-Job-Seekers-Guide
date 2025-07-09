@@ -130,8 +130,6 @@ layout: default
                         <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
                              <div class="box is-flex is-flex-direction-column is-justify-content-center is-align-items-center" style="height: 100%;">
                                 <p class="is-size-7 has-text-grey-light mb-2 has-text-centered">Advertisement</p>
-                                {% include adsense.html format="square" %}
-                                {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
                                 {% if ad_include_output == "" or ad_include_output == nil %}
                                 <div class="is-flex is-align-items-center is-justify-content-center has-background-white-ter" style="width: 100%; flex-grow: 1; border: 1px dashed #dbdbdb; border-radius: 4px; min-height: 200px;">
                                     <span class="icon is-large has-text-grey-lighter"><i class="ph-bold ph-megaphone"></i></span>
