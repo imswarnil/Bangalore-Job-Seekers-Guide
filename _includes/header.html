@@ -22,7 +22,8 @@
               {%- comment -%} This is an internal link {%- endcomment -%}
               {%- assign item_url = item.link | relative_url -%}
               <a href="{{ item_url }}" {% if page.url == item_url %}aria-current="page"{% endif %}>
-                {{ item.name }}
+                    <i class="ph-bold ph-smiley"></i>
+{{ item.name }}
               </a>
             {%- endif -%}
           </li>
