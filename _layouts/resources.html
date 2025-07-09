@@ -1,0 +1,32 @@
+---
+# This layout will use your 'default.html' as its base
+layout: default
+---
+
+<div class="container container--wide">
+
+  <!-- The header will be inherited from the 'default' layout -->
+
+  <div class="resource-page-header">
+    <h1 class="h2">{{ page.title }}</h1>
+    {% if page.description %}
+      <p class="lead">{{ page.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="l-main">
+    
+    <!-- LEFT SIDEBAR: FILTERS -->
+    <aside class="l-main__sidebar resource-sidebar">
+      <!-- The filter UI will be part of the page content -->
+      {% include resource_filters.html %}
+    </aside>
+
+    <!-- RIGHT CONTENT: RESOURCE LIST -->
+    <div class="l-main__body resource-content">
+      <!-- The `{{ content }}` will render the list of resource cards -->
+      {{ content }}
+    </div>
+
+  </div>
+</div>
