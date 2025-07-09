@@ -33,7 +33,43 @@
 
 
   </div>
+<script>
+  // File: assets/js/lazy-ads.js
 
+document.addEventListener("DOMContentLoaded", function() {
+  // Select all ad units that our plugin has marked for lazy loading.
+  const lazyAdElements = document.querySelectorAll('.lazy-ad');
+
+  // If there are no ads on the current page, do nothing.
+  if (lazyAdElements.length === 0) {
+    return;
+  }
+
+  // Create an observer to watch when ad elements enter the viewport.
+  const adObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      // If the ad container is visible or getting close to being visible...
+      if (entry.isIntersecting) {
+        // ...push the ad to Google's queue to be filled.
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+          console.error("AdSense push failed:", e);
+        }
+        // Once an ad is requested, we stop observing it to prevent duplicates.
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { 
+    // This threshold tells the browser to start loading the ad when it is 250px 
+    // away from the bottom of the screen, ensuring it's ready when the user gets there.
+    rootMargin: '250px' 
+  });
+
+  // Tell the observer to start watching each ad unit on the page.
+  lazyAdElements.forEach(ad => adObserver.observe(ad));
+});
+</script>
   <!-- Scripts -->
   <script src="{{ '/assets/js/theme-change-assets.js' | relative_url }}" defer="defer"></script>
   <script src="{{ '/assets/js/navigation.js' | relative_url }}" defer="defer"></script>

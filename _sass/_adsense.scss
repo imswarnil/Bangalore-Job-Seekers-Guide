@@ -1,24 +1,24 @@
 // File: _sass/_adsense.scss
 
 // 1. Base styles for the main ad container.
-// This applies to ALL ad types.
+// This applies to ALL ad types and ensures they are centered and responsive.
 // =============================================================================
 .ad-container {
   position: relative;
   display: block;
-  margin: 2.5rem auto; // Give ads some breathing room.
+  margin: 2.5rem auto;
   width: 100%;
-  overflow: hidden; // **This is the most important rule to prevent horizontal scrollbars.**
-  border: 1px dashed #dcdcdc;
+  overflow: hidden; // **This is the key rule that prevents layout breaking.**
+  border: 1px dashed #e0e0e0;
   background-color: #f8f8f8;
   border-radius: 8px;
 
-  // The <ins> tag served by Google. We ensure it's centered and scales.
+  // The <ins> tag served by Google. We center it and ensure it scales.
   .adsbygoogle {
     display: block;
     margin: 0 auto;
-    background-color: #f0f0f0; // A placeholder color before the ad loads.
-    max-width: 100%; // Ensures the ad unit itself never overflows its container.
+    background-color: #f0f0f0;
+    max-width: 100%; // Ensure the ad itself never overflows the container.
     text-align: center;
   }
 }
@@ -27,18 +27,17 @@
 // =============================================================================
 .ad-label {
   text-align: center;
-  padding: 0.5rem 0;
-  font-size: 0.65rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.7rem;
   font-family: monospace;
   color: #b0b0b0;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  line-height: 1;
+  letter-spacing: 0.8px;
 }
 
 // 3. Specific, responsive sizes for each "display" ad type.
-//    We use `max-width` for desktop and `aspect-ratio` to make them scale
-//    down proportionally on mobile devices.
+// We use `max-width` for the desktop size and `aspect-ratio` to make them scale
+// down proportionally on mobile devices, maintaining their shape.
 // =============================================================================
 
 .ad-type-square {
@@ -52,20 +51,20 @@
 }
 
 .ad-type-vertical {
-  max-width: 160px; // Standard vertical ad size
+  max-width: 160px;
   aspect-ratio: 160 / 600;
 }
 
-// 4. Styles for special "fluid" ad types.
+// 4. Styles for special "fluid" and "autorelaxed" ad types.
 // =============================================================================
 .ad-type-in-feed,
 .ad-type-in-article,
 .ad-type-multiplex {
-  min-height: 250px; // These ads need some vertical space to render properly.
+  min-height: 250px;
   border: none;
-  background-color: transparent; // They should blend in with the content.
+  background-color: transparent;
 
   .ad-label {
-    display: none; // These ad types generally don't need a visible label.
+    display: none; // These ad types should blend seamlessly with content.
   }
 }
