@@ -52,17 +52,6 @@ list into the correct structure you specified.
       {{- my_toc -}}
     </ol>
   </nav>
-  
-<!-- Square ( Responsive ) -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1291242080282540"
-     data-ad-slot="7663977887"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
 </section>
 
 {%- comment -%}
@@ -115,38 +104,3 @@ the active section as the user scrolls.
     window.addEventListener('scroll', spyScroll, { passive: true }); // passive:true for better performance
   });
 </script>
-<style>
-    // File: _sass/_toc.scss
-
-// Your existing styles for the TOC component
-.toc {
-  // ... any existing toc styles ...
-}
-.toc__title {
-  font-size: clamp(1.0625rem, 2vw + 1rem, 1.25rem);
-  // ... any other title styles ...
-}
-.toc__navigation ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.toc__navigation li + li {
-  margin-top: 0.5rem;
-}
-.toc__navigation a {
-  color: var(--spruce-base-color-text);
-  text-decoration: none;
-  transition: color 0.15s ease-in-out; // Smooth color transition
-
-  &:hover {
-    color: var(--spruce-base-color-primary);
-  }
-}
-
-// **NEW and IMPORTANT**: Style for the active link
-.toc__navigation a.is-active {
-  color: var(--spruce-base-color-primary);
-  font-weight: 700;
-}
-</style>
