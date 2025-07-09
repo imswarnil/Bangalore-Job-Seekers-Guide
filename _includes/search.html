@@ -1,76 +1,105 @@
----
-layout: default
-title: Search
----
-
 <!--
 ============================================================
 PART 1: THE STYLES (SCSS)
 This block contains all the necessary styling, written to
-perfectly match your Spruce CSS theme variables.
+perfectly match your Spruce CSS theme variables and provide
+a superior responsive experience.
 ============================================================
 -->
 <style>
   .search-page-layout {
-    padding-block: clamp(2rem, 5vw, 3rem) clamp(3rem, 5vw, 5rem);
+    padding-block: clamp(2rem, 5vw, 4rem);
   }
 
   .search-form-wrapper {
-    max-width: 45rem; // A comfortable width for a search bar
-    margin: 0 auto 3.5rem auto;
+    max-width: 48rem; // A comfortable width for a primary search bar
+    margin: 0 auto 4rem auto;
+    text-align: center;
   }
 
-  // Use Spruce's stacked form group for a clean layout
-  .form-group--stacked {
+  .search-page-title {
+    color: var(--spruce-base-color-heading);
+    margin-bottom: 0.5rem;
+  }
+
+  .search-page-subtitle {
+    color: var(--spruce-base-color-text);
+    margin-bottom: 2rem;
+    font-size: var(--spruce-font-size-lead);
+  }
+
+  // A fully responsive, modern search form group
+  .search-form-group {
     display: flex;
-    gap: 0; // The border collapse handles the spacing
+    border: 1px solid var(--spruce-form-color-border);
+    border-radius: var(--spruce-border-radius-lg); // A nice, modern rounded look
+    background-color: var(--spruce-form-color-background);
+    transition: box-shadow 0.2s ease;
+    overflow: hidden;
 
-    .form-group-label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding-inline: 1.25rem;
-      background-color: var(--spruce-base-color-code-background);
-      border: 1px solid var(--spruce-form-color-border);
-      border-right-width: 0; // Remove right border to merge with input
-      border-radius: var(--spruce-border-radius) 0 0 var(--spruce-border-radius);
-      color: var(--spruce-base-color-text);
+    &:focus-within {
+      border-color: var(--spruce-form-color-border-focus);
+      box-shadow: 0 0 0 4px var(--spruce-form-color-ring-focus);
     }
-    
-    .form-control {
-      flex-grow: 1;
-      border-radius: 0; // No radius in the middle
-    }
-
-    .btn {
-      border-radius: 0 var(--spruce-border-radius) var(--spruce-border-radius) 0;
-    }
+  }
+  
+  .search-form-group .form-control {
+    flex-grow: 1;
+    border: none;
+    background-color: transparent;
+    padding: 0.9em 1.25em; // More comfortable padding
+    font-size: var(--spruce-font-size-lg); // Larger font for better readability
+    box-shadow: none !important; // Override default focus styles
+    outline: none;
+  }
+  
+  .search-form-group .btn {
+    border: none;
+    border-left: 1px solid var(--spruce-form-color-border);
+    border-radius: 0; // The parent container handles the radius
+    padding-inline: 1.5rem;
   }
 
   // Responsive adjustments for the search form on small screens
   @media (max-width: 600px) {
-    .form-group--stacked {
-        flex-wrap: wrap; // Allow items to wrap
-        gap: 0.5rem;     // Add a gap when they wrap
+    .search-form-group {
+      flex-direction: column;
+      border: none;
+      background-color: transparent;
+      box-shadow: none !important;
 
-        .form-group-label,
-        .form-control,
-        .btn {
-          border-radius: var(--spruce-border-radius); // Give all items a radius
-          width: 100%;
-          border-right-width: 1px; // Restore border
+      &:focus-within {
+        box-shadow: none;
+      }
+      
+      .form-control {
+        border: 1px solid var(--spruce-form-color-border);
+        border-radius: var(--spruce-border-radius);
+        margin-bottom: 0.75rem;
+        padding: 0.75em 1em;
+        font-size: var(--spruce-font-size-base);
+
+        &:focus {
+          border-color: var(--spruce-form-color-border-focus);
+          box-shadow: 0 0 0 4px var(--spruce-form-color-ring-focus);
         }
-        .form-control {
-          order: -1; // Move the input field to the top
-        }
+      }
+      
+      .btn {
+        width: 100%;
+        border: 1px solid var(--spruce-btn-color-primary-background);
+        border-radius: var(--spruce-border-radius);
+      }
     }
   }
 
   // Header for the search results section
   .search-results-header {
     display: flex;
+    flex-wrap: wrap; // Allow wrapping on small screens
     justify-content: space-between;
     align-items: baseline;
+    gap: 0.5rem 1rem;
     border-bottom: 1px solid var(--spruce-base-color-border);
     padding-bottom: 1rem;
     margin-bottom: 2.5rem;
@@ -81,58 +110,40 @@ perfectly match your Spruce CSS theme variables.
     font-size: var(--spruce-font-size-sm);
   }
 
-  // A robust grid for the result cards
+  // The definitive responsive grid for result cards
   .search-results-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: 1.75rem;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   }
 
-  // The result card, styled to match your post-card component
+  // A completely redesigned, more scannable result card
   .result-card {
     background-color: var(--spruce-card-color-background);
     border: 1px solid var(--spruce-base-color-border);
-    border-radius: var(--spruce-border-radius-lg); // Use a larger radius for a modern feel
+    border-radius: var(--spruce-border-radius-lg);
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: var(--spruce-box-shadow);
+      border-color: var(--spruce-base-color-primary);
+      box-shadow: var(--spruce-box-shadow, 0 10px 25px hsla(0, 0%, 0%, 0.08));
     }
-  }
-
-  .result-card__link-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-  }
-  
-  .result-card__title a {
-    position: relative;
-    z-index: 2; // Ensure title is clickable over the overlay
-    text-decoration: none;
-    color: inherit;
   }
   
   .result-card__image {
-    figure {
-      margin: 0;
-      background-color: var(--spruce-base-color-code-background);
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    figure { margin: 0; }
     img {
       display: block;
       width: 100%;
-      height: 100%;
+      height: 180px;
       object-fit: cover;
+      border-top-left-radius: var(--spruce-border-radius-lg);
+      border-top-right-radius: var(--spruce-border-radius-lg);
     }
   }
 
@@ -143,62 +154,38 @@ perfectly match your Spruce CSS theme variables.
     flex-direction: column;
   }
 
-  .result-card__title {
-    font-family: var(--spruce-font-family-heading);
-    font-weight: var(--spruce-font-weight-heading);
-    font-size: 1.25rem;
-    color: var(--spruce-base-color-heading);
-    margin: 0.25rem 0 0.5rem;
-    line-height: 1.3;
+  .result-card__category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--spruce-base-color-primary);
+    margin: 0;
   }
 
-  .result-card__category {
-    font-size: var(--spruce-font-size-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    font-weight: 600;
-    color: var(--spruce-base-color-primary);
+  .result-card__title {
+    font-family: var(--spruce-font-family-heading);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--spruce-base-color-heading);
+    margin: 0.5rem 0 0.75rem 0;
+    line-height: 1.3;
   }
 
   .result-card__excerpt {
     font-size: 0.95rem;
     color: var(--spruce-base-color-text);
     line-height: 1.6;
-    margin-top: 0.75rem;
-    margin-bottom: 1rem;
+    margin: 0;
+  }
+  
+  .result-card__excerpt mark {
+    background-color: hsla(50, 100%, 80%, 0.7);
+    color: inherit;
   }
 
-  .result-card__tags {
-    margin-top: auto;
-    padding-top: 1rem;
-  }
-
-  .result-card__tags .tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    background-color: var(--spruce-base-color-code-background);
-    color: var(--spruce-base-color-code-foreground);
-    padding: 0.25em 0.75em;
-    border-radius: 9999px;
-    margin: 0.25rem 0.25rem 0 0;
-  }
-
-  // Message for "No Results"
-  .no-results-message {
-    text-align: center;
-    background-color: var(--spruce-footer-color-background, #f9f9f9);
-    border: 1px dashed var(--spruce-base-color-border);
-    border-radius: var(--spruce-border-radius-lg);
-    padding: 3rem 2rem;
-  }
-
-  .no-results-message .icon-placeholder {
-    color: var(--spruce-form-color-border);
-    margin-bottom: 1rem;
-  }
-
-  // CSS Spinner for loading state
-  .spinner-container {
+  // State messages (Loading, No Results, Error)
+  .search-state-message {
     text-align: center;
     padding: 4rem 2rem;
     color: var(--spruce-base-color-text);
@@ -222,249 +209,219 @@ perfectly match your Spruce CSS theme variables.
 <!--
 ============================================================
 PART 2: THE HTML STRUCTURE
-Refined for accessibility and responsive behavior.
+Refined for clarity, accessibility, and better UX.
 ============================================================
 -->
 <section class="section search-page-layout">
-    <div class="container container--narrow">
+  <div class="container container--wide">
 
-        <!-- Search Form -->
-        <div class="search-form-wrapper">
-            <h1 class="h2" style="text-align: center; margin-bottom: 1.5rem;">Search Everything</h1>
-            <form id="search-form" onsubmit="event.preventDefault();" role="search">
-                <div class="form-group--stacked">
-                    <label for="search-input" class="form-group-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
-                        <span class="sr-only">Search Query</span>
-                    </label>
-                    <input class="form-control form-control--lg" type="search" placeholder="Search posts, guides, stories..." name="q" id="search-input" autocomplete="off" aria-label="Search Query">
-                    <button type="submit" id="search-submit-button" class="btn btn--primary btn--lg">Search</button>
-                </div>
-            </form>
+    <!-- Search Form Wrapper -->
+    <div class="search-form-wrapper">
+      <h1 class="h2 search-page-title">Search Site Content</h1>
+      <p class="search-page-subtitle">Find articles, guides, and answers across the entire site.</p>
+      <form id="search-form" onsubmit="event.preventDefault();" role="search">
+        <div class="search-form-group">
+          <input class="form-control" type="search" placeholder="e.g., 'resume tips' or 'interview'" name="q" id="search-input" autocomplete="off" aria-label="Search Query">
+          <button type="submit" id="search-submit-button" class="btn btn--primary btn--lg">Search</button>
         </div>
-
-        <!-- Search Results Section -->
-        <div id="search-results" class="search-results-wrapper">
-            <header class="search-results-header" style="display: none;">
-                <h2 class="h3">Search Results</h2>
-                <p id="results-count" class="search-results-count"></p>
-            </header>
-            
-            <div id="search-loading-spinner" class="spinner-container" style="display: none;">
-                <div class="spinner"></div>
-                <p>Searching...</p>
-            </div>
-
-            <div class="search-results-grid" id="results-container">
-                <!-- JavaScript will inject result cards here -->
-            </div>
-            
-            <div id="no-results" class="no-results-message" style="display: none;">
-                <div class="icon-placeholder">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="currentColor" viewBox="0 0 16 16"><path d="M16 11a1 1 0 0 1-1-1V4.5a1.5 1.5 0 0 0-3 0V5h-.5A1.5 1.5 0 0 0 10 6.5v3h-1.55a2.5 2.5 0 0 0-4.9 0H2v-1a1.5 1.5 0 0 0-3 0V11a1 1 0 0 1-1 1v2a1 1 0 0 1 1 1h14a1 1 0 0 1 1-1v-2zM2.5 12a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2.5 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm3 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2.5 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/></svg>
-                </div>
-                <h3 class="h4">No results found</h3>
-                <p>Try different keywords or check your spelling.</p>
-            </div>
-            
-            <div id="search-error" style="display: none;">
-                <!-- JavaScript will inject an alert here -->
-            </div>
-        </div>
+      </form>
     </div>
+
+    <!-- Search Results Wrapper -->
+    <div id="search-results-wrapper">
+      <header class="search-results-header" style="display: none;">
+        <h2 class="h3" id="results-heading"></h2>
+        <p id="results-count" class="search-results-count"></p>
+      </header>
+      
+      <!-- Container for dynamic content (spinner, results, messages) -->
+      <div id="search-dynamic-container">
+        <!-- Initial state is empty. JS will inject content here. -->
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <!--
 ============================================================
 PART 3: THE JAVASCRIPT LOGIC
-This is the complete and robust script to power the search.
+Refined for better scoring, performance, and UX.
 ============================================================
 -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const siteBaseUrl = '{{ site.baseurl | default: "" }}';
-    const endpoint = '{{ "/assets/search.json" | relative_url }}';
+document.addEventListener('DOMContentLoaded', function() {
+  const siteBaseUrl = '{{ site.baseurl | default: "" }}';
+  const endpoint = '{{ "/assets/search.json" | relative_url }}';
+  
+  let searchData = [];
+  let isSearchLoading = false;
+
+  // --- DOM Element References ---
+  const searchInput = document.getElementById('search-input');
+  const searchForm = document.getElementById('search-form');
+  const dynamicContainer = document.getElementById('search-dynamic-container');
+  const resultsHeader = document.querySelector('.search-results-header');
+  const resultsHeading = document.getElementById('results-heading');
+  const resultsCountP = document.getElementById('results-count');
+
+  // --- UI State Functions ---
+  const showLoading = () => {
+    isSearchLoading = true;
+    resultsHeader.style.display = 'none';
+    dynamicContainer.innerHTML = `
+      <div class="search-state-message">
+        <div class="spinner"></div>
+        <p>Searching...</p>
+      </div>`;
+  };
+  
+  const showError = (message) => {
+    isSearchLoading = false;
+    resultsHeader.style.display = 'none';
+    dynamicContainer.innerHTML = `
+      <div class="search-state-message no-results-message">
+        <h3 class="h4">Something went wrong</h3>
+        <p>${message}</p>
+      </div>`;
+  };
+
+  const showNoResults = (query) => {
+    isSearchLoading = false;
+    resultsHeader.style.display = 'flex';
+    resultsHeading.innerHTML = `No results for "<em>${query.replace(/</g, "<")}</em>"`;
+    resultsCountP.textContent = '';
+    dynamicContainer.innerHTML = `
+      <div class="search-state-message no-results-message">
+        <h3 class="h4">Try adjusting your search</h3>
+        <p>Try different keywords, check your spelling, or be less specific.</p>
+      </div>`;
+  };
+
+  // --- Helper Functions ---
+  const highlightText = (text, terms) => {
+    if (!text || !terms || terms.length === 0) return text;
+    const escapedText = String(text).replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
+    return terms.reduce((acc, term) => {
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return acc.replace(regex, '<mark>$1</mark>');
+    }, escapedText);
+  };
+  
+  const findResults = (query, data) => {
+    const terms = query.toLowerCase().split(' ').filter(term => term.length > 2);
+    if (terms.length === 0) return [];
+
+    return data.map(item => {
+        let score = 0;
+        const title = (item.title || '').toLowerCase();
+        const content = (item.content || '').toLowerCase();
+        const category = (item.category || '').toLowerCase();
+        const tags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
+        
+        terms.forEach(term => {
+            if (title.includes(term)) score += 12;
+            if (category.includes(term)) score += 8;
+            if (tags.includes(term)) score += 6;
+            if (content.includes(term)) score += 1;
+        });
+        return { ...item, score };
+    }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
+  };
+
+  const displayResults = (results, query) => {
+    isSearchLoading = false;
+    resultsHeader.style.display = 'flex';
+    resultsHeading.innerHTML = `Search Results`;
+    resultsCountP.textContent = `${results.length} ${results.length === 1 ? 'result' : 'results'} found`;
+
+    const resultsGrid = document.createElement('div');
+    resultsGrid.className = 'search-results-grid';
+
+    resultsGrid.innerHTML = results.map(item => {
+      const url = siteBaseUrl + item.url;
+      const title = item.title || 'Untitled';
+      const category = item.category || 'Page';
+      const excerpt = item.content ? highlightText(String(item.content).substring(0, 120) + '...', query.split(' ')) : 'No description available.';
+      
+      // Fallback for image
+      let imageHtml = `<div class="result-card__image"><figure style="height: 180px; display:flex; align-items:center; justify-content:center; background-color: var(--spruce-base-color-code-background);"><span style="font-size: 2rem; color: var(--spruce-base-color-border);">&_#128214;</span></figure></div>`;
+      if (item.image) {
+        imageHtml = `<div class="result-card__image"><img src="${siteBaseUrl}${item.image}" alt="" loading="lazy"></div>`;
+      }
+
+      return `
+        <a href="${url}" class="result-card">
+          ${imageHtml}
+          <div class="result-card__content">
+            <p class="result-card__category">${category}</p>
+            <h3 class="result-card__title">${highlightText(title, query.split(' '))}</h3>
+            <p class="result-card__excerpt">${excerpt}</p>
+          </div>
+        </a>`;
+    }).join('');
     
-    let searchData = [];
-    let isSearchLoading = false;
+    dynamicContainer.innerHTML = '';
+    dynamicContainer.appendChild(resultsGrid);
+  };
 
-    // --- DOM Element References ---
-    const searchInput = document.getElementById('search-input');
-    const searchForm = document.getElementById('search-form');
-    const resultsContainer = document.getElementById('results-container');
-    const resultsHeader = document.querySelector('.search-results-header');
-    const noResultsDiv = document.getElementById('no-results');
-    const resultsCountP = document.getElementById('results-count');
-    const loadingSpinnerDiv = document.getElementById('search-loading-spinner');
-    const errorDiv = document.getElementById('search-error');
-    
-    // --- Helper Functions ---
-    const showLoading = (show) => {
-        isSearchLoading = show;
-        loadingSpinnerDiv.style.display = show ? 'block' : 'none';
-        if (show) {
-            resultsContainer.innerHTML = '';
-            noResultsDiv.style.display = 'none';
-            errorDiv.style.display = 'none';
-            resultsHeader.style.display = 'none';
-        }
-    };
-    
-    const showError = (message) => {
-        showLoading(false);
-        resultsContainer.innerHTML = '';
-        resultsCountP.textContent = '';
-        noResultsDiv.style.display = 'none';
-        errorDiv.innerHTML = `<div class="alert alert--danger" style="background-color: #ffdddd; border: 1px solid #ffaaaa; color: #d8000c; padding: 1rem; border-radius: var(--spruce-border-radius);">${message}</div>`;
-        errorDiv.style.display = 'block';
-        resultsHeader.style.display = 'flex';
-    };
+  // --- Event Handling & Initialization ---
+  const performSearch = () => {
+    if (isSearchLoading) return;
+    const query = searchInput.value.trim();
+    if (query.length < 2) {
+      dynamicContainer.innerHTML = '';
+      resultsHeader.style.display = 'none';
+      return;
+    }
 
-    const fallbackImageHtml = (categoryName, itemTitle) => {
-        const iconMap = {
-            'blog': 'ph-bold ph-article', 'post': 'ph-bold ph-article', 'video': 'ph-bold ph-youtube-logo',
-            'project': 'ph-bold ph-git-branch', 'course': 'ph-bold ph-graduation-cap', 'journal': 'ph-bold ph-notebook',
-            'page': 'ph-bold ph-file', 'default': 'ph-bold ph-file-text'
-        };
-        const categoryKey = (categoryName || 'default').toLowerCase().replace(/\s+/g, '-');
-        const iconClass = iconMap[categoryKey] || iconMap.default;
-        const safeTitle = (itemTitle || '').replace(/'/g, "\\'").replace(/"/g, '\"');
-        return `<figure data-fallback-for="${safeTitle}">
-                    <span style="font-size: 3rem; color: var(--spruce-form-color-border);"><i class="${iconClass}"></i></span>
-                </figure>`;
-    };
-    
-    const getItemImage = (item) => {
-        let imageUrl = item.image || item.img;
-        const safeTitle = (item.title || 'Result Image').replace(/'/g, "\\'").replace(/"/g, '\"');
-        if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
-            let finalUrl = imageUrl.trim();
-            if (!finalUrl.startsWith('http')) {
-                finalUrl = siteBaseUrl + (finalUrl.startsWith('/') ? '' : '/') + finalUrl;
-            }
-            return `<figure><img src="${finalUrl}" alt="${safeTitle}" loading="lazy" onerror="this.parentElement.innerHTML = fallbackImageHtml('${item.category}', '${safeTitle}');"></figure>`;
-        }
-        return fallbackImageHtml(item.category, item.title);
-    };
-
-    const highlightText = (text, terms) => {
-        if (!text || !terms || terms.length === 0) return text;
-        const escapedText = String(text).replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
-        return terms.reduce((acc, term) => {
-            const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            return acc.replace(regex, '<mark>$1</mark>');
-        }, escapedText);
-    };
-
-    const findResults = (query, data) => {
-        if (!query) return [];
-        const terms = query.toLowerCase().split(' ').filter(term => term.length > 1);
-        if (terms.length === 0) return [];
-
-        return data.map(item => {
-            let score = 0;
-            const title = (item.title || '').toLowerCase();
-            const content = (item.content || '').toLowerCase();
-            const category = (item.category || '').toLowerCase();
-            const tags = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
-            
-            terms.forEach(term => {
-                if (title.includes(term)) score += 10;
-                if (category.includes(term)) score += 8;
-                if (tags.includes(term)) score += 5;
-                if (content.includes(term)) score += 1;
-            });
-            return { ...item, score };
-        }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
-    };
-
-    const displayResults = (results, query) => {
-        showLoading(false);
-        resultsHeader.style.display = 'flex';
-        resultsCountP.textContent = `${results.length} ${results.length === 1 ? 'result' : 'results'} found.`;
-
-        if (results.length > 0) {
-            resultsContainer.innerHTML = results.map(item => {
-                const url = siteBaseUrl + item.url;
-                const title = item.title || 'Untitled';
-                const category = item.category || 'Page';
-                const excerpt = item.content ? highlightText(String(item.content).substring(0, 120) + '...', query.split(' ')) : 'No description available.';
-                const tags = Array.isArray(item.tags) ? item.tags.slice(0, 3).map(tag => `<span class="tag">${highlightText(tag, query.split(' '))}</span>`).join('') : '';
-
-                return `
-                    <article class="result-card">
-                        <a href="${url}" class="result-card__link-overlay" aria-label="Read more about ${title}"></a>
-                        <div class="result-card__image">${getItemImage(item)}</div>
-                        <div class="result-card__content">
-                            <p class="result-card__category">${category}</p>
-                            <h3 class="result-card__title"><a href="${url}">${highlightText(title, query.split(' '))}</a></h3>
-                            <p class="result-card__excerpt">${excerpt}</p>
-                            ${tags ? `<div class="result-card__tags">${tags}</div>` : ''}
-                        </div>
-                    </article>`;
-            }).join('');
-            noResultsDiv.style.display = 'none';
-        } else {
-            resultsContainer.innerHTML = '';
-            noResultsDiv.querySelector('h3').innerHTML = `No results for "<em>${query.replace(/</g, "<")}</em>"`;
-            noResultsDiv.style.display = 'block';
-        }
-    };
-
-    // --- Event Handling & Initialization ---
-    const performFullSearch = () => {
-        if (isSearchLoading) return;
-        const query = searchInput.value.trim();
-        if (!query) {
-            resultsHeader.style.display = 'none';
-            resultsContainer.innerHTML = '';
-            noResultsDiv.style.display = 'none';
-            return;
-        }
-
-        showLoading(true);
-        setTimeout(() => { // Small timeout to allow UI update
-            try {
-                const results = findResults(query, searchData);
+    showLoading();
+    setTimeout(() => {
+        try {
+            const results = findResults(query, searchData);
+            if (results.length > 0) {
                 displayResults(results, query);
-            } catch (e) {
-                console.error("Search error:", e);
-                showError("An error occurred during search.");
+            } else {
+                showNoResults(query);
             }
-        }, 50);
-    };
+        } catch (e) {
+            console.error("Search error:", e);
+            showError("An unexpected error occurred during the search.");
+        }
+    }, 100); // Simulate network delay for better UX
+  };
 
-    const initSearch = () => {
-        fetch(endpoint)
-            .then(response => {
-                if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-                return response.json();
-            })
-            .then(data => {
-                if (!Array.isArray(data)) throw new Error("Search index is not a valid JSON array.");
-                searchData = data;
-                
-                searchForm.addEventListener('submit', performFullSearch);
+  const initSearch = () => {
+    fetch(endpoint)
+      .then(response => {
+        if (!response.ok) throw new Error(`Could not load search index: ${response.statusText}`);
+        return response.json();
+      })
+      .then(data => {
+        if (!Array.isArray(data)) throw new Error("Search index is not a valid JSON array.");
+        searchData = data;
+        
+        searchForm.addEventListener('submit', performSearch);
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const query = urlParams.get('q');
-                if (query) {
-                    searchInput.value = decodeURIComponent(query.replace(/\+/g, ' '));
-                    performFullSearch();
-                }
-            })
-            .catch(e => {
-                console.error('Failed to initialize search:', e);
-                showError(`Could not load search data. Please try again later.`);
-            });
-    };
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        if (query) {
+          searchInput.value = decodeURIComponent(query.replace(/\+/g, ' '));
+          performSearch();
+        }
+      })
+      .catch(e => {
+        console.error('Failed to initialize search:', e);
+        showError(e.message);
+      });
+  };
 
-    initSearch();
-  });
+  initSearch();
+});
 </script>
 
 <noscript>
   <div class="container" style="padding-top: 2rem;">
-    <p class="alert alert--warning">Please enable JavaScript to use the search functionality.</p>
+    <p class="alert alert--warning">JavaScript is required for the search functionality.</p>
   </div>
 </noscript>
