@@ -2,7 +2,6 @@
 layout: post
 title: "Video: My Top 3 Resume Mistakes and How to Fix Them"
 date: 2024-03-10
-type: video
 video_id: "dQw4w9WgXcQ" # The ID from the YouTube URL
 ---
 
