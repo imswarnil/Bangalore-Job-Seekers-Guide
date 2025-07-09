@@ -43,7 +43,6 @@ description: "A curated collection of helpful articles, tools, and videos. Use t
      the posts where the category is "Resources".
 {%- endcomment -%}
 {% assign all_resources = site.posts | where: "category", "Resources" %}
-
 {% for resource in all_resources %}
   <a href="{{ resource.url | relative_url }}" class="resource-row">
     <div class="resource-row__icon">
