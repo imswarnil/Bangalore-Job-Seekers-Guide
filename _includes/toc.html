@@ -1,26 +1,24 @@
 {%- comment -%}
 ============================================================
-PART 1: TOC GENERATION LOGIC
-This part scans the post's HTML content and prepares a list
-of `<li>` elements in a variable called `my_toc`.
-This logic is preserved from your original code.
+PART 1: TOC & JSON-LD DATA PREPARATION
+This section generates two things at once:
+1. An HTML list of links for the visible TOC (`my_toc`).
+2. A JSON array of the same links for the JSON-LD schema (`json_ld_items`).
+This is highly efficient as we only loop through the content once.
 ============================================================
 {%- endcomment -%}
 {%- capture toc_logic -%}
+  {%- assign page_url = page.url | absolute_url -%}
   {%- capture my_toc -%}{%- endcapture -%}
+  {%- capture json_ld_items -%}{%- endcapture -%}
   {%- assign minHeader = include.h_min | default: 2 -%}
   {%- assign maxHeader = include.h_max | default: 3 -%}
   {%- assign nodes = include.html | split: '<h' -%}
-  {%- assign firstHeader = true -%}
 
   {%- for node in nodes -%}
     {%- if node == "" -%}{%- continue -%}{%- endif -%}
     {%- assign headerLevel = node | slice: 0, 1 | times: 1 -%}
     {%- if headerLevel < minHeader or headerLevel > maxHeader -%}{%- continue -%}{%- endif -%}
-    {%- if firstHeader -%}
-      {%- assign firstHeader = false -%}
-      {%- assign minHeader = headerLevel -%}
-    {%- endif -%}
 
     {%- assign _workspace = node | split: '</h' -%}
     {%- assign _idWorkspace = _workspace[0] | split: 'id="' -%}
@@ -32,17 +30,32 @@ This logic is preserved from your original code.
 
     {%- capture _hAttrToStrip -%}{{ _workspace[0] | split: '>' | first }}>{%- endcapture -%}
     {%- assign header = _workspace[0] | replace: _hAttrToStrip, '' -%}
-    {%- capture heading_body -%}{{ header | strip_html }}{%- endcapture -%}
+    {%- assign heading_body = header | strip_html | strip -%}
+    {%- assign heading_body_json = heading_body | json | remove_first: '"' | remove_last: '"' -%}
+    
+    {%- comment -%} Build the visible HTML list item {%- endcomment -%}
+    {%- capture my_toc -%}
+      {{ my_toc }}<li><a href="#{{ html_id }}">{{ heading_body }}</a></li>
+    {%- endcapture -%}
 
-    {%- capture my_toc -%}{{ my_toc }}<li><a href="#{{ html_id }}">{{ heading_body | replace: "|", "\|" }}</a></li>{%- endcapture -%}
+    {%- comment -%} Build the JSON-LD list item {%- endcomment -%}
+    {%- capture json_ld_items -%}
+      {{ json_ld_items }}{
+        "@type": "ListItem",
+        "position": forloop.index,
+        "name": "{{ heading_body_json }}",
+        "url": "{{ page_url }}#{{ html_id }}"
+      },
+    {%- endcapture -%}
   {%- endfor -%}
+  {%- assign json_ld_items = json_ld_items | strip | remove_last: "," -%}
 {%- endcapture -%}
 
 {%- comment -%}
 ============================================================
 PART 2: HTML OUTPUT
-This renders the final HTML, placing the generated `my_toc`
-list into the correct structure you specified.
+This renders the final visible component, including the TOC
+and an AdSense slot.
 ============================================================
 {%- endcomment -%}
 <section class="toc" aria-labelledby="toc-title">
@@ -52,55 +65,69 @@ list into the correct structure you specified.
       {{- my_toc -}}
     </ol>
   </nav>
+
+  {%- comment -%} Place a square ad inside the TOC sidebar for monetization. {%- endcomment -%}
+  {%- if site.adsense.enabled -%}
+    <div class="toc__ad-slot">
+      {%- include adsense.html type="square" -%}
+    </div>
+  {%- endif -%}
 </section>
 
 {%- comment -%}
 ============================================================
-PART 3: SCROLL-SPY JAVASCRIPT
-This is the corrected and robust JavaScript for highlighting
-the active section as the user scrolls.
+PART 3: JSON-LD STRUCTURED DATA
+This script tag is invisible to the user but highly valuable
+for search engines like Google. It tells them about the
+navigational structure of your page.
+============================================================
+{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Article Sections",
+  "itemListElement": [
+    {{ json_ld_items }}
+  ]
+}
+</script>
+
+{%- comment -%}
+============================================================
+PART 4: SCROLL-SPY JAVASCRIPT
+This provides the interactive highlighting for the user.
 ============================================================
 {%- endcomment -%}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Select all the heading elements within your main post content.
     const sections = document.querySelectorAll('.post-content h2[id], .post-content h3[id]');
-    
-    // **CORRECTED SELECTOR**: Select all links within the TOC's navigation area.
     const tocLinks = document.querySelectorAll('.toc__navigation a');
 
-    // If there are no headings or TOC links, do nothing. This prevents errors.
-    if (sections.length === 0 || tocLinks.length === 0) {
-      return;
-    }
+    if (sections.length === 0 || tocLinks.length === 0) return;
 
     const spyScroll = () => {
       let currentSectionId = "";
+      const scrollY = window.scrollY;
 
-      // Loop through all sections to find which one is currently in view.
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
-        // An offset of 150px makes the link active slightly before the heading reaches the very top of the screen.
-        if (window.scrollY >= sectionTop - 150) {
+        if (scrollY >= sectionTop - 150) {
           currentSectionId = section.getAttribute('id');
         }
       });
 
-      // Now, loop through all the TOC links and update their 'active' state.
       tocLinks.forEach(link => {
-        // Remove the active class from all links first.
-        link.classList.remove('is-active');
-        
-        // If a link's href matches the current section ID, add the active class.
-        // e.g., href="#css-customization" matches id="css-customization"
-        if (link.getAttribute('href') === '#' + currentSectionId) {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === '#' + currentSectionId) {
           link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
         }
       });
     };
 
-    // Run the function once on page load and on every scroll event.
-    spyScroll();
-    window.addEventListener('scroll', spyScroll, { passive: true }); // passive:true for better performance
+    window.addEventListener('scroll', spyScroll, { passive: true });
+    spyScroll(); // Initial call to set the state on page load
   });
 </script>
