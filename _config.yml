@@ -137,27 +137,32 @@ adsense:
     id: "ca-pub-1291242080282540"
     direct: "DIRECT"
     verification_id: "f08c47fec0942fa0"
-  ads:
-    # We will use the 'ad_id' (slot ID) to identify each ad unit.
-    - name: "Square Ad"
-      ad_id: "7663977887"
-      type: "display"
-
-    - name: "Leaderboard Ad"
-      ad_id: "1864856299"
-      type: "display"
-
-    - name: "Responsive Ad"
-      ad_id: "4774277934"
-      type: "auto"
-
-    - name: "Article Ad"
-      ad_id: "6501428979"
-      type: "in-article"
+  units:
+    - type: "square"
+      slot_id: "7663977887"
+      # This is a display ad, but will be made responsive by our CSS
       
-    - name: "Skyscraper Medium"
-      ad_id: "4394096538"
-      type: "display"
+    - type: "horizontal"
+      slot_id: "8939839370"
+      # This is also a display ad, responsive via CSS
+
+    - type: "vertical"
+      slot_id: "3487917390"
+      # Display ad, responsive via CSS
+
+    - type: "in-feed"
+      slot_id: "9130894804"
+      format: "fluid"
+      layout_key: "-6v+f0-19-44+c6" # Special key for In-feed ads
+
+    - type: "in-article"
+      slot_id: "6501428979"
+      format: "fluid"
+      layout: "in-article"
+
+    - type: "multiplex"
+      slot_id: "6808134701"
+      format: "autorelaxed"
 
 
 include:

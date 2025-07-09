@@ -1,52 +1,6 @@
 {%- comment -%}
-  AdSense Component v3.0 - Simplified & Responsive
-  Usage: {% include adsense.html name="Leaderboard Ad" %}
-
-  Parameters:
-  - name: The 'name' of the ad from _config.yml
+  This file is a clean wrapper for our adsense.rb plugin.
+  `include.all` is a special variable that passes all parameters 
+  (e.g., type="square") from this include tag to the underlying plugin tag.
 {%- endcomment -%}
-
-{%- if site.adsense.enabled -%}
-  {%- comment -%}
-    1. Get the ad 'name' passed from the include tag.
-       Default to "Responsive Ad" if no name is provided.
-  {%- endcomment -%}
-  {%- assign ad_name = include.name | default: "Responsive Ad" -%}
-
-  {%- comment -%}
-    2. Find the ad's data in _config.yml by matching the name.
-  {%- endcomment -%}
-  {%- assign ad_unit = site.adsense.ads | where: "name", ad_name | first -%}
-
-  {%- if ad_unit -%}
-    {%- comment -%}
-      3. Prepare the data for the HTML attributes.
-    {%- endcomment -%}
-    {%- assign publisher_id = site.adsense.publisher.id -%}
-    {%- assign slot_id = ad_unit.ad_id -%}
-    {%- assign ad_type = ad_unit.type -%}
-    
-    {%- comment -%} Generate a clean CSS class from the ad name, like 'leaderboard-ad' {%- endcomment -%}
-    {%- assign ad_class = ad_name | slugify -%}
-
-    {%- comment -%} Prepare special data-attributes for specific ad types {%- endcomment -%}
-    {%- if ad_type == 'auto' -%}
-      {%- assign ad_attributes = 'data-ad-format="auto" data-full-width-responsive="true"' -%}
-    {%- elsif ad_type == 'in-article' -%}
-      {%- assign ad_attributes = 'data-ad-format="fluid" data-ad-layout="in-article"' -%}
-    {%- else -%}
-      {%- assign ad_attributes = '' -%}
-    {%- endif -%}
-
-    {%- comment -%}
-      4. Render the final HTML. Notice there are NO inline styles.
-    {%- endcomment -%}
-    <div class="ad-container ad-type-{{ ad_class }}">
-      <ins class="adsbygoogle"
-           data-ad-client="{{ publisher_id }}"
-           data-ad-slot="{{ slot_id }}"
-           {{ ad_attributes }}></ins>
-      <div class="ad-label">Advertisement</div>
-    </div>
-  {%- endif -%}
-{%- endif -%}
+{%- adsense {{ include.all }} -%}
