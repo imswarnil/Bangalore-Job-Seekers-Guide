@@ -1,6 +1,7 @@
 ---
 layout: default 
 ---
+
 {% adsense type="leaderboard" %}
 
 <article class="l-post">
@@ -14,6 +15,8 @@ layout: default
     <h1 class="post-heading__title">{{ page.title }}</h1>
   </div>
 
+  
+
   <!-- ============================================= -->
   <!-- 2. TABLE OF CONTENTS (TOC) - Placeholder      -->
   <!-- ============================================= -->
@@ -24,6 +27,8 @@ layout: default
   <div class="l-post__content post-content">
       {% include adsense.html type="in-article" %}
     {{ content }}
+    {% adsense type="leaderboard" %}
+
   </div>
 
 </article>
