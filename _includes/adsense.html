@@ -1,52 +1,107 @@
 {%- comment -%}
-  AdSense Component - Custom CSS Controlled
-  This component generates a clean ad unit with a specific class,
-  allowing all responsive behavior to be controlled by SCSS.
+  AdSense Component - Fully Self-Contained & CSS Controlled
+  -----------------------------------------------------------
+  This component stores all ad slot IDs and attributes internally.
+  It generates clean HTML with no inline styles, giving full
+  responsive control to the accompanying SCSS file.
 
-  Usage: {% include adsense.html type="square" %}
+  Usage: {% include adsense.html type="leaderboard" %}
 {%- endcomment -%}
 
-{%- if site.adsense.enabled -%}
-  {%- comment %} Get the 'type' of the ad to display. {%- endcomment -%}
-  {%- assign ad_type = include.type -%}
+{%- comment %} --- LOGIC: Define all ad unit data --- {%- endcomment -%}
+{%- assign ad_type = include.type | default: 'square' -%}
+{%- assign publisher_id = "ca-pub-1291242080282540" -%}
+
+{%- case ad_type -%}
+
+  {%- when "responsive-square" -%}
+    {%- assign slot_id = "7663977887" -%}
+    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
+
+  {%- when "responsive-horizontal" -%}
+    {%- assign slot_id = "8939839370" -%}
+    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
+
+  {%- when "responsive-vertical" -%}
+    {%- assign slot_id = "3487917390" -%}
+    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
+
+  {%- when "leaderboard" -%}
+    {%- assign slot_id = "1864856299" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "leaderboard-large" -%}
+    {%- assign slot_id = "8539588233" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "leaderboard-top" -%}
+    {%- assign slot_id = "7400425360" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "billboard" -%}
+    {%- assign slot_id = "4921873558" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "skyscraper" -%}
+    {%- assign slot_id = "5882506557" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "skyscraper-small" -%}
+    {%- assign slot_id = "4394096538" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "skyscraper-medium" -%}
+    {%- assign slot_id = "9488965956" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "skyscraper-large" -%}
+    {%- assign slot_id = "2712169578" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "mobile-leaderboard" -%}
+    {%- assign slot_id = "4003326983" -%}
+    {%- assign ad_attributes = '' -%}
+
+  {%- when "button-large" -%}
+    {%- assign slot_id = "3836856744" -%}
+    {%- assign ad_attributes = '' -%}
   
-  {%- if ad_type -%}
-    {%- comment %} Find the ad's data in _config.yml by matching the 'type'. {%- endcomment -%}
-    {%- assign ad_unit = site.adsense.units | where: "type", ad_type | first -%}
+  {%- when "square-medium" -%}
+    {%- assign slot_id = "9619442326" -%}
+    {%- assign ad_attributes = '' -%}
 
-    {%- if ad_unit -%}
-      {%- comment %} Prepare all the necessary data variables. {%- endcomment -%}
-      {%- assign publisher_id = site.adsense.publisher_id -%}
-      {%- assign slot_id = ad_unit.slot_id -%}
-      
-      {%- comment %} Build a string of special attributes ONLY for fluid/auto formats. {%- endcomment -%}
-      {%- assign special_attributes = "" -%}
-      {%- if ad_unit.format -%}
-        {%- assign special_attributes = special_attributes | append: ' data-ad-format="' | append: ad_unit.format | append: '"' -%}
-      {%- endif -%}
-      {%- if ad_unit.layout -%}
-        {%- assign special_attributes = special_attributes | append: ' data-ad-layout="' | append: ad_unit.layout | append: '"' -%}
-      {%- endif -%}
-      {%- if ad_unit.layout_key -%}
-        {%- assign special_attributes = special_attributes | append: ' data-ad-layout-key="' | append: ad_unit.layout_key | append: '"' -%}
-      {%- endif -%}
+  {%- when "square-small" -%}
+    {%- assign slot_id = "6066270853" -%}
+    {%- assign ad_attributes = '' -%}
 
-      {%- comment -%}
-        Render the final HTML.
-        - The container gets a class like `ad-type-square` for precise styling.
-        - NO inline styles.
-        - NO `data-full-width-responsive` attribute.
-      {%- endcomment -%}
+  {%- when "rectangle-large" -%}
+    {%- assign slot_id = "1684851337" -%}
+    {%- assign ad_attributes = '' -%}
 
-      <div class="ad-container ad-type-{{ ad_type }}">
-        <ins class="adsbygoogle"
-            data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{ slot_id }}"
-             {{- special_attributes -}}></ins>
-        <div class="ad-label">Advertisement</div>
-      </div>
-    {%- else -%}
-      <!-- AdSense Include Error: Ad type "{{ ad_type }}" not found in _config.yml -->
-    {%- endif -%}
-  {%- endif -%}
-{%- endif -%}
+  {%- when "in-feed" -%}
+    {%- assign slot_id = "9130894804" -%}
+    {%- assign ad_attributes = 'data-ad-format="fluid" data-ad-layout-key="-6v+f0-19-44+c6"' -%}
+
+  {%- when "in-article" -%}
+    {%- assign slot_id = "6501428979" -%}
+    {%- assign ad_attributes = 'data-ad-format="fluid" data-ad-layout="in-article"' -%}
+
+  {%- when "multiplex" -%}
+    {%- assign slot_id = "6808134701" -%}
+    {%- assign ad_attributes = 'data-ad-format="autorelaxed"' -%}
+    
+  {%- else -%}
+    {%- comment -%} Fallback to a standard responsive ad if type is unknown {%- endcomment -%}
+    {%- assign slot_id = "7663977887" -%}
+    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
+    {%- assign ad_type = "responsive-square" -%}
+{%- endcase -%}
+
+{%- comment %} --- RENDER: Build the final HTML output --- {%- endcomment -%}
+<div class="ad-container ad-type-{{ ad_type }}">
+  <ins class="adsbygoogle"
+       data-ad-client="{{ publisher_id }}"
+       data-ad-slot="{{ slot_id }}"
+       {{- ad_attributes -}}></ins>
+  <div class="ad-label">Advertisement</div>
+</div>

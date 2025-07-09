@@ -1,70 +1,75 @@
 // File: _sass/_adsense.scss
 
-// 1. Base styles for the main ad container.
-// This applies to ALL ad types and ensures they are centered and responsive.
+// 1. Base styles for all ad containers
 // =============================================================================
 .ad-container {
   position: relative;
   display: block;
   margin: 2.5rem auto;
   width: 100%;
-  overflow: hidden; // **This is the key rule that prevents layout breaking.**
-  border: 1px dashed #e0e0e0;
+  overflow: hidden;
+  border: 1px dashed #dcdcdc;
   background-color: #f8f8f8;
   border-radius: 8px;
 
-  // The <ins> tag served by Google. We center it and ensure it scales.
   .adsbygoogle {
     display: block;
     margin: 0 auto;
     background-color: #f0f0f0;
-    max-width: 100%; // Ensure the ad itself never overflows the container.
+    max-width: 100%;
     text-align: center;
   }
 }
 
-// 2. The "Advertisement" label styling.
-// =============================================================================
 .ad-label {
   text-align: center;
   padding-bottom: 0.5rem;
   font-size: 0.7rem;
-  font-family: monospace;
   color: #b0b0b0;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 
-// 3. Specific, responsive sizes for each "display" ad type.
-// We use `max-width` for the desktop size and `aspect-ratio` to make them scale
-// down proportionally on mobile devices, maintaining their shape.
+// 2. Specific, responsive sizes for each standard "display" ad type
 // =============================================================================
 
-.ad-type-square {
-  max-width: 300px;
-  aspect-ratio: 300 / 250; // width / height
-}
+// -- Leaderboards --
+.ad-type-leaderboard { max-width: 728px; aspect-ratio: 728 / 90; }
+.ad-type-leaderboard-large { max-width: 980px; aspect-ratio: 980 / 90; }
+.ad-type-leaderboard-top { max-width: 980px; aspect-ratio: 980 / 120; }
+.ad-type-billboard { max-width: 970px; aspect-ratio: 970 / 250; }
+.ad-type-mobile-leaderboard { max-width: 300px; aspect-ratio: 300 / 50; }
 
-.ad-type-horizontal {
-  max-width: 728px;
-  aspect-ratio: 728 / 90;
-}
+// -- Squares & Rectangles --
+.ad-type-square-small { max-width: 250px; aspect-ratio: 250 / 250; }
+.ad-type-square-medium { max-width: 300px; aspect-ratio: 300 / 250; }
+.ad-type-rectangle-large { max-width: 336px; aspect-ratio: 336 / 280; }
+.ad-type-button-large { max-width: 300px; aspect-ratio: 300 / 60; }
 
-.ad-type-vertical {
-  max-width: 160px;
-  aspect-ratio: 160 / 600;
-}
+// -- Skyscrapers --
+.ad-type-skyscraper { max-width: 250px; aspect-ratio: 250 / 600; }
+.ad-type-skyscraper-small { max-width: 160px; aspect-ratio: 160 / 600; }
+.ad-type-skyscraper-medium { max-width: 300px; aspect-ratio: 300 / 600; }
+.ad-type-skyscraper-large { max-width: 300px; aspect-ratio: 300 / 1050; }
 
-// 4. Styles for special "fluid" and "autorelaxed" ad types.
+// 3. Styles for Google's "auto" responsive and fluid ad types
 // =============================================================================
+
+.ad-type-responsive-square,
+.ad-type-responsive-horizontal,
+.ad-type-responsive-vertical {
+  min-height: 250px; // These need a minimum height to render correctly
+  // Let Google handle the aspect ratio for these 'auto' formats
+}
+
 .ad-type-in-feed,
 .ad-type-in-article,
 .ad-type-multiplex {
-  min-height: 250px;
+  min-height: 280px;
   border: none;
   background-color: transparent;
 
   .ad-label {
-    display: none; // These ad types should blend seamlessly with content.
+    display: none;
   }
 }
