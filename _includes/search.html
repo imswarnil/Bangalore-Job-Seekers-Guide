@@ -1,93 +1,107 @@
-<!--
-  This file can be used as a standalone `search.html` page layout
-  or as an `_includes/search.html` file.
--->
-
 <style>
     /* 
-      ================================================================
-      CUSTOM SCSS FOR THE SEARCH COMPONENT
-      Designed to blend with the Spruce CSS framework aesthetic.
-      ================================================================
+      This SCSS is designed to be fully responsive and visually consistent
+      with the Spruce CSS framework aesthetic you've been using.
     */
 
+    /* Main layout for the search page */
     .search-layout {
-        /* Optional: Add extra padding if this is a full page */
+        padding-block: 2rem 4rem;
     }
 
+    /* Wrapper for the search form, centered and constrained */
     .search-form-wrapper {
         margin-bottom: 3rem;
-        max-width: 768px; /* Constrain the search bar width */
+        max-width: 720px;
         margin-inline: auto;
     }
 
-    /* Use Spruce's stacked group for the form layout */
+    /* Making the stacked form group truly responsive */
+    .form-group--stacked {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping on small screens */
+        gap: 0.5rem; /* Add a small gap for when it wraps */
+    }
+
     .form-group--stacked .form-group-label {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding-inline: 1.25rem;
-        background-color: var(--spruce-base-color-code-background);
-        border-color: var(--spruce-form-color-border);
+        background-color: var(--spruce-base-color-code-background, #f1f1f1);
+        border-color: var(--spruce-form-color-border, #ccc);
+        border-radius: var(--spruce-border-radius, 8px);
+        flex-shrink: 0; /* Prevent the icon from shrinking */
     }
     
     .form-group--stacked .form-control {
-      /* Ensure the input takes up the available space */
-      flex-grow: 1;
+        flex: 1 1 300px; /* Allow input to grow and shrink, with a base size */
     }
 
-    .search-button-loading {
-        /* Simple loading text, matches button style */
-        font-weight: var(--spruce-font-weight, 700);
+    .form-group--stacked .btn {
+        flex-shrink: 0; /* Prevent button from shrinking */
     }
 
-
-    .search-results-wrapper {
-        margin-top: 3rem;
-    }
-
+    /* Header for the search results section */
     .search-results-header {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        border-bottom: 1px solid var(--spruce-base-color-border);
+        border-bottom: 1px solid var(--spruce-base-color-border, #e0e0e0);
         padding-bottom: 1rem;
         margin-bottom: 2.5rem;
     }
 
     .search-results-count {
-        color: var(--spruce-base-color-text);
-        font-size: var(--spruce-font-size-sm);
+        color: var(--spruce-base-color-text, #555);
+        font-size: var(--spruce-font-size-sm, 0.9rem);
     }
 
+    /* A robust grid for the result cards */
     .search-results-grid {
         display: grid;
         gap: 1.5rem;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* This creates a responsive grid that shows 1, 2, or 3 columns based on available space */
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 
-    /* Custom result card to replace Bulma's card */
+    /* The result card itself, polished for consistency */
     .result-card {
-        background-color: var(--spruce-card-color-background);
-        border: 1px solid var(--spruce-base-color-border);
-        border-radius: var(--spruce-border-radius);
+        background-color: var(--spruce-card-color-background, #fff);
+        border: 1px solid var(--spruce-base-color-border, #e0e0e0);
+        border-radius: var(--spruce-border-radius-lg, 12px); /* Use a larger radius for cards */
         display: flex;
         flex-direction: column;
         height: 100%;
         overflow: hidden;
-        position: relative; /* For the clickable overlay */
+        position: relative;
         transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
     .result-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--spruce-box-shadow);
+        transform: translateY(-4px);
+        box-shadow: var(--spruce-box-shadow, 0 8px 16px hsla(0, 0%, 0%, 0.07));
     }
 
+    /* The clickable overlay for the entire card */
+    .result-card__link-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+    
+    /* Ensure the title link is still interactive and sits on top of the overlay */
+    .result-card__title a {
+        position: relative;
+        z-index: 2;
+        text-decoration: none;
+        color: inherit;
+    }
+    
     .result-card__image {
         figure {
             margin: 0;
-            background-color: var(--spruce-base-color-code-background);
+            background-color: var(--spruce-base-color-code-background, #f1f1f1);
             height: 180px;
             display: flex;
             align-items: center;
@@ -97,7 +111,7 @@
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* Ensures image covers the area without distortion */
         }
     }
 
@@ -109,84 +123,73 @@
     }
 
     .result-card__title {
-        font-family: var(--spruce-font-family-heading);
-        font-weight: var(--spruce-font-weight-heading);
-        font-size: 1.125rem;
-        color: var(--spruce-base-color-heading);
-        margin-bottom: 0.5rem;
+        font-family: var(--spruce-font-family-heading, sans-serif);
+        font-weight: var(--spruce-font-weight-heading, 700);
+        font-size: 1.25rem;
+        color: var(--spruce-base-color-heading, #111);
+        margin: 0.25rem 0 0.5rem;
         line-height: 1.3;
-    }
-    
-    .result-card__title a {
-        text-decoration: none;
-        color: inherit;
-    }
-    
-    .result-card__link-overlay {
-        position: absolute;
-        inset: 0;
-        z-index: 1; /* Sits on top of content but below any interactive elements if needed */
     }
 
     .result-card__category {
-        font-size: var(--spruce-font-size-sm);
+        font-size: var(--spruce-font-size-sm, 0.8rem);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.07em;
         font-weight: 600;
-        color: var(--spruce-base-color-primary);
-        margin-bottom: 0.75rem;
+        color: var(--spruce-base-color-primary, #e53935);
     }
 
     .result-card__excerpt {
-        font-size: 0.95rem; /* Slightly smaller for balance */
-        color: var(--spruce-base-color-text);
+        font-size: 0.95rem;
+        color: var(--spruce-base-color-text, #555);
         line-height: 1.6;
+        margin-bottom: 1rem; /* Add some space before the tags */
     }
 
     .result-card__tags {
-        margin-top: auto; /* Pushes tags to the bottom */
+        margin-top: auto; /* Pushes tags to the bottom of the card content */
         padding-top: 1rem;
     }
 
     .result-card__tags .tag {
         display: inline-block;
-        font-size: var(--spruce-font-size-sm);
-        background-color: var(--spruce-base-color-code-background);
-        color: var(--spruce-base-color-code-foreground);
+        font-size: 0.75rem;
+        background-color: var(--spruce-base-color-code-background, #f1f1f1);
+        color: var(--spruce-base-color-code-foreground, #333);
         padding: 0.25em 0.75em;
         border-radius: 9999px;
         margin-right: 0.5rem;
         margin-bottom: 0.5rem;
     }
 
-    /* Message for "No Results" */
+    /* Styling for the "No Results" message */
     .no-results-message {
         text-align: center;
-        background-color: var(--spruce-footer-color-background);
-        border: 1px dashed var(--spruce-base-color-border);
-        border-radius: var(--spruce-border-radius);
-        padding: 3rem;
+        background-color: var(--spruce-footer-color-background, #f9f9f9);
+        border: 1px dashed var(--spruce-base-color-border, #e0e0e0);
+        border-radius: var(--spruce-border-radius-lg, 12px);
+        padding: 3rem 2rem;
     }
 
     .no-results-message .icon-placeholder {
-        color: var(--spruce-form-color-border);
+        color: var(--spruce-form-color-border, #ccc);
         margin-bottom: 1rem;
     }
-    
+
     .no-results-message h3,
     .no-results-message p {
-      color: var(--spruce-base-color-text);
+      color: var(--spruce-base-color-text, #555);
     }
 
-    /* CSS Spinner */
+    /* CSS Spinner for loading state */
     .spinner-container {
         text-align: center;
         padding: 4rem 2rem;
-        color: var(--spruce-base-color-text);
+        color: var(--spruce-base-color-text, #555);
     }
     .spinner {
-        border: 4px solid var(--spruce-base-color-border);
-        border-top: 4px solid var(--spruce-base-color-primary);
+        border: 4px solid var(--spruce-base-color-border, #e0e0e0);
+        border-top: 4px solid var(--spruce-base-color-primary, #e53935);
         border-radius: 50%;
         width: 40px;
         height: 40px;
@@ -199,27 +202,32 @@
     }
 </style>
 
+
+<!-- ======================================================================== -->
+<!-- 2. THE HTML STRUCTURE (Slightly refined for better responsiveness)      -->
+<!-- ======================================================================== -->
 <section class="section search-layout">
     <div class="container container--narrow">
 
         <!-- Search Form -->
         <div class="search-form-wrapper">
-            <form id="search-form" onsubmit="event.preventDefault(); performFullSearch(); return false;" role="search">
+            <form id="search-form" onsubmit="event.preventDefault(); return false;" role="search">
+                <!-- **REFINED HTML**: The form group now handles wrapping better -->
                 <div class="form-group--stacked">
-                    <div class="form-group-label" aria-hidden="true">
+                    <label for="search-input" class="form-group-label" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                         </svg>
-                    </div>
-                    <input class="form-control form-control--lg" type="text" placeholder="Search posts, guides, stories..." name="q" id="search-input" autocomplete="off">
+                        <span class="sr-only">Search</span>
+                    </label>
+                    <input class="form-control form-control--lg" type="search" placeholder="Search posts, guides, stories..." name="q" id="search-input" autocomplete="off">
                     <button type="submit" id="search-submit-button" class="btn btn--primary btn--lg">
-                        <span class="search-button-text">Search</span>
-                        <span class="search-button-loading" style="display: none;">Searching...</span>
+                        Search
                     </button>
                 </div>
             </form>
             <p id="search-helper-text" class="form-description" style="text-align: center; margin-top: 0.5rem;">
-                Type for instant results or press Enter for a full search.
+                Press Enter for a full search of all content.
             </p>
         </div>
 
@@ -230,15 +238,13 @@
                 <p id="results-count" class="search-results-count"></p>
             </header>
             
-            <div id="search-loading-spinner" style="display: none;">
-                <div class="spinner-container">
-                    <div class="spinner"></div>
-                    <p>Searching...</p>
-                </div>
+            <div id="search-loading-spinner" class="spinner-container" style="display: none;">
+                <div class="spinner"></div>
+                <p>Searching...</p>
             </div>
 
             <div class="search-results-grid" id="results-container">
-                <!-- JS will inject result cards here -->
+                <!-- JavaScript will inject result cards here -->
             </div>
             
             <div id="no-results" class="no-results-message" style="display: none;">
@@ -252,7 +258,7 @@
             </div>
             
             <div id="search-error" style="display: none;">
-                <!-- JS will inject an alert here -->
+                <!-- JavaScript will inject an alert here -->
             </div>
         </div>
     </div>
