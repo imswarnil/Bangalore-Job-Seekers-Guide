@@ -23,13 +23,8 @@
 
       {% else %}
       
-        <!-- 
-          IF IT IS INTERNAL: Create a simple link.
-          This 'if' statement checks if the link's URL matches the current page's URL.
-          The 'remove: "index.html"' filter ensures that the homepage ('/index.html') correctly matches its link ('/').
-          If they match, it adds aria-current="page", which your CSS uses to style the active link.
-        -->
-        <a href="{{ item.link | relative_url }}" {% if page.url | remove: 'index.html' == item.link %}aria-current="page"{% endif %}>
+        <!-- IF IT IS INTERNAL: Create a simple link -->
+        <a href="{{ item.link | relative_url }}">
           {{ item.name }}
         </a>
 
