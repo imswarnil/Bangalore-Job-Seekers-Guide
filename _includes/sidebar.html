@@ -27,7 +27,6 @@
     
     <!-- First, group all site posts by their category -->
     {% assign posts_by_category = site.posts | group_by: "category" %}
-
     <!-- Now, loop through each group (e.g., "Getting Started", "Customization") -->
     {% for category_group in posts_by_category %}
       <div class="sidebar-section">
@@ -50,12 +49,15 @@
         </nav>
       </div>
     {% endfor %}
+          {% include adsense.html type="square-small" %}
   </div>
 
   <!-- ============================================= -->
   <!-- SECTION 3: SIDEBAR FOOTER                     -->
   <!-- ============================================= -->
   <div class="sidebar__footer">
+      {% include adsense.html type="button-large" %}
+
     © Some rights reserved.
   </div>
 </aside>
