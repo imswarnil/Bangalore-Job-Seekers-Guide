@@ -1,17 +1,26 @@
 // File: _sass/_toc.scss
+//
+// Defines all styles for the Table of Contents (TOC) component.
+// This includes the layout, typography, and the "active" state
+// for the scroll-spy JavaScript functionality.
+// =============================================================================
 
-// Main container for the TOC component
+// 1. Main container for the TOC.
+// -----------------------------------------------------------------------------
 .toc {
-  // Define local CSS variables for easy theming
+  // Define local CSS variables for easy theming.
+  // These will use your global --spruce variables if they exist,
+  // or fall back to sensible default colors.
   --toc-active-color: var(--spruce-base-color-primary, #e53935);
   --toc-text-color: var(--spruce-base-color-text, #555);
   --toc-heading-color: var(--spruce-base-color-heading, #111);
   --toc-border-color: var(--spruce-base-color-border, #e0e0e0);
 
-  font-size: 0.9rem;
+  font-size: var(--spruce-font-size-sm, 0.9rem);
 }
 
-// The "On this page" title
+// 2. The "On this page" title.
+// -----------------------------------------------------------------------------
 .toc__title {
   font-family: var(--spruce-font-family-heading, sans-serif);
   font-size: 1.1rem;
@@ -22,26 +31,37 @@
   border-bottom: 1px solid var(--toc-border-color);
 }
 
-// The navigation list itself
+// 3. The navigation list structure.
+// -----------------------------------------------------------------------------
 .toc__navigation {
+  // The ordered list (<ol>) that holds the TOC links
   ol {
     list-style: none;
     margin: 0;
-    padding-left: 0.75rem;
+    padding-left: 0.75rem; // Indent the list from the left
     border-left: 2px solid var(--toc-border-color);
   }
 
+  // Individual list items (<li>)
   li + li {
-    margin-top: 0.5rem;
+    margin-top: 0.5rem; // Add space between items
   }
 
+  // The TOC links themselves (<a>)
   a {
-    display: block;
+    display: block; // Make the entire area clickable for better UX
     padding: 0.35rem 0.75rem;
     color: var(--toc-text-color);
     text-decoration: none;
-    border-left: 2px solid transparent;
-    margin-left: -calc(0.75rem + 2px); // Perfectly align link with parent border
+    border-left: 2px solid transparent; // A transparent border for the "active" state to fill
+
+    // ** THE CORRECTED LINE **
+    // We use calc() with interpolation `#{...}` to tell Sass to output this
+    // directly to CSS, letting the browser perform the calculation.
+    // This negatively offsets the link by its padding and border width to align
+    // it perfectly with the parent's left border.
+    margin-left: calc(-0.75rem - 2px);
+
     transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 
     &:hover {
@@ -49,25 +69,31 @@
       background-color: hsla(0, 0%, 0%, 0.03);
     }
   }
-
-  // The active link state for the scroll-spy
-  a.is-active {
-    color: var(--toc-active-color);
-    font-weight: 600;
-    border-left-color: var(--toc-active-color);
-  }
 }
 
-// Container for the AdSense unit within the TOC
+// 4. The "is-active" state for the Scroll-Spy functionality.
+//    This class is added and removed by the JavaScript.
+// -----------------------------------------------------------------------------
+.toc__navigation a.is-active {
+  color: var(--toc-active-color);
+  font-weight: 600; // Make the active link stand out
+  
+  // Highlight the left border to create a clear visual indicator.
+  border-left-color: var(--toc-active-color);
+}
+
+
+// 5. Container for the AdSense unit within the TOC component.
+// -----------------------------------------------------------------------------
 .toc__ad-slot {
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--toc-border-color);
 
-  // Override base ad container styles for a more compact look
+  // Override base ad container styles for a more compact and integrated look.
   .ad-container {
     margin: 0;
-    border-style: solid; // Use solid border instead of dashed for a cleaner look
+    border-style: solid;
     background-color: transparent;
   }
 }
