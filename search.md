@@ -1,7 +1,6 @@
 ---
 title: Search
 description: "Search for a page or post you're looking for"
-layout : default
+layout : test
 ---
 
-{% include search.html %}
