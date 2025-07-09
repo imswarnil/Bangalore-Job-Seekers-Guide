@@ -2,5 +2,4 @@
 layout: null
 permalink: /ads.txt
 ---
-google.com, {{ site.adsense.publisher.id }}, {{ site.adsense.publisher.direct }}, {{ site.adsense.publisher.verification_id }}
-
+google.com, pub-1291242080282540, DIRECT, f08c47fec0942fa0

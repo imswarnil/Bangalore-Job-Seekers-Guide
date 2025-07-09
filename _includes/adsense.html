@@ -1,10 +1,52 @@
-<!-- Square ( Responsive ) -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1291242080282540"
-     data-ad-slot="7663977887"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+{%- comment -%}
+  AdSense Component - Custom CSS Controlled
+  This component generates a clean ad unit with a specific class,
+  allowing all responsive behavior to be controlled by SCSS.
+
+  Usage: {% include adsense.html type="square" %}
+{%- endcomment -%}
+
+{%- if site.adsense.enabled -%}
+  {%- comment %} Get the 'type' of the ad to display. {%- endcomment -%}
+  {%- assign ad_type = include.type -%}
+  
+  {%- if ad_type -%}
+    {%- comment %} Find the ad's data in _config.yml by matching the 'type'. {%- endcomment -%}
+    {%- assign ad_unit = site.adsense.units | where: "type", ad_type | first -%}
+
+    {%- if ad_unit -%}
+      {%- comment %} Prepare all the necessary data variables. {%- endcomment -%}
+      {%- assign publisher_id = site.adsense.publisher_id -%}
+      {%- assign slot_id = ad_unit.slot_id -%}
+      
+      {%- comment %} Build a string of special attributes ONLY for fluid/auto formats. {%- endcomment -%}
+      {%- assign special_attributes = "" -%}
+      {%- if ad_unit.format -%}
+        {%- assign special_attributes = special_attributes | append: ' data-ad-format="' | append: ad_unit.format | append: '"' -%}
+      {%- endif -%}
+      {%- if ad_unit.layout -%}
+        {%- assign special_attributes = special_attributes | append: ' data-ad-layout="' | append: ad_unit.layout | append: '"' -%}
+      {%- endif -%}
+      {%- if ad_unit.layout_key -%}
+        {%- assign special_attributes = special_attributes | append: ' data-ad-layout-key="' | append: ad_unit.layout_key | append: '"' -%}
+      {%- endif -%}
+
+      {%- comment -%}
+        Render the final HTML.
+        - The container gets a class like `ad-type-square` for precise styling.
+        - NO inline styles.
+        - NO `data-full-width-responsive` attribute.
+      {%- endcomment -%}
+
+      <div class="ad-container ad-type-{{ ad_type }}">
+        <ins class="adsbygoogle"
+            data-ad-client="ca-pub-1291242080282540"
+             data-ad-slot="{{ slot_id }}"
+             {{- special_attributes -}}></ins>
+        <div class="ad-label">Advertisement</div>
+      </div>
+    {%- else -%}
+      <!-- AdSense Include Error: Ad type "{{ ad_type }}" not found in _config.yml -->
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
