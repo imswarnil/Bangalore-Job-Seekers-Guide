@@ -1,44 +1,100 @@
-// =============================================
-// Adsense Component Styles
-// =============================================
+// ========================================================
+// Adsense Component Styles - Fully Responsive Override
+// ========================================================
 
+// 1. Base styles for ALL ad containers
+// --------------------------------------------------------
 .ad-container {
   position: relative;
-  display: block;
-  margin: 2rem auto; // Center the ad block with vertical spacing
+  display: flex; // Use flexbox for easy centering of the ad unit
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
   padding: 1rem;
-  text-align: center; // Center the ad unit inside the container
-  border: 1px solid var(--spruce-base-color-border); // Use your theme's border color
-  border-radius: var(--spruce-border-radius); // Use your theme's border radius
+  width: 100%; // Make the container itself responsive
+  max-width: 100%; // Ensure it never exceeds its parent's width
+  min-height: 50px; // Prevent the container from collapsing before the ad loads
+  overflow: hidden; // **CRITICAL RULE:** This prevents layout breaking
+  border: 1px solid var(--spruce-base-color-border, #eee);
+  border-radius: var(--spruce-border-radius, 0.425rem);
 
-  // This ensures the ad unit itself takes up the available space
+  // Target the <ins> tag directly to override its inline style
   .adsbygoogle {
-    display: block;
+    // Override the inline 'display' to ensure it's centered by the flex container
+    display: block !important;
+    
+    // **CRITICAL RULE:** Ensure the ad unit itself never exceeds the container's width.
+    // This scales down fixed-width ads on mobile.
+    max-width: 100%;
+    
+    // Allow the ad's height to adjust proportionally
+    height: auto !important;
   }
 }
 
+// 2. Base styles for the "Advertisement" label
+// --------------------------------------------------------
 .ad-label {
   position: absolute;
-  top: -0.75em; // Position the label slightly above the container's top border
+  top: -0.75em;
   left: 50%;
-  transform: translateX(-50%); // Center the label perfectly
+  transform: translateX(-50%);
   padding: 0.1em 0.5em;
-  font-size: var(--spruce-font-size-sm, 0.875rem); // Use your theme's small font size
-  font-family: var(--spruce-font-family-cursive, monospace); // Use a distinct font
-  color: var(--spruce-base-color-text); // Use your theme's text color
-  background-color: var(--spruce-base-color-background); // Use your theme's background color
+  font-size: var(--spruce-font-size-sm, 0.875rem);
+  font-family: var(--spruce-font-family-cursive, monospace);
+  color: var(--spruce-base-color-text, #555);
+  background-color: var(--spruce-base-color-background, #fff);
   line-height: 1.5;
   white-space: nowrap;
+  z-index: 1;
 }
 
-// Optional: Add some specific styles for different formats if needed.
-// For example, ensuring the in-article ad doesn't have a border.
+
+// 3. Specific styles for each ad format
+//    Here we set the MAX-WIDTH for each ad type on larger screens.
+//    On smaller screens, they will shrink because of the rules in .ad-container.
+// --------------------------------------------------------
+
+.ad-container.ad-leaderboard {
+  max-width: 728px;
+}
+.ad-container.ad-leaderboard-large {
+  max-width: 980px;
+}
+.ad-container.ad-billboard {
+  max-width: 970px;
+}
+.ad-container.ad-square {
+  max-width: 250px;
+}
+.ad-container.ad-horizontal {
+  // This one is already 100% width, so no max-width needed.
+}
+.ad-container.ad-vertical {
+  max-width: 120px;
+}
+.ad-container.ad-skyscraper {
+  max-width: 160px;
+}
+.ad-container.ad-skyscraper-medium {
+  max-width: 300px;
+}
+.ad-container.ad-skyscraper-large {
+  max-width: 300px;
+}
+.ad-container.ad-mobile-leaderboard {
+  max-width: 300px;
+}
+.ad-container.ad-button {
+  max-width: 300px;
+}
+
+// Special case for in-article ads, which often don't have a border
 .ad-container.ad-article {
   border: none;
   padding: 0;
 
   .ad-label {
-    // Reposition the label for borderless in-article ads
     position: static;
     transform: none;
     text-align: center;
