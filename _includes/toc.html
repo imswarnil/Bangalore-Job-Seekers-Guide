@@ -1,126 +1,103 @@
-{%- comment -%}
-============================================================
-PART 1: TOC & JSON-LD DATA PREPARATION
-This section generates two things at once:
-1. An HTML list of links for the visible TOC (`my_toc`).
-2. A JSON array of the same links for the JSON-LD schema (`json_ld_items`).
-This is highly efficient as we only loop through the content once.
-============================================================
-{%- endcomment -%}
-{%- capture toc_logic -%}
-  {%- assign page_url = page.url | absolute_url -%}
-  {%- capture my_toc -%}{%- endcapture -%}
-  {%- capture json_ld_items -%}{%- endcapture -%}
-  {%- assign minHeader = include.h_min | default: 2 -%}
-  {%- assign maxHeader = include.h_max | default: 3 -%}
-  {%- assign nodes = include.html | split: '<h' -%}
+{%- comment -%} This is the logic part, which we will keep. {%- endcomment -%}
+{% capture tocWorkspace %}
+    {% capture my_toc %}{% endcapture %}
+    {% assign minHeader = include.h_min | default: 1 %}
+    {% assign maxHeader = include.h_max | default: 6 %}
+    {% assign nodes = include.html | split: '<h' %}
+    {% assign firstHeader = true %}
 
-  {%- for node in nodes -%}
-    {%- if node == "" -%}{%- continue -%}{%- endif -%}
-    {%- assign headerLevel = node | slice: 0, 1 | times: 1 -%}
-    {%- if headerLevel < minHeader or headerLevel > maxHeader -%}{%- continue -%}{%- endif -%}
+    {% for node in nodes %}
+        {% if node == "" %}{% continue %}{% endif %}
 
-    {%- assign _workspace = node | split: '</h' -%}
-    {%- assign _idWorkspace = _workspace[0] | split: 'id="' -%}
-    {%- if _idWorkspace.size <= 1 -%}{%- continue -%}{%- endif -%}
-    {%- assign _idWorkspace = _idWorkspace[1] | split: '"' -%}
-    {%- assign html_id = _idWorkspace[0] -%}
+        {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
 
-    {%- if html_id == blank -%}{%- continue -%}{%- endif -%}
+        {% if headerLevel < minHeader or headerLevel > maxHeader %}{% continue %}{% endif %}
 
-    {%- capture _hAttrToStrip -%}{{ _workspace[0] | split: '>' | first }}>{%- endcapture -%}
-    {%- assign header = _workspace[0] | replace: _hAttrToStrip, '' -%}
-    {%- assign heading_body = header | strip_html | strip -%}
-    {%- assign heading_body_json = heading_body | json | remove_first: '"' | remove_last: '"' -%}
-    
-    {%- comment -%} Build the visible HTML list item {%- endcomment -%}
-    {%- capture my_toc -%}
-      {{ my_toc }}<li><a href="#{{ html_id }}">{{ heading_body }}</a></li>
-    {%- endcapture -%}
+        {% if firstHeader %}
+            {% assign firstHeader = false %}
+            {% assign minHeader = headerLevel %}
+        {% endif %}
 
-    {%- comment -%} Build the JSON-LD list item {%- endcomment -%}
-    {%- capture json_ld_items -%}
-      {{ json_ld_items }}{
-        "@type": "ListItem",
-        "position": forloop.index,
-        "name": "{{ heading_body_json }}",
-        "url": "{{ page_url }}#{{ html_id }}"
-      },
-    {%- endcapture -%}
-  {%- endfor -%}
-  {%- assign json_ld_items = json_ld_items | strip | remove_last: "," -%}
-{%- endcapture -%}
+        {% assign _workspace = node | split: '</h' %}
+        {% assign _idWorkspace = _workspace[0] | split: 'id="' %}
+        {% assign _idWorkspace = _idWorkspace[1] | split: '"' %}
+        {% assign html_id = _idWorkspace[0] %}
+
+        {% assign _classWorkspace = _workspace[0] | split: 'class="' %}
+        {% assign _classWorkspace = _classWorkspace[1] | split: '"' %}
+        {% assign html_class = _classWorkspace[0] %}
+
+        {% if html_class contains "no_toc" %}{% continue %}{% endif %}
+
+        {% capture _hAttrToStrip %}{{ _workspace[0] | split: '>' | first }}>{% endcapture %}
+        {% assign header = _workspace[0] | replace: _hAttrToStrip, '' %}
+        {% capture heading_body %}{% if include.sanitize %}{{ header | strip_html }}{% else %}{{ header }}{% endif %}{% endcapture %}
+
+        {% comment %}
+        CHANGE 1: This line is modified to generate a raw HTML list item directly.
+        We are no longer creating Markdown.
+        {% endcomment %}
+        {% capture my_toc %}{{ my_toc }}<li><a href="#{{ html_id }}">{{ heading_body | replace: "|", "\|" | strip_html }}</a></li>{% endcapture %}
+    {% endfor %}
+{% endcapture -%}
+{%- assign tocWorkspace = '' -%}
 
 {%- comment -%}
-============================================================
-PART 2: HTML OUTPUT
-This renders the final visible component, including the TOC
-and an AdSense slot.
-============================================================
+CHANGE 2: This entire output block is replaced with your desired HTML structure.
+We will wrap the generated list items `{{ my_toc }}` in an `<ol>` tag.
+We no longer need `markdownify`.
 {%- endcomment -%}
 <section class="toc" aria-labelledby="toc-title">
   <h3 class="toc__title" id="toc-title">On this page</h3>
   <nav class="toc__navigation">
-    <ol>
-      {{- my_toc -}}
-    </ol>
+    <nav class="toc">
+      <ol>
+        {{- my_toc -}}
+      </ol>
+    </nav>
   </nav>
 </section>
 
 {%- comment -%}
-============================================================
-PART 3: JSON-LD STRUCTURED DATA
-This script tag is invisible to the user but highly valuable
-for search engines like Google. It tells them about the
-navigational structure of your page.
-============================================================
-{%- endcomment -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Article Sections",
-  "itemListElement": [
-    {{ json_ld_items }}
-  ]
-}
-</script>
-
-{%- comment -%}
-============================================================
-PART 4: SCROLL-SPY JAVASCRIPT
-This provides the interactive highlighting for the user.
-============================================================
+NOTE: The <script> tag from the original include has been removed.
+It is better to place this JavaScript in a single, global JS file
+or at the bottom of your `_layouts/default.html` to avoid duplication.
 {%- endcomment -%}
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll('.post-content h2[id], .post-content h3[id]');
-    const tocLinks = document.querySelectorAll('.toc__navigation a');
-
-    if (sections.length === 0 || tocLinks.length === 0) return;
-
-    const spyScroll = () => {
-      let currentSectionId = "";
-      const scrollY = window.scrollY;
-
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (scrollY >= sectionTop - 150) {
-          currentSectionId = section.getAttribute('id');
-        }
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to add 'is-active' class to the current section link in the TOC
+      const spyScroll = () => {
+          const sections = document.querySelectorAll('h2[id], h3[id]');
+          const tocLinks = document.querySelectorAll('.menu-list a');
+  
+          let currentSection = "none";
+  
+          sections.forEach(section => {
+              const sectionTop = section.offsetTop;
+              if (scrollY >= sectionTop - 200) { // 200px offset for activation before reaching the section
+                  currentSection = section.getAttribute('id');
+              }
+          });
+  
+          tocLinks.forEach(link => {
+              link.classList.remove('is-active');
+              if (link.getAttribute('href').includes(currentSection)) {
+                  link.classList.add('is-active');
+              }
+          });
+      };
+  
+      // Initial call and event listener on scroll
+      spyScroll();
+      document.addEventListener('scroll', spyScroll);
+  
+      // Toggleable feature for TOC
+      const tocToggle = document.querySelector('.toc-toggle');
+      const tocMenu = document.querySelector('.contents');
+  
+      tocToggle.addEventListener('click', () => {
+          tocMenu.classList.toggle('is-hidden');
       });
-
-      tocLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === '#' + currentSectionId) {
-          link.classList.add('is-active');
-        } else {
-          link.classList.remove('is-active');
-        }
-      });
-    };
-
-    window.addEventListener('scroll', spyScroll, { passive: true });
-    spyScroll(); // Initial call to set the state on page load
   });
-</script>
+  
+  </script>
