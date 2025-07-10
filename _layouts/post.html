@@ -2,7 +2,7 @@
 layout: default 
 ---
 
-{% include "adsense.html" type="leaderboard" %}
+{% include adsense.html type="leaderboard" %}
 
 <article class="l-post">
     <div class="post-heading">
@@ -22,7 +22,7 @@ layout: default
   </div>
   
   <div class="l-post__content post-content">
-    {% include "adsense.html" type="article" %}
+    {% include adsense.html type="article" %}
 
     {{ content }}
     {% include post-comments.html %}
@@ -30,5 +30,5 @@ layout: default
   </div>
 
 </article>
-{% include "adsense.html" type="multiplex" %}
+{% include adsense.html type="multiplex" %}
 {% include post-paginate.html %}
