@@ -48,6 +48,8 @@ We will wrap the generated list items `{{ my_toc }}` in an `<ol>` tag.
 We no longer need `markdownify`.
 {%- endcomment -%}
 <section class="toc" aria-labelledby="toc-title">
+  {% include "adsense.html" type="square" %}
+
     {% include adsense.html type="square-small" %}
   <h3 class="toc__title" id="toc-title">On this page</h3>
   <nav class="toc__navigation">
@@ -57,7 +59,7 @@ We no longer need `markdownify`.
       </ol>
     </nav>
   </nav>
-  {% include adsense.html type="rectangle-large" %}
+  {% include "adsense.html" type="skyscraper" %}
 </section>
 
 {%- comment -%}

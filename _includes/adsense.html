@@ -1,110 +1,98 @@
 {%- comment -%}
-  AdSense Component - Fully Self-Contained & CSS Controlled
-  -----------------------------------------------------------
-  This component stores all ad slot IDs and attributes internally.
-  It generates clean HTML with no inline styles, giving full
-  responsive control to the accompanying SCSS file.
-
-  Usage: {% include adsense.html type="leaderboard" %}
+  Google AdSense Include - Usage: {% include "adsense.html" type="square" %}
 {%- endcomment -%}
 
-{%- comment %} --- LOGIC: Define all ad unit data --- {%- endcomment -%}
 {%- assign ad_type = include.type | default: 'square' -%}
 {%- assign publisher_id = "ca-pub-1291242080282540" -%}
 
 {%- case ad_type -%}
 
-  {%- when "responsive-square" -%}
-    {%- assign slot_id = "7663977887" -%}
-    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
-
-  {%- when "responsive-horizontal" -%}
-    {%- assign slot_id = "8939839370" -%}
-    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
-
-  {%- when "responsive-vertical" -%}
-    {%- assign slot_id = "3487917390" -%}
-    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
+  {%- when "square" -%}
+    <div class="ad square">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="7663977887"
+           data-ad-format="auto"></ins>
+    </div>
 
   {%- when "leaderboard" -%}
-    {%- assign slot_id = "1864856299" -%}
-    {%- assign ad_attributes = '' -%}
+    <div class="ad leaderboard">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="1864856299"></ins>
+    </div>
 
-  {%- when "leaderboard-large" -%}
-    {%- assign slot_id = "8539588233" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "leaderboard-top" -%}
-    {%- assign slot_id = "7400425360" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "billboard" -%}
-    {%- assign slot_id = "4921873558" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "skyscraper" -%}
-    {%- assign slot_id = "5882506557" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "skyscraper-small" -%}
-    {%- assign slot_id = "4394096538" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "skyscraper-medium" -%}
-    {%- assign slot_id = "9488965956" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "skyscraper-large" -%}
-    {%- assign slot_id = "2712169578" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "mobile-leaderboard" -%}
-    {%- assign slot_id = "4003326983" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "button-large" -%}
-    {%- assign slot_id = "3836856744" -%}
-    {%- assign ad_attributes = '' -%}
-  
-  {%- when "square-medium" -%}
-    {%- assign slot_id = "9619442326" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "square-small" -%}
-    {%- assign slot_id = "6066270853" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "rectangle-large" -%}
-    {%- assign slot_id = "1684851337" -%}
-    {%- assign ad_attributes = '' -%}
-
-  {%- when "in-feed" -%}
-    {%- assign slot_id = "9130894804" -%}
-    {%- assign ad_attributes = 'data-ad-format="fluid" data-ad-layout-key="-6v+f0-19-44+c6"' -%}
-
-  {%- when "in-article" -%}
-    {%- assign slot_id = "6501428979" -%}
-    {%- assign ad_attributes = 'data-ad-format="fluid" data-ad-layout="in-article"' -%}
+  {%- when "article" -%}
+    <div class="ad article">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="6501428979"
+           data-ad-format="fluid"
+           data-ad-layout="in-article"></ins>
+    </div>
 
   {%- when "multiplex" -%}
-    {%- assign slot_id = "6808134701" -%}
-    {%- assign ad_attributes = 'data-ad-format="autorelaxed"' -%}
-    
+    <div class="ad multiplex">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="6808134701"
+           data-ad-format="autorelaxed"></ins>
+    </div>
+
+  {%- when "skyscraper" -%}
+    <div class="ad skyscraper">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="5882506557"></ins>
+    </div>
+
   {%- else -%}
-    {%- comment -%} Fallback to a standard responsive ad if type is unknown {%- endcomment -%}
-    {%- assign slot_id = "7663977887" -%}
-    {%- assign ad_attributes = 'data-ad-format="auto"' -%}
-    {%- assign ad_type = "responsive-square" -%}
+    <div class="ad square">
+      <ins class="adsbygoogle"
+           data-ad-client="{{ publisher_id }}"
+           data-ad-slot="7663977887"
+           data-ad-format="auto"></ins>
+    </div>
+
 {%- endcase -%}
 
-{%- comment %} --- RENDER: Build the final HTML output --- {%- endcomment -%}
-<div class="ad-container ad-type-{{ ad_type }}">
-  <ins class="adsbygoogle"
-       data-ad-client="{{ publisher_id }}"
-       data-ad-slot="{{ slot_id }}"
-       {{- ad_attributes -}}></ins>
-<div class="ad-label">Advertisement</div>
-</div>
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+
+<style>
+  .ad {
+  margin: 2rem auto;
+  text-align: center;
+
+  ins.adsbygoogle {
+    display: block;
+    width: 100%;
+    min-height: 90px;
+  }
+
+  &.square {
+    max-width: 336px;
+    height: auto;
+  }
+
+  &.leaderboard {
+    max-width: 728px;
+    height: auto;
+  }
+
+  &.article {
+    max-width: 100%;
+  }
+
+  &.multiplex {
+    max-width: 100%;
+  }
+
+  &.skyscraper {
+    max-width: 160px;
+    height: 600px;
+  }
+}
+
+</style>
