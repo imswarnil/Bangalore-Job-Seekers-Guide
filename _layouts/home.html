@@ -170,4 +170,308 @@ layout: default
         </section>
    </main>
 
+  <!--
+============================================================
+PART 1: THE ADVANCED CSS
+Handles the layout, synchronized animations, and interactive tooltips.
+============================================================
+-->
+<style>
+  .journey-section-final {
+    padding-block: clamp(4rem, 8vw, 6rem);
+    background-color: var(--spruce-footer-color-background, #f8f9fa);
+    overflow-x: hidden;
+  }
+
+  .journey-wrapper {
+    position: relative;
+    max-width: 64rem;
+    margin: 4rem auto;
+  }
+
+  .journey-track-base,
+  .journey-track-progress {
+    position: absolute;
+    top: 24px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 1;
+  }
+
+  .journey-track-base {
+    background-color: var(--spruce-base-color-border, #e0e0e0);
+  }
+
+  .journey-track-progress {
+    background-color: var(--spruce-base-color-primary, #e53935);
+    width: 0; /* JS will control this */
+  }
+
+  .journey-milestones {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
   
+  .journey-milestone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    transform: translateX(-50%);
+  }
+
+  .journey-milestone__node {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--spruce-base-color-background, #fff);
+    border: 4px solid var(--spruce-base-color-border, #e0e0e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .journey-milestone__icon {
+    font-size: 1.5rem;
+    color: var(--spruce-base-color-text, #555);
+    transition: color 0.3s ease;
+  }
+
+  .journey-milestone__title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--spruce-base-color-text);
+    margin-top: 0.75rem;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  .journey-milestone__tooltip {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 1rem;
+    width: 200px;
+    background-color: var(--spruce-base-color-heading, #111);
+    color: var(--spruce-base-color-background, #fff);
+    padding: 0.75rem 1rem;
+    border-radius: var(--spruce-border-radius, 8px);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+  }
+  
+  .journey-milestone__tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%; margin-left: -8px;
+    border: 8px solid transparent;
+    border-top-color: var(--spruce-base-color-heading, #111);
+  }
+  
+  /* --- ACTIVE STATE STYLES (Toggled by JS) --- */
+  .journey-milestone.is-active .journey-milestone__node {
+    border-color: var(--spruce-base-color-primary, #e53935);
+    transform: scale(1.1);
+  }
+  .journey-milestone.is-active .journey-milestone__icon {
+    color: var(--spruce-base-color-primary, #e53935);
+  }
+  .journey-milestone.is-active .journey-milestone__tooltip {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  
+  /* --- Duration markers between nodes --- */
+  .journey-duration {
+    position: absolute;
+    top: 0;
+    transform: translate(-50%, -120%);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--spruce-base-color-text);
+    background-color: var(--spruce-footer-color-background, #f8f9fa);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--spruce-base-color-border);
+  }
+
+  /* --- Responsive Styles --- */
+  @media (max-width: 992px) {
+    .journey-wrapper { display: flex; margin: 2rem 0; }
+    .journey-track-container { width: 48px; }
+    .journey-track-base, .journey-track-progress {
+      top: 0; left: 50%; right: auto; width: 4px; height: 100%;
+    }
+    .journey-milestones { flex-direction: column; width: 100%; }
+    .journey-milestone {
+      flex-direction: row; align-items: center; width: auto;
+      transform: none; padding: 0 0 6rem 1.5rem;
+    }
+    .journey-milestone:last-child { padding-bottom: 0; }
+    .journey-milestone__node { position: absolute; left: 0; top: 0; }
+    .journey-milestone__title { text-align: left; }
+    .journey-milestone__tooltip {
+      left: 100%; top: 50%; transform: translateY(-50%) translateX(10px); margin: 0 0 0 1rem;
+    }
+    .journey-milestone__tooltip::after {
+      top: 50%; left: -16px; transform: translateY(-50%);
+      border-color: transparent var(--spruce-base-color-heading, #111) transparent transparent;
+    }
+    .journey-duration {
+      top: 50%; left: -25px; transform: translate(-100%, -50%);
+    }
+  }
+</style>
+
+
+<!--
+============================================================
+PART 2: THE HTML STRUCTURE
+Clean, semantic, and ready for the JavaScript controller.
+============================================================
+-->
+<div class="section journey-section-js">
+  <div class="container">
+    <div class="section-title">
+      <h2 class="h2">My Journey: The Story Behind the Guide</h2>
+      <p class="lead">From a clueless graduate to a professional at a global firm—this is the path that inspired this project.</p>
+    </div>
+
+    <div id="journey-wrapper" class="journey-wrapper">
+      <div class="journey-track-container">
+        <div class="journey-track-base"></div>
+        <div id="journey-progress" class="journey-track-progress"></div>
+      </div>
+      
+      <div class="journey-milestones">
+        <!-- Milestone 1 -->
+        <div class="journey-milestone" data-position="0">
+          <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-flag"></i></span></div>
+          <h3 class="journey-milestone__title">My Journey Begins</h3>
+          <div class="journey-milestone__tooltip"><p class="tooltip-text">Graduated in 2017, jobless and unsure of the next step.</p></div>
+        </div>
+
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 12.5%;">+4 Months</div>
+        
+        <!-- Milestone 2 -->
+        <div class="journey-milestone" data-position="25">
+          <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-buildings"></i></span></div>
+          <h3 class="journey-milestone__title">Moved to Bangalore</h3>
+          <div class="journey-milestone__tooltip"><p class="tooltip-text">Took a leap of faith to immerse myself in India's tech hub.</p></div>
+        </div>
+
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 37.5%;">+6 Months</div>
+
+        <!-- Milestone 3 -->
+        <div class="journey-milestone" data-position="50">
+          <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-code"></i></span></div>
+          <h3 class="journey-milestone__title">Joined JSpiders</h3>
+          <div class="journey-milestone__tooltip"><p class="tooltip-text">Began intensive training in Core Java and SQL.</p></div>
+        </div>
+
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 62.5%;">+4 Months</div>
+
+        <!-- Milestone 4 -->
+        <div class="journey-milestone" data-position="75">
+          <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-rocket-launch"></i></span></div>
+          <h3 class="journey-milestone__title">Landed First Job</h3>
+          <div class="journey-milestone__tooltip"><p class="tooltip-text">Secured my first role at a startup. A crucial start.</p></div>
+        </div>
+        
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 87.5%;">+4.5 Years</div>
+
+        <!-- Milestone 5 -->
+        <div class="journey-milestone" data-position="100">
+          <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-seal-check"></i></span></div>
+          <h3 class="journey-milestone__title">Career Goal Achieved!</h3>
+          <div class="journey-milestone__tooltip"><p class="tooltip-text">Joined Accenture in March 2023, inspiring this guide.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--
+============================================================
+PART 3: THE JAVASCRIPT CONTROLLER
+This script powers the animation and triggers the tooltips.
+============================================================
+-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const journeyWrapper = document.getElementById('journey-wrapper');
+  if (!journeyWrapper) return;
+
+  const progressBar = document.getElementById('journey-progress');
+  const milestones = Array.from(document.querySelectorAll('.journey-milestone'));
+  
+  let animationFrameId;
+  let hasAnimated = false;
+
+  const animateJourney = () => {
+    const totalAnimationTime = 10; // Total duration of one loop in seconds
+    let startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsedTime = (timestamp - startTime) / 1000;
+      
+      let progress = (elapsedTime / totalAnimationTime) * 100;
+
+      if (progress >= 100) {
+        progress = 100;
+        // Reset for looping
+        setTimeout(() => {
+          startTime = null;
+          milestones.forEach(ms => ms.classList.remove('is-active'));
+          requestAnimationFrame(step);
+        }, 2000); // 2-second pause before looping
+      } else {
+        animationFrameId = requestAnimationFrame(step);
+      }
+      
+      // Update the progress bar style based on orientation
+      const isVertical = window.innerWidth <= 992;
+      progressBar.style[isVertical ? 'height' : 'width'] = `${progress}%`;
+      
+      // Check which milestones have been passed
+      milestones.forEach(ms => {
+        const milestonePosition = parseInt(ms.dataset.position, 10);
+        if (progress >= milestonePosition) {
+          ms.classList.add('is-active');
+        } else {
+          ms.classList.remove('is-active'); // Ensure future milestones are inactive on loop
+        }
+      });
+    }
+    
+    animationFrameId = requestAnimationFrame(step);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !hasAnimated) {
+        hasAnimated = true;
+        animateJourney();
+        observer.unobserve(journeyWrapper);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  observer.observe(journeyWrapper);
+});
+</script>
