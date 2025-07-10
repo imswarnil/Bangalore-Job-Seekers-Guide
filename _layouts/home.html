@@ -173,7 +173,8 @@ layout: default
   <!--
 ============================================================
 PART 1: THE ADVANCED CSS
-Handles the layout, synchronized animations, and interactive tooltips.
+This final version handles the precise line connections,
+refined tooltips, and flawless responsive behavior.
 ============================================================
 -->
 <style>
@@ -189,25 +190,29 @@ Handles the layout, synchronized animations, and interactive tooltips.
     margin: 4rem auto;
   }
 
+  /* --- The Track and Progress Bar --- */
   .journey-track-base,
   .journey-track-progress {
     position: absolute;
-    top: 24px;
-    left: 0;
-    right: 0;
+    top: 24px; /* Vertically center with the 48px node */
     height: 4px;
     z-index: 1;
   }
 
   .journey-track-base {
     background-color: var(--spruce-base-color-border, #e0e0e0);
+    /* START/END a half-node width in from the edges */
+    left: 24px;
+    right: 24px;
   }
 
   .journey-track-progress {
     background-color: var(--spruce-base-color-primary, #e53935);
+    left: 24px; /* Start from the same point */
     width: 0; /* JS will control this */
   }
-
+  
+  /* --- The Milestones and their Content --- */
   .journey-milestones {
     display: flex;
     justify-content: space-between;
@@ -221,6 +226,7 @@ Handles the layout, synchronized animations, and interactive tooltips.
     align-items: center;
     width: 120px;
     transform: translateX(-50%);
+    cursor: default;
   }
 
   .journey-milestone__node {
@@ -232,7 +238,7 @@ Handles the layout, synchronized animations, and interactive tooltips.
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
+    z-index: 2; /* Sits above the track */
     transition: border-color 0.3s ease, transform 0.3s ease;
   }
   
@@ -243,7 +249,7 @@ Handles the layout, synchronized animations, and interactive tooltips.
   }
 
   .journey-milestone__title {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--spruce-base-color-text);
     margin-top: 0.75rem;
@@ -251,29 +257,24 @@ Handles the layout, synchronized animations, and interactive tooltips.
     line-height: 1.4;
   }
   
+  /* --- Refined Tooltip Styles --- */
   .journey-milestone__tooltip {
     position: absolute;
-    bottom: 100%;
+    bottom: 100%; /* Position above the node */
     margin-bottom: 1rem;
-    width: 200px;
+    width: 180px; /* Smaller width */
     background-color: var(--spruce-base-color-heading, #111);
     color: var(--spruce-base-color-background, #fff);
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.8rem; /* Tighter padding */
     border-radius: var(--spruce-border-radius, 8px);
     text-align: center;
+    font-size: 0.85rem; /* Smaller text */
+    line-height: 1.5;
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 10;
-  }
-  
-  .journey-milestone__tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%; left: 50%; margin-left: -8px;
-    border: 8px solid transparent;
-    border-top-color: var(--spruce-base-color-heading, #111);
   }
   
   /* --- ACTIVE STATE STYLES (Toggled by JS) --- */
@@ -287,29 +288,26 @@ Handles the layout, synchronized animations, and interactive tooltips.
   .journey-milestone.is-active .journey-milestone__tooltip {
     opacity: 1;
     transform: translateY(0);
-    pointer-events: auto;
   }
   
   /* --- Duration markers between nodes --- */
   .journey-duration {
     position: absolute;
-    top: 0;
-    transform: translate(-50%, -120%);
+    top: 48px; /* Position below the track */
+    transform: translateX(-50%);
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--spruce-base-color-text);
-    background-color: var(--spruce-footer-color-background, #f8f9fa);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--spruce-base-color-border);
+    padding: 0.1rem 0.5rem;
   }
 
-  /* --- Responsive Styles --- */
+  /* --- Responsive Styles for Mobile & Tablet --- */
   @media (max-width: 992px) {
-    .journey-wrapper { display: flex; margin: 2rem 0; }
+    .journey-wrapper { display: flex; }
     .journey-track-container { width: 48px; }
     .journey-track-base, .journey-track-progress {
-      top: 0; left: 50%; right: auto; width: 4px; height: 100%;
+      top: 24px; left: 50%; right: auto;
+      width: 4px; height: calc(100% - 48px);
     }
     .journey-milestones { flex-direction: column; width: 100%; }
     .journey-milestone {
@@ -328,6 +326,7 @@ Handles the layout, synchronized animations, and interactive tooltips.
     }
     .journey-duration {
       top: 50%; left: -25px; transform: translate(-100%, -50%);
+      writing-mode: vertical-rl;
     }
   }
 </style>
@@ -336,10 +335,10 @@ Handles the layout, synchronized animations, and interactive tooltips.
 <!--
 ============================================================
 PART 2: THE HTML STRUCTURE
-Clean, semantic, and ready for the JavaScript controller.
+With refined tooltips and duration markers.
 ============================================================
 -->
-<div class="section journey-section-js">
+<div class="section journey-section-final">
   <div class="container">
     <div class="section-title">
       <h2 class="h2">My Journey: The Story Behind the Guide</h2>
@@ -353,51 +352,48 @@ Clean, semantic, and ready for the JavaScript controller.
       </div>
       
       <div class="journey-milestones">
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 12.5%;">+4 Months</div>
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 37.5%;">+6 Months</div>
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 62.5%;">+4 Months</div>
+        <!-- Duration Marker -->
+        <div class="journey-duration" style="left: 87.5%;">+4.5 Years</div>
+
         <!-- Milestone 1 -->
         <div class="journey-milestone" data-position="0">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-flag"></i></span></div>
-          <h3 class="journey-milestone__title">My Journey Begins</h3>
-          <div class="journey-milestone__tooltip"><p class="tooltip-text">Graduated in 2017, jobless and unsure of the next step.</p></div>
+          <h3 class="journey-milestone__title">Journey Begins</h3>
+          <div class="journey-milestone__tooltip"><p>Graduated in 2017, jobless and unsure of the next step.</p></div>
         </div>
 
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 12.5%;">+4 Months</div>
-        
         <!-- Milestone 2 -->
         <div class="journey-milestone" data-position="25">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-buildings"></i></span></div>
-          <h3 class="journey-milestone__title">Moved to Bangalore</h3>
-          <div class="journey-milestone__tooltip"><p class="tooltip-text">Took a leap of faith to immerse myself in India's tech hub.</p></div>
+          <h3 class="journey-milestone__title">Bangalore</h3>
+          <div class="journey-milestone__tooltip"><p>Took a leap of faith to immerse myself in India's tech hub.</p></div>
         </div>
-
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 37.5%;">+6 Months</div>
 
         <!-- Milestone 3 -->
         <div class="journey-milestone" data-position="50">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-code"></i></span></div>
-          <h3 class="journey-milestone__title">Joined JSpiders</h3>
-          <div class="journey-milestone__tooltip"><p class="tooltip-text">Began intensive training in Core Java and SQL.</p></div>
+          <h3 class="journey-milestone__title">JSpiders</h3>
+          <div class="journey-milestone__tooltip"><p>Began intensive training in Core Java and SQL.</p></div>
         </div>
-
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 62.5%;">+4 Months</div>
 
         <!-- Milestone 4 -->
         <div class="journey-milestone" data-position="75">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-rocket-launch"></i></span></div>
-          <h3 class="journey-milestone__title">Landed First Job</h3>
-          <div class="journey-milestone__tooltip"><p class="tooltip-text">Secured my first role at a startup. A crucial start.</p></div>
+          <h3 class="journey-milestone__title">First Job</h3>
+          <div class="journey-milestone__tooltip"><p>Secured my first role at a startup. A crucial start.</p></div>
         </div>
-        
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 87.5%;">+4.5 Years</div>
 
         <!-- Milestone 5 -->
         <div class="journey-milestone" data-position="100">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-seal-check"></i></span></div>
-          <h3 class="journey-milestone__title">Career Goal Achieved!</h3>
-          <div class="journey-milestone__tooltip"><p class="tooltip-text">Joined Accenture in March 2023, inspiring this guide.</p></div>
+          <h3 class="journey-milestone__title">Goal Achieved</h3>
+          <div class="journey-milestone__tooltip"><p>Joined Accenture in March 2023, inspiring this guide.</p></div>
         </div>
       </div>
     </div>
@@ -408,7 +404,7 @@ Clean, semantic, and ready for the JavaScript controller.
 <!--
 ============================================================
 PART 3: THE JAVASCRIPT CONTROLLER
-This script powers the animation and triggers the tooltips.
+This script powers the animation and triggers the tooltips in perfect sync.
 ============================================================
 -->
 <script>
@@ -429,32 +425,30 @@ document.addEventListener("DOMContentLoaded", function() {
     function step(timestamp) {
       if (!startTime) startTime = timestamp;
       const elapsedTime = (timestamp - startTime) / 1000;
-      
       let progress = (elapsedTime / totalAnimationTime) * 100;
 
       if (progress >= 100) {
         progress = 100;
-        // Reset for looping
         setTimeout(() => {
-          startTime = null;
+          startTime = null; // Reset for next loop
           milestones.forEach(ms => ms.classList.remove('is-active'));
-          requestAnimationFrame(step);
+          if(hasAnimated) requestAnimationFrame(step); // Continue loop if still visible
         }, 2000); // 2-second pause before looping
       } else {
         animationFrameId = requestAnimationFrame(step);
       }
       
-      // Update the progress bar style based on orientation
       const isVertical = window.innerWidth <= 992;
-      progressBar.style[isVertical ? 'height' : 'width'] = `${progress}%`;
-      
-      // Check which milestones have been passed
+      const progressProperty = isVertical ? 'height' : 'width';
+      progressBar.style[progressProperty] = `calc(100% * ${progress / 100})`;
+
+      // Check which milestones have been passed and activate them
       milestones.forEach(ms => {
         const milestonePosition = parseInt(ms.dataset.position, 10);
         if (progress >= milestonePosition) {
           ms.classList.add('is-active');
         } else {
-          ms.classList.remove('is-active'); // Ensure future milestones are inactive on loop
+          ms.classList.remove('is-active');
         }
       });
     }
@@ -462,12 +456,18 @@ document.addEventListener("DOMContentLoaded", function() {
     animationFrameId = requestAnimationFrame(step);
   };
 
+  // Use IntersectionObserver to start the animation only when it's visible
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !hasAnimated) {
-        hasAnimated = true;
-        animateJourney();
-        observer.unobserve(journeyWrapper);
+      if (entry.isIntersecting) {
+        if (!hasAnimated) {
+          hasAnimated = true;
+          animateJourney();
+        }
+      } else {
+        // Optional: you could pause the animation when it goes out of view
+        // cancelAnimationFrame(animationFrameId);
+        // hasAnimated = false; // To allow it to restart
       }
     });
   }, { threshold: 0.5 });
