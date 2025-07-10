@@ -173,8 +173,7 @@ layout: default
   <!--
 ============================================================
 PART 1: THE ADVANCED CSS
-This final version handles the precise line connections,
-refined tooltips, and flawless responsive behavior.
+Handles the precise layout, synchronized animations, and interactive tooltips.
 ============================================================
 -->
 <style>
@@ -201,14 +200,14 @@ refined tooltips, and flawless responsive behavior.
 
   .journey-track-base {
     background-color: var(--spruce-base-color-border, #e0e0e0);
-    /* START/END a half-node width in from the edges */
-    left: 24px;
-    right: 24px;
+    /* **THE FIX**: Start and end exactly at the node centers */
+    left: 0;
+    width: 100%;
   }
 
   .journey-track-progress {
     background-color: var(--spruce-base-color-primary, #e53935);
-    left: 24px; /* Start from the same point */
+    left: 0;
     width: 0; /* JS will control this */
   }
   
@@ -220,7 +219,8 @@ refined tooltips, and flawless responsive behavior.
   }
   
   .journey-milestone {
-    position: relative;
+    position: absolute; /* Positioned precisely along the track */
+    top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -249,32 +249,43 @@ refined tooltips, and flawless responsive behavior.
   }
 
   .journey-milestone__title {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--spruce-base-color-text);
     margin-top: 0.75rem;
     text-align: center;
     line-height: 1.4;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
   }
   
   /* --- Refined Tooltip Styles --- */
   .journey-milestone__tooltip {
     position: absolute;
-    bottom: 100%; /* Position above the node */
+    bottom: 100%;
     margin-bottom: 1rem;
-    width: 180px; /* Smaller width */
+    width: 180px;
     background-color: var(--spruce-base-color-heading, #111);
     color: var(--spruce-base-color-background, #fff);
-    padding: 0.6rem 0.8rem; /* Tighter padding */
+    padding: 0.6rem 0.8rem;
     border-radius: var(--spruce-border-radius, 8px);
     text-align: center;
-    font-size: 0.85rem; /* Smaller text */
+    font-size: 0.85rem;
     line-height: 1.5;
-    opacity: 0;
+    opacity: 0; /* Hidden by default */
     transform: translateY(10px);
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 10;
+  }
+  
+  /* Tooltip arrow */
+  .journey-milestone__tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%; margin-left: -8px;
+    border: 8px solid transparent;
+    border-top-color: var(--spruce-base-color-heading, #111);
   }
   
   /* --- ACTIVE STATE STYLES (Toggled by JS) --- */
@@ -285,6 +296,9 @@ refined tooltips, and flawless responsive behavior.
   .journey-milestone.is-active .journey-milestone__icon {
     color: var(--spruce-base-color-primary, #e53935);
   }
+  .journey-milestone.is-active .journey-milestone__title {
+    opacity: 1;
+  }
   .journey-milestone.is-active .journey-milestone__tooltip {
     opacity: 1;
     transform: translateY(0);
@@ -293,29 +307,30 @@ refined tooltips, and flawless responsive behavior.
   /* --- Duration markers between nodes --- */
   .journey-duration {
     position: absolute;
-    top: 48px; /* Position below the track */
+    top: 52px; /* Position below the track */
     transform: translateX(-50%);
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--spruce-base-color-text);
+    background-color: var(--spruce-footer-color-background, #f8f9fa);
     padding: 0.1rem 0.5rem;
   }
 
-  /* --- Responsive Styles for Mobile & Tablet --- */
+  /* --- Responsive Styles --- */
   @media (max-width: 992px) {
     .journey-wrapper { display: flex; }
     .journey-track-container { width: 48px; }
     .journey-track-base, .journey-track-progress {
-      top: 24px; left: 50%; right: auto;
-      width: 4px; height: calc(100% - 48px);
+      top: 0; left: 50%; right: auto; width: 4px; height: 100%;
     }
     .journey-milestones { flex-direction: column; width: 100%; }
     .journey-milestone {
       flex-direction: row; align-items: center; width: auto;
       transform: none; padding: 0 0 6rem 1.5rem;
+      position: absolute; left: 0;
     }
     .journey-milestone:last-child { padding-bottom: 0; }
-    .journey-milestone__node { position: absolute; left: 0; top: 0; }
+    .journey-milestone__node { margin-right: 1.5rem; }
     .journey-milestone__title { text-align: left; }
     .journey-milestone__tooltip {
       left: 100%; top: 50%; transform: translateY(-50%) translateX(10px); margin: 0 0 0 1rem;
@@ -326,7 +341,6 @@ refined tooltips, and flawless responsive behavior.
     }
     .journey-duration {
       top: 50%; left: -25px; transform: translate(-100%, -50%);
-      writing-mode: vertical-rl;
     }
   }
 </style>
@@ -335,7 +349,7 @@ refined tooltips, and flawless responsive behavior.
 <!--
 ============================================================
 PART 2: THE HTML STRUCTURE
-With refined tooltips and duration markers.
+Data attributes now control positioning for perfect sync.
 ============================================================
 -->
 <div class="section journey-section-final">
@@ -351,16 +365,7 @@ With refined tooltips and duration markers.
         <div id="journey-progress" class="journey-track-progress"></div>
       </div>
       
-      <div class="journey-milestones">
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 12.5%;">+4 Months</div>
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 37.5%;">+6 Months</div>
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 62.5%;">+4 Months</div>
-        <!-- Duration Marker -->
-        <div class="journey-duration" style="left: 87.5%;">+4.5 Years</div>
-
+      <div id="journey-milestones" class="journey-milestones">
         <!-- Milestone 1 -->
         <div class="journey-milestone" data-position="0">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-flag"></i></span></div>
@@ -392,10 +397,13 @@ With refined tooltips and duration markers.
         <!-- Milestone 5 -->
         <div class="journey-milestone" data-position="100">
           <div class="journey-milestone__node"><span class="journey-milestone__icon"><i class="ph-duotone ph-seal-check"></i></span></div>
-          <h3 class="journey-milestone__title">Goal Achieved</h3>
+          <h3 class="journey-milestone__title">Goal Achieved!</h3>
           <div class="journey-milestone__tooltip"><p>Joined Accenture in March 2023, inspiring this guide.</p></div>
         </div>
       </div>
+
+      <!-- Duration markers are now generated by JavaScript -->
+      <div id="journey-durations" class="journey-durations"></div>
     </div>
   </div>
 </div>
@@ -414,12 +422,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const progressBar = document.getElementById('journey-progress');
   const milestones = Array.from(document.querySelectorAll('.journey-milestone'));
+  const durationsContainer = document.getElementById('journey-durations');
   
   let animationFrameId;
   let hasAnimated = false;
+  const totalAnimationTime = 10; // seconds for one full loop
 
+  // --- Setup Function ---
+  const setupJourney = () => {
+    const durations = [4, 6, 4, 54]; // Months between steps
+    let cumulativePosition = 0;
+
+    milestones.forEach((ms, index) => {
+        const position = parseInt(ms.dataset.position, 10);
+        const isVertical = window.innerWidth <= 992;
+        
+        // Position milestone nodes
+        ms.style[isVertical ? 'top' : 'left'] = `${position}%`;
+
+        // Create and position duration markers
+        if (index < durations.length) {
+            const nextPosition = parseInt(milestones[index + 1].dataset.position, 10);
+            const midPoint = position + (nextPosition - position) / 2;
+            
+            const durationEl = document.createElement('div');
+            durationEl.className = 'journey-duration';
+            durationEl.textContent = `+${durations[index]} Months`;
+            durationEl.style[isVertical ? 'top' : 'left'] = `${midPoint}%`;
+            durationsContainer.appendChild(durationEl);
+        }
+    });
+  };
+
+
+  // --- Animation Controller ---
   const animateJourney = () => {
-    const totalAnimationTime = 10; // Total duration of one loop in seconds
     let startTime = null;
 
     function step(timestamp) {
@@ -430,19 +467,18 @@ document.addEventListener("DOMContentLoaded", function() {
       if (progress >= 100) {
         progress = 100;
         setTimeout(() => {
-          startTime = null; // Reset for next loop
+          startTime = null;
           milestones.forEach(ms => ms.classList.remove('is-active'));
-          if(hasAnimated) requestAnimationFrame(step); // Continue loop if still visible
-        }, 2000); // 2-second pause before looping
+          if (hasAnimated) requestAnimationFrame(step);
+        }, 2000);
       } else {
         animationFrameId = requestAnimationFrame(step);
       }
       
       const isVertical = window.innerWidth <= 992;
       const progressProperty = isVertical ? 'height' : 'width';
-      progressBar.style[progressProperty] = `calc(100% * ${progress / 100})`;
-
-      // Check which milestones have been passed and activate them
+      progressBar.style[progressProperty] = `${progress}%`;
+      
       milestones.forEach(ms => {
         const milestonePosition = parseInt(ms.dataset.position, 10);
         if (progress >= milestonePosition) {
@@ -456,22 +492,22 @@ document.addEventListener("DOMContentLoaded", function() {
     animationFrameId = requestAnimationFrame(step);
   };
 
-  // Use IntersectionObserver to start the animation only when it's visible
+  // --- Initialization ---
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        if (!hasAnimated) {
-          hasAnimated = true;
-          animateJourney();
-        }
-      } else {
-        // Optional: you could pause the animation when it goes out of view
-        // cancelAnimationFrame(animationFrameId);
-        // hasAnimated = false; // To allow it to restart
+      if (entry.isIntersecting && !hasAnimated) {
+        hasAnimated = true;
+        animateJourney();
+        observer.unobserve(journeyWrapper);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.4 });
 
+  setupJourney(); // Position elements correctly on load
   observer.observe(journeyWrapper);
+  window.addEventListener('resize', () => {
+      durationsContainer.innerHTML = ''; // Clear old durations
+      setupJourney(); // Recalculate positions on resize
+  });
 });
 </script>
