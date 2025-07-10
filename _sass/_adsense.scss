@@ -10,6 +10,8 @@
   margin: 2.5rem auto;
   width: 100%;
   padding: 1rem;
+  height: auto;
+  width: auto;
   overflow: hidden; // **This is the key rule that prevents layout breaking**
   border: 1px solid var(--spruce-base-color-border, #e0e0e0);
   background-color: var(--spruce-footer-color-background, #f8f9fa);
@@ -37,54 +39,3 @@
   }
 }
 
-// 2. Specific, responsive sizes for each "display" ad type.
-//    We use `max-width` for the desktop size and `aspect-ratio` to make them scale
-//    down proportionally on mobile devices, maintaining their shape.
-// =============================================================================
-
-.ad.square {
-  max-width: 336px; // Standard Medium Rectangle size
-  aspect-ratio: 336 / 280;
-}
-
-.ad.leaderboard {
-  max-width: 728px;
-  aspect-ratio: 728 / 90;
-}
-
-.ad.skyscraper {
-  max-width: 160px;
-  aspect-ratio: 160 / 600;
-}
-
-
-// 3. Styles for special ad formats that are naturally fluid.
-// =============================================================================
-.ad.article,
-.ad.multiplex {
-  min-height: 250px;
-  border: none;
-  background-color: transparent;
-  padding: 0;
-
-  &::before {
-    display: none; // These formats don't need a label
-  }
-}
-
-// 4. Media Queries for Fine-Tuning on Mobile and Tablet
-// =============================================================================
-@media (max-width: 768px) { // Tablet and below
-  .ad.leaderboard {
-    // On smaller screens, a leaderboard shouldn't take up so much vertical space.
-    // We can adjust its aspect ratio to be more like a mobile banner.
-    aspect-ratio: 320 / 100;
-  }
-  
-  .ad.skyscraper {
-    // A tall skyscraper doesn't work well on mobile. Let's make it a square.
-    max-width: 300px;
-    aspect-ratio: 300 / 250;
-    margin-inline: auto;
-  }
-}
